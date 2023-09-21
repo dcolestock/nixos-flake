@@ -120,6 +120,7 @@
     tree
     wget
     curl
+    unzip
     jq
     delta
     du-dust
