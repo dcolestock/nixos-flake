@@ -1,0 +1,145 @@
+### Disable Bell ###
+# set bell-style none
+# DISPLAY=:0 xset b off
+# DISPLAY=:0 xset b 0 0 0
+
+### History ###
+promptFunc() {
+  # right before prompting for the next command, save the previous
+  # command in a file.
+  echo "$(date +%Y-%m-%d--%H-%M-%S) $(hostname) $PWD $(history 1)" \
+    >> ~/.full_history
+  # Also save it to history
+  history -a
+}
+export PROMPT_COMMAND=promptFunc
+
+# Make bash append rather than overwrite the history on disk
+shopt -s histappend
+
+### sudo ###
+# Allows sudo to use user alias and functions
+# https://unix.stackexchange.com/a/438712
+function sudo {
+  local firstArg=$1
+  if [ $(type -t $firstArg) = function ]
+  then
+    shift && command sudo bash -c "$(declare -f $firstArg);$firstArg $*"
+  elif [ $(type -t $firstArg) = alias ]
+  then
+    alias sudo='\sudo '
+    eval "sudo $@"
+  else
+    command sudo "$@"
+  fi
+}
+
+### rm ###
+# adds a '-r' flag only if there is a single argument and that argument
+# is a directory.
+# This is because I want the behavior of -I (interactive) to be the default,
+# but I also want to have the -r flag available when I need it without being
+# prompted for single files.
+function rm () {
+  if [ $# -eq 1 ] && [ -d "$1" ]
+  then
+    command rm --verbose --interactive=once --recursive "$1"
+  else
+    command rm --verbose --interactive=once "$@"
+  fi
+}
+
+### mkdir + cd ###
+mc () {
+  command mkdir -p -- "$1" && builtin cd -P -- "$1"
+}
+
+### which ###
+
+function which() {
+  if [ -t 1 ]
+  then
+    builtin type -a $1
+  else
+    command which $1
+  fi
+}
+
+### Starship ###
+eval "$(starship init bash)"
+
+### FZF ###
+if command -v fzf-share >/dev/null
+then
+  source "$(fzf-share)/key-bindings.bash"
+  source "$(fzf-share)/completion.bash"
+fi
+
+function configedit() {
+  local path
+  path=$(realpath $1)
+  (cd /etc/nixos && command sudo -E vim -- $path)
+}
+
+function configeditline() {
+  local path
+  path=$(realpath $2)
+  (cd /etc/nixos && command sudo -E vim +$1 -- $path)
+}
+
+# ALT-E - Edit NixOS Configuration Files
+# ALT-O - with ripgrep
+if [[ $- =~ i ]]
+then
+  function __fzf_sudoedit__() {
+    local cmd opts file
+    cmd="fd --mount --type f --hidden --exclude .git . /etc/nixos"
+    opts="--height ${FZF_TMUX_HEIGHT:-40%} --bind=ctrl-z:ignore --reverse ${FZF_DEFAULT_OPTS-} ${FZF_CTRL_T_OPTS-} +m"
+    file=$(eval "$cmd" | FZF_DEFAULT_OPTS="$opts" $(__fzfcmd)) && printf 'configedit %q' "$file"
+  }
+
+  bind -m emacs-standard '"\ee": "\C-e\C-u`__fzf_sudoedit__`\e\C-e\er\C-m"'
+  bind -m vi-command '"\ee": "\C-z\ee\C-z"'
+  bind -m vi-insert '"\ee": "\C-z\ee\C-z"'
+
+  function __fzf_sudoedit_ripgrep__() {
+    local rg_prefix opts line file
+    rg_prefix="rg --column --line-number --no-heading --color=always --smart-case"
+    opts="--height ${FZF_TMUX_HEIGHT:-40%} --bind=ctrl-z:ignore --reverse ${FZF_DEFAULT_OPTS-} ${FZF_CTRL_T_OPTS-} +m "
+    opts+="--bind 'start:reload:$rg_prefix \"\" /etc/nixos/' "
+    opts+="--bind 'change:reload:$rg_prefix {q} /etc/nixos/|| true' "
+    opts+="--color 'hl:-1:underline,hl+:-1:underline:reverse' "
+    opts+="--delimiter : "
+    opts+="--preview 'bat --color=always {1} --highlight-line {2}' "
+    opts+="--preview-window 'up,60%,border-bottom,+{2}+3/3,~3' "
+    opts+="--ansi --disabled "
+    opts+="--height=80% --layout=reverse "
+    read -r line file < <(eval "$cmd" | FZF_DEFAULT_OPTS="$opts" $(__fzfcmd) | awk '{split($0,a,":"); print a[2] " " a[1]}') && printf 'configeditline %q %q' "$line" "$file"
+  }
+
+  bind -m emacs-standard '"\eo": "\C-e\C-u`__fzf_sudoedit_ripgrep__`\e\C-e\er\C-m"'
+  bind -m vi-command '"\eo": "\C-z\eo\C-z"'
+  bind -m vi-insert '"\eo": "\C-z\eo\C-z"'
+fi
+
+function __fzf_preview__() {
+  local file columns
+  file="$1"
+  if [[ -d "${file}" ]]
+  then
+    ls -al --color "${file}"
+  elif [[ $(file --mime "${file}") =~ binary ]]
+ then
+    if [[ $(file --mime "${file}") =~ "image/" ]]
+    then
+      columns=$(tput cols)
+      columns=$((columns / 2))
+      catimg -w ${columns} "${file}"
+    else
+      fileinfo=$(file "${file}")
+      echo "${fileinfo}" && false
+    fi
+  else
+    bat --style=numbers --color=always "${file}" 2> /dev/null | head -100
+  fi
+}
