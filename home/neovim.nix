@@ -97,6 +97,12 @@
       # vim-rhubarb
       vim-sleuth
 
+      mason-nvim
+      mason-lspconfig-nvim
+      plenary-nvim
+      nvim-snippy
+      cmp-snippy
+
       {
         plugin = nvim-lspconfig;
         type = "lua";
@@ -213,7 +219,6 @@
 
       luasnip
       cmp_luasnip
-      nvim-cmp
 
 
       # Language support
@@ -238,7 +243,7 @@
       }
       vim-markdown
 
-      pkgs.vimPlugins.nvim-treesitter.withAllGrammars
+      nvim-treesitter.withAllGrammars
 
       # Color Schemes
       tokyonight-nvim
