@@ -110,7 +110,7 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     # General Command Line Tools
-    exa
+    eza
     bat
     fd
     fzf
