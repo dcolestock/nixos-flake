@@ -78,36 +78,36 @@ fi
 function configedit() {
   local path
   path=$(realpath $1)
-  (cd /etc/nixos && command sudo -E vim -- $path)
+  (cd ~/nixos && vim -- $path)
 }
 
 function configeditline() {
   local path
   path=$(realpath $2)
-  (cd /etc/nixos && command sudo -E vim +$1 -- $path)
+  (cd ~/nixos && vim +$1 -- $path)
 }
 
 # ALT-E - Edit NixOS Configuration Files
 # ALT-O - with ripgrep
 if [[ $- =~ i ]]
 then
-  function __fzf_sudoedit__() {
+  function __fzf_nixedit__() {
     local cmd opts file
-    cmd="fd --mount --type f --hidden --exclude .git . /etc/nixos"
+    cmd="fd --mount --type f --hidden --exclude .git . ~/nixos"
     opts="--height ${FZF_TMUX_HEIGHT:-40%} --bind=ctrl-z:ignore --reverse ${FZF_DEFAULT_OPTS-} ${FZF_CTRL_T_OPTS-} +m"
     file=$(eval "$cmd" | FZF_DEFAULT_OPTS="$opts" $(__fzfcmd)) && printf 'configedit %q' "$file"
   }
 
-  bind -m emacs-standard '"\ee": "\C-e\C-u`__fzf_sudoedit__`\e\C-e\er\C-m"'
+  bind -m emacs-standard '"\ee": "\C-e\C-u`__fzf_nixedit__`\e\C-e\er\C-m"'
   bind -m vi-command '"\ee": "\C-z\ee\C-z"'
   bind -m vi-insert '"\ee": "\C-z\ee\C-z"'
 
-  function __fzf_sudoedit_ripgrep__() {
+  function __fzf_nixedit_ripgrep__() {
     local rg_prefix opts line file
     rg_prefix="rg --column --line-number --no-heading --color=always --smart-case"
     opts="--height ${FZF_TMUX_HEIGHT:-40%} --bind=ctrl-z:ignore --reverse ${FZF_DEFAULT_OPTS-} ${FZF_CTRL_T_OPTS-} +m "
-    opts+="--bind 'start:reload:$rg_prefix \"\" /etc/nixos/' "
-    opts+="--bind 'change:reload:$rg_prefix {q} /etc/nixos/|| true' "
+    opts+="--bind 'start:reload:$rg_prefix \"\" ~/nixos/' "
+    opts+="--bind 'change:reload:$rg_prefix {q} ~/nixos/|| true' "
     opts+="--color 'hl:-1:underline,hl+:-1:underline:reverse' "
     opts+="--delimiter : "
     opts+="--preview 'bat --color=always {1} --highlight-line {2}' "
@@ -117,7 +117,7 @@ then
     read -r line file < <(eval "$cmd" | FZF_DEFAULT_OPTS="$opts" $(__fzfcmd) | awk '{split($0,a,":"); print a[2] " " a[1]}') && printf 'configeditline %q %q' "$line" "$file"
   }
 
-  bind -m emacs-standard '"\eo": "\C-e\C-u`__fzf_sudoedit_ripgrep__`\e\C-e\er\C-m"'
+  bind -m emacs-standard '"\eo": "\C-e\C-u`__fzf_nixedit_ripgrep__`\e\C-e\er\C-m"'
   bind -m vi-command '"\eo": "\C-z\eo\C-z"'
   bind -m vi-insert '"\eo": "\C-z\eo\C-z"'
 fi
