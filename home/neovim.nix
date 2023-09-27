@@ -97,20 +97,6 @@
       # vim-rhubarb
       vim-sleuth
 
-      {
-        plugin = mason-nvim;
-        type = "lua";
-        config = ''
-          require("mason").setup()
-        '';
-      }
-      {
-        plugin = mason-lspconfig-nvim;
-        type = "lua";
-        config = ''
-          require("mason-lspconfig").setup()
-        '';
-      }
       plenary-nvim
       nvim-snippy
       cmp-snippy
