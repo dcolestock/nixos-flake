@@ -105,12 +105,13 @@
         plugin = nvim-lspconfig;
         type = "lua";
         config = ''
+          local lspconfig = require("lspconfig")
           -- Bash --
-          require("lspconfig").bashls.setup{}
+          lspconfig.bashls.setup{}
 
           -- Lua --
-          require("lspconfig").lua_ls.setup{
-            settings = {
+          lspconfig.lua_ls.setup{
+            settings = l
               Lua = {
                 runtime = {
                   -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
@@ -134,19 +135,19 @@
           }
 
           -- Python --
-          require("lspconfig").pyright.setup{}
+          lspconfig.pyright.setup{}
 
           -- Nix --
-          require("lspconfig").nil_ls.setup{} -- nix language server - no format
-          require("lspconfig").nixd.setup{} -- nix language server - no format
-          require("lspconfig").rnix.setup{}
-          -- require("lspconfig").statix.setup{}
+          lspconfig.nil_ls.setup{} -- nix language server - no format
+          lspconfig.nixd.setup{} -- nix language server - no format
+          lspconfig.rnix.setup{}
+          -- lspconfig.statix.setup{}
 
           -- Markdown --
-          require("lspconfig").marksman.setup{}
+          lspconfig.marksman.setup{}
 
           -- Diagnostic --
-          -- require("lspconfig").diagnosticls.setup{}
+          -- lspconfig.diagnosticls.setup{}
         '';
       }
 
