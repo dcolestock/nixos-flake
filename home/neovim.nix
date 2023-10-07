@@ -111,7 +111,7 @@
 
           -- Lua --
           lspconfig.lua_ls.setup{
-            settings = l
+            settings = {
               Lua = {
                 runtime = {
                   -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
