@@ -153,6 +153,9 @@
     obsidian
     heroic
 
+    # Games
+    endless-sky
+
     # Gnome specific
     gnome3.gnome-tweaks
     gnomeExtensions.dash-to-panel
