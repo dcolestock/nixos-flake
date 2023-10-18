@@ -66,6 +66,7 @@
       FZF_TMUX = 0;
 
       MANPAGER = "sh -c 'col -bx | bat -l man -p --paging always'";
+      MANROFFOPT = "-c";
     };
     bashrcExtra = ''
       ${builtins.readFile ./config/bashrc}
