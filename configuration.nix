@@ -127,12 +127,14 @@
     duf
     # mcfly
     procs
+    tldr
 
     # General Command Line Applications
     taskwarrior
     rclone
     tmux
     poppler_utils # PDF Tools
+    pipe-viewer
 
     # Toolchains
     openjdk17
@@ -152,9 +154,11 @@
     firefox
     obsidian
     heroic
+    mpv
 
     # Games
     endless-sky
+    bsdgames
 
     # Gnome specific
     gnome3.gnome-tweaks
