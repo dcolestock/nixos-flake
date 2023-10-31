@@ -155,7 +155,7 @@
     obsidian
     heroic
     mpv
-    atom
+    pulsar
 
     # Games
     endless-sky
