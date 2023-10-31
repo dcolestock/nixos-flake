@@ -15,6 +15,7 @@ let
 
     pandas
     sympy
+    primecountpy
     numpy
     beautifulsoup4
     requests
