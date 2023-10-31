@@ -134,7 +134,7 @@
     rclone
     tmux
     poppler_utils # PDF Tools
-    pipe-viewer
+    # pipe-viewer
 
     # Toolchains
     openjdk17
