@@ -153,7 +153,7 @@
     chromium
     firefox
     obsidian
-    heroic
+    # heroic
     mpv
 
     # Games
