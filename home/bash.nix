@@ -89,6 +89,25 @@
   xdg.configFile."autostart/dconfwatch.desktop".source = ./config/dconfwatch.desktop;
   home.packages = with pkgs; [
     (writeShellApplication {
+      name = "update";
+      text = ''
+        cd /home/dan/Projects/dancolestock/nixos/
+        gitstatus=$(git status --porcelain)
+        if [[ -z "$gitstatus" ]] ; then
+          echo "Flake's git not clean.  Aborting."
+          exit -1
+        fi
+        nix flake update
+        gitstatus=$(git status --porcelain)
+        if [[ -n "$gitstatus" ]] ; then
+          echo "Flake already up to date."
+          exit 1
+        fi
+        git commit -am "Flake update $(date '+%Y.%m.%d')"
+        sudo nixos-rebuild switch --flake .
+      '';
+    })
+    (writeShellApplication {
       name = "fzf-preview";
       runtimeInputs = [ tree file bat catimg ];
       text = ''
