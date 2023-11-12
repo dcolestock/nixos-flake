@@ -93,13 +93,13 @@
       text = ''
         cd /home/dan/Projects/dancolestock/nixos/
         gitstatus=$(git status --porcelain)
-        if [[ -z "$gitstatus" ]] ; then
+        if [[ -n "$gitstatus" ]] ; then
           echo "Flake's git not clean.  Aborting."
           exit 1
         fi
         nix flake update
         gitstatus=$(git status --porcelain)
-        if [[ -n "$gitstatus" ]] ; then
+        if [[ -z "$gitstatus" ]] ; then
           echo "Flake already up to date."
           exit 0
         fi
