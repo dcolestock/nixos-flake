@@ -65,7 +65,7 @@
       FZF_TMUX_OPTS = "";
       FZF_TMUX = 0;
 
-      MANPAGER = "sh -c 'col -bx | bat -l man -p --paging always'";
+      MANPAGER = "sh -c 'col -bx | bat -l man --style=plain --paging always'";
       MANROFFOPT = "-c";
     };
     bashrcExtra = ''
