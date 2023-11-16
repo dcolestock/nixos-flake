@@ -89,6 +89,13 @@
   xdg.configFile."autostart/dconfwatch.desktop".source = ./config/dconfwatch.desktop;
   home.packages = with pkgs; [
     (writeShellApplication {
+      name = "switch";
+      text = ''
+        cd /home/dan/Projects/dancolestock/nixos/
+        sudo nixos-rebuild switch --flake .
+      '';
+    })
+    (writeShellApplication {
       name = "update";
       text = ''
         cd /home/dan/Projects/dancolestock/nixos/
