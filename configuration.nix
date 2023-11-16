@@ -155,8 +155,9 @@
     chromium
     firefox
     obsidian
-    # heroic
+    heroic
     mpv
+    pulsar
 
     # Games
     endless-sky
