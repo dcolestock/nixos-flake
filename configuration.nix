@@ -46,9 +46,6 @@
   services.xserver.enable = true;
   services.resolved.enable = true;
 
-  # Mouse configuration
-  services.ratbagd.enable = true;
-
   # Video Card Drivers
   services.xserver.videoDrivers = [ "amdgpu" ];
   hardware.opengl.driSupport = true;
@@ -184,9 +181,6 @@
     # System
     pavucontrol
     inotify-tools
-    piper
-    solaar
-
 
     # (lutris.override {
     #   extraLibraries = pkgs: [
