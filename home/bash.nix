@@ -92,7 +92,7 @@
       name = "switch";
       text = ''
         cd /home/dan/Projects/dancolestock/nixos/
-        sudo nixos-rebuild switch --flake .
+        sudo nixos-rebuild switch --show-trace --flake .
       '';
     })
     (writeShellApplication {
@@ -116,7 +116,7 @@
 	echo "Committing changes..."
         git commit -am "Flake update $(date '+%Y.%m.%d')"
 	echo "Rebuilding..."
-        sudo nixos-rebuild switch --flake .
+        sudo nixos-rebuild switch --show-trace --flake .
 	echo "Done"
       '';
     })
