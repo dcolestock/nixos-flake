@@ -46,7 +46,7 @@
     enableBashIntegration = true;
   };
 
-  qt.enable = true;
+  # qt.enable = true;
   programs.kitty = {
     enable = true;
     font = {
