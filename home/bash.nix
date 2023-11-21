@@ -92,7 +92,14 @@
       name = "switch";
       text = ''
         cd /home/dan/Projects/dancolestock/nixos/
-        sudo nixos-rebuild switch --show-trace --flake .
+        sudo nixos-rebuild switch --flake .
+      '';
+    })
+    (writeShellApplication {
+      name = "switch-trace";
+      text = ''
+        cd /home/dan/Projects/dancolestock/nixos/
+        sudo nixos-rebuild switch --show-trace --option eval-cache false --flake .
       '';
     })
     (writeShellApplication {
@@ -116,7 +123,7 @@
 	echo "Committing changes..."
         git commit -am "Flake update $(date '+%Y.%m.%d')"
 	echo "Rebuilding..."
-        sudo nixos-rebuild switch --show-trace --flake .
+        sudo nixos-rebuild switch --flake .
 	echo "Done"
       '';
     })
