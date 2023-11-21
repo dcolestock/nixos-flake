@@ -182,6 +182,7 @@
     # System
     pavucontrol
     inotify-tools
+    solaar
 
     # (lutris.override {
     #   extraLibraries = pkgs: [
