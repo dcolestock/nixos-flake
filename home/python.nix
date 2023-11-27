@@ -27,7 +27,7 @@ let
     python-lsp-server
     python-lsp-ruff
     pyls-isort
-    pyls-rope
+    pylsp-rope
     pylsp-mypy
     black
     isort
