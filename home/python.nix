@@ -3,32 +3,42 @@ let
   my-python-packages = ps: with ps; [
     ipython
     pip
+
+    pillow
+    types-pillow
+
+    # Math and Data
+    pandas
+    sympy
+    numpy
+    networkx
+    primecountpy
+
+    # Utilities
+    more-itertools
+    tqdm
+
+    # Network
+    beautifulsoup4
+    requests
+    lxml
+
+    # LSP
+    python-lsp-server
+    python-lsp-ruff
+    pyls-isort
+    pyls-rope
+    pylsp-mypy
     black
     isort
     mypy
     flake8
-    types-pillow
-    anyqt
-    pyqt6
+
+    # Machine Learning
     scikit-learn
     opencv4
-
-    pandas
-    sympy
-    primecountpy
-    numpy
-    beautifulsoup4
-    requests
-    networkx
-    more-itertools
-    tqdm
-    lxml
-    tinycss2
-    colormath
-
     pytesseract
-    pillow
-  ];
+  ] ++ python-lsp-server.passthru.optional-dependencies.all;
 in {
 home.packages = [(pkgs.python311.withPackages my-python-packages)];
 }
