@@ -149,26 +149,6 @@
       '';
     })
     (writeShellApplication {
-      name = "reset_xdg";
-      runtimeInputs = [ xdg-desktop-portal xdg-desktop-portal-hyprland ];
-      text = ''
-        set +o errexit
-        set +o nounset
-        set +o pipefail
-        sleep 1
-        pkill xdg-desktop-portal-hyprland
-        pkill xdg-desktop-portal-gnome
-        pkill xdg-desktop-portal-kde
-        pkill xdg-desktop-portal-lxqt
-        pkill xdg-desktop-portal-wlr
-        pkill xdg-desktop-portal
-        sleep 1
-        ${xdg-desktop-portal-hyprland}/libexec/xdg-desktop-portal-hyprland &
-        sleep 2
-        ${xdg-desktop-portal}/libexec/xdg-desktop-portal &
-      '';
-    })
-    (writeShellApplication {
       name = "btconnect";
       text = ''
         MAC=$(bluetoothctl devices | grep "$1" | cut -d ' ' -f 2)
@@ -194,45 +174,6 @@
       text = ''
         btdisconnect WH-CH710N
         btconnect Flip
-      '';
-    })
-    (writeShellApplication {
-      name = "hyprtoggle";
-      runtimeInputs = [ jq ];
-      text = ''
-        display_usage() {
-          echo "Usage: hyprtoggle [class_name] <executable_name>"
-          echo "    Toggles a process on or off in hyprland"
-          echo "    class_name: wayland class name of process"
-          echo "        example: kitty or org.gnome.Calculator"
-          echo "    executable_name: if class name differs from class name"
-          echo "        example: gnome-calculator"
-        }
-        if [ $# -eq 0 ]
-        then
-          display_usage
-          exit 1
-        fi
-
-        if [[ ( $1 == "--help") ||  $1 == "-h" ]]
-        then
-          display_usage
-          exit 0
-        fi
-
-        pids=$(hyprctl -j clients|jq ".[] | select(.class==\"$1\").pid")
-        echo "pids: $pids"
-        if [ -z "$pids" ]
-        then
-          if [ $# -eq 2 ]
-          then
-            exec $2
-          else
-            exec $1
-          fi
-        else
-          echo "$pids"|xargs -I'{}' hyprctl dispatch closewindow pid:{}
-        fi
       '';
     })
   ];

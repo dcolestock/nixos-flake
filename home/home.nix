@@ -73,12 +73,4 @@
     '';
   };
   xdg.configFile."kitty/keymap.py".source = ./scripts/kitty_keymap.py;
-  wayland.windowManager = {
-    sway.enable = true;
-    sway.package = (pkgs.sway.override {sway-unwrapped = pkgs.swayfx;});
-    hyprland.enable = true;
-    hyprland.extraConfig = ''
-      ${builtins.readFile ./config/hyprland2.conf}
-      '';
-  };
 }

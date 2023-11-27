@@ -168,13 +168,6 @@
     gnomeExtensions.dash-to-panel
     gnomeExtensions.appindicator
 
-    # Hyprland
-    wofi
-    dolphin
-    hyprpaper
-    xdg-desktop-portal-hyprland
-    dunst
-
     # Nix tools
     alejandra # Nix code formatter
     manix # Nix doc searcher
@@ -207,9 +200,6 @@
   # programs.ssh.setXAuthLocation = true;
 
   programs = {
-    hyprland.enable = true;
-    sway.enable = true;
-    sway.package = (pkgs.sway.override { sway-unwrapped = pkgs.swayfx; });
     steam = {
       enable = true;
       remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
@@ -222,11 +212,6 @@
       vimAlias = true;
     };
     git.enable = true;
-    waybar = {
-      enable = true;
-      package = pkgs.waybar.overrideAttrs (oldAttrs: {
-        mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
-      });
     };
   };
 
