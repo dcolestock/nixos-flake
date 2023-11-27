@@ -212,7 +212,6 @@
       vimAlias = true;
     };
     git.enable = true;
-    };
   };
 
   programs.adb.enable = true;
