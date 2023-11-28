@@ -47,8 +47,8 @@
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
-  hardware.logitech.enable = true;
-  hardware.logitech.enableGraphical = true;
+  hardware.logitech.wireless.enable = true;
+  hardware.logitech.wireless.enableGraphical = true;
 
   systemd.tmpfiles.rules = [
     "L+ /run/gdm/.config/monitors.xml - - - - ${pkgs.writeText "gdm-monitors.xml" ''
