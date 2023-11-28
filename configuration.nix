@@ -145,8 +145,6 @@
     libsForQt5.qtwayland
     qt5.qtwayland
     qt6.qtwayland
-    binutils
-    gcc_multi
 
     # GUI Applications
     keepassxc
