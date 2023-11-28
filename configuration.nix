@@ -128,6 +128,7 @@
     # mcfly
     procs
     tldr
+    nodePackages.pyright
 
     # General Command Line Applications
     taskwarrior
