@@ -41,7 +41,10 @@
     };
   };
 
-  programs.ruff.enable = true;
+  programs.ruff = {
+    enable = true;
+    settings = {};
+  };
 
   programs.fzf = {
     enable = true;
