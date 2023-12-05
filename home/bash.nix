@@ -25,13 +25,13 @@
       du = "dust";
       df = "duf";
       ps = "procs";
+      fd = "fd --mount";
 
       less = "less -r"; # raw control characters
       where = "type -a";
       grep = "grep --color=auto";
       egrep = "egrep --color=auto";
       fgrep = "fgrep --color=auto";
-
 
       ls = "ls -h --group-directories-first --color=auto";
       ll = "exa -l --group-directories-first";

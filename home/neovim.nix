@@ -10,7 +10,8 @@
       # black
       # flake8
       pyright
-      nil
+      nodejs
+      # nil
       nixd
       rnix-lsp
       # nixfmt

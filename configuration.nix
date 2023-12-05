@@ -136,6 +136,7 @@
     tmux
     poppler_utils # PDF Tools
     # pipe-viewer
+    recapp
 
     # Toolchains
     openjdk17

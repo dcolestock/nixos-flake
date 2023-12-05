@@ -17,6 +17,8 @@ let
     # Utilities
     more-itertools
     tqdm
+    aocd
+    icecream
 
     # Network
     beautifulsoup4
