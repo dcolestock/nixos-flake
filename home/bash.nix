@@ -44,6 +44,7 @@
       pbcopy = "xclip -selection clipboard";
       pbpaste = "xclip -selection clipboard -o";
       sudoedit = "command sudo -E vim";
+      myvim = "NVIM_APPNAME=myvim nvim";
     };
     sessionVariables = {
       LD_LIBRARY_PATH = "/run/opengl-driver/lib";
