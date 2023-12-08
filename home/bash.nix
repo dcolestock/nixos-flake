@@ -1,7 +1,6 @@
-{
-  pkgs,
-  config,
-  ...
+{ pkgs
+, config
+, ...
 }: {
   programs.bash = {
     enable = true;
@@ -106,26 +105,26 @@
     (writeShellApplication {
       name = "update";
       text = ''
-        cd /home/dan/Projects/dancolestock/nixos/
-	echo "Checking current git status..."
-        gitstatus=$(git status --porcelain)
-        if [[ -n "$gitstatus" ]] ; then
-          echo "Flake's git not clean.  Aborting."
-          exit 1
-        fi
-	echo "Updating flake..."
-        nix flake update
-	echo "Checking new git status..."
-        gitstatus=$(git status --porcelain)
-        if [[ -z "$gitstatus" ]] ; then
-          echo "Flake already up to date."
-          exit 0
-        fi
-	echo "Committing changes..."
-        git commit -am "Flake update $(date '+%Y.%m.%d')"
-	echo "Rebuilding..."
-        sudo nixos-rebuild switch --flake .
-	echo "Done"
+                cd /home/dan/Projects/dancolestock/nixos/
+        	echo "Checking current git status..."
+                gitstatus=$(git status --porcelain)
+                if [[ -n "$gitstatus" ]] ; then
+                  echo "Flake's git not clean.  Aborting."
+                  exit 1
+                fi
+        	echo "Updating flake..."
+                nix flake update
+        	echo "Checking new git status..."
+                gitstatus=$(git status --porcelain)
+                if [[ -z "$gitstatus" ]] ; then
+                  echo "Flake already up to date."
+                  exit 0
+                fi
+        	echo "Committing changes..."
+                git commit -am "Flake update $(date '+%Y.%m.%d')"
+        	echo "Rebuilding..."
+                sudo nixos-rebuild switch --flake .
+        	echo "Done"
       '';
     })
     (writeShellApplication {
@@ -140,7 +139,7 @@
       runtimeInputs = [ fzf ripgrep bat ];
       text = builtins.readFile ./scripts/rfv.sh;
     })
-    (writers.writePython3Bin "dconfwatch" {} (builtins.readFile ./scripts/dconfwatch.py))
+    (writers.writePython3Bin "dconfwatch" { } (builtins.readFile ./scripts/dconfwatch.py))
     (writeShellApplication {
       name = "ee";
       runtimeInputs = [ fzf ];

@@ -35,6 +35,7 @@ let
     isort
     mypy
     flake8
+    ruff-lsp
 
     # Machine Learning
     scikit-learn
