@@ -58,7 +58,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 -- ------------- --
 --    Keymaps    --
 -- ------------- --
-vim.keymap.set('n', ',v', '<Cmd>edit $MYVIMRC<CR>')
+vim.keymap.set('n', ',v', '<Cmd>edit $MYVIMRC<CR>', {desc = "edit config file"})
 vim.keymap.set('n', ',,', '<C-^>', {desc = "Swap to Recent Buffer" })
 
 local toggle_visuals_settings
@@ -82,7 +82,7 @@ local function toggle_visuals()
   end
 end
 vim.keymap.set('n', '<F2>', toggle_visuals, {noremap = true, silent = true, desc = "Toggle Decorations"} )
-vim.keymap.set('n', '<CR>', '<Cmd>nohlsearch<CR><CR>')
+vim.keymap.set('n', '<CR>', '<Cmd>nohlsearch<CR><CR>', { desc = "Clear Search" })
 
 
 -- Remap for dealing with word wrap
@@ -108,10 +108,6 @@ vim.keymap.set('n', '<Leader>lps',  vim.diagnostic.setloclist, { desc = "Set Loc
 vim.keymap.set('v', 'p',  "\"_dP", { desc = "Paste Without Yanking" })
 vim.keymap.set('v', ",'",  "<C-v>I'<Esc>gv$A',<ESC>gvgJ$r<Cmd>keeppatterns s/\\(.\\{-\\},\\)\\{10\\}/&\r/g<CR>", { desc = "Comma Separate and Quote List" })
 
-vim.keymap.set({"n", "x", "i"}, "<C-u>", "zz<C-u>zz", {desc = "Center cursor after moving up half-page"})
--- vim.keymap.set({"n", "x", "i"}, "<PageUp>", "zz<C-u>zz", {desc = "Center cursor after moving up half-page"})
-vim.keymap.set({"n", "x", "i"}, "<C-d>", "zz<C-d>zz", {desc = "Center cursor after moving down half-page"})
--- vim.keymap.set({"n", "x", "i"}, "<PageDown>", "zz<C-d>zz", {desc = "Center cursor after moving down half-page"})
 vim.keymap.set('n', '<Leader>c',  "<Cmd>:bdelete<CR>", { desc = "Close Buffer" })
 vim.keymap.set('n', '<Leader>C',  "<Cmd>:bdelete!<CR>", { desc = "Force Close Buffer" })
 
@@ -133,3 +129,4 @@ vim.keymap.set('n', '<Leader>C',  "<Cmd>:bdelete!<CR>", { desc = "Force Close Bu
           -- lvim.keys.insert_mode["<C-h>"] = "<Esc><C-w>h"
           -- lvim.keys.insert_mode["<C-k>"] = "<Esc><C-w>k"
           -- lvim.keys.insert_mode["<C-j>"] = "<Esc><C-w>j"
+          --

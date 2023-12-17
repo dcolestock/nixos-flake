@@ -1,15 +1,13 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-{ config
-, pkgs
-, ...
-}: {
+{ config, pkgs, inputs, ... }: {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
   ];
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nixpkgs.overlays = [ inputs.nixneovimplugins.overlays.default ];
   documentation.doc.enable = true;
   documentation.info.enable = true;
   documentation.dev.enable = true;
@@ -212,9 +210,10 @@
       vimAlias = true;
     };
     git.enable = true;
+    wireshark.enable = true;
+    adb.enable = true;
   };
 
-  programs.adb.enable = true;
   # Disable the GNOME3/GDM auto-suspend feature that cannot be disabled in GUI!
   # If no user is logged in, the machine will power down after 20 minutes.
   systemd.targets.sleep.enable = false;

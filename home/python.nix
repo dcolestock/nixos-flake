@@ -3,6 +3,9 @@ let
   my-python-packages = ps: with ps; [
     ipython
     pip
+    qtconsole
+    ipykernel
+    jupyter
 
     pillow
     types-pillow

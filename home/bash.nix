@@ -25,6 +25,7 @@
       df = "duf";
       ps = "procs";
       fd = "fd --mount";
+      rg = "rg --one-file-system";
 
       less = "less -r"; # raw control characters
       where = "type -a";

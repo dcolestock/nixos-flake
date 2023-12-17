@@ -75,6 +75,7 @@
         plugin = mini-nvim;
         type = "lua";
         config = ''
+
           require('mini.animate').setup()
           require('mini.basics').setup()
           require('mini.comment').setup()
@@ -133,6 +134,8 @@
         })
         '';
       }
+
+      pkgs.vimExtraPlugins.jupynium-nvim
 
 
 # -- lvim.builtin.which_key.mappings["t"] = {
@@ -195,7 +198,7 @@
   #   ft = { 'python' },
   # },
 
-      codeium-vim
+      # codeium-vim
       vim-sleuth
 
       plenary-nvim
