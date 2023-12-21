@@ -96,7 +96,7 @@
   users.users.dan = {
     isNormalUser = true;
     description = "dan";
-    extraGroups = [ "networkmanager" "wheel" "adbusers" ];
+    extraGroups = [ "networkmanager" "wheel" "adbusers" "wireshark" ];
     packages = with pkgs; [
     ];
   };
@@ -156,6 +156,7 @@
     heroic
     mpv
     # pulsar
+    wireshark
 
     # Games
     endless-sky
