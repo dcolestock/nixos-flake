@@ -8,29 +8,6 @@
       pip
       python-lsp-server
       pynvim
-      # (
-      #   buildPythonPackage rec {
-      #     pname = "jupynium";
-      #     version = "0.2.1";
-      #     src = fetchPypi {
-      #       inherit pname version;
-      #       sha256 = "sha256-igAgSTQrRRfkKGZMp4FAqvAHo9AwsmK6S9u3b7X+qwI=";
-      #     };
-      #     doCheck = false;
-      #     propagatedBuildInputs = with pkgs.python311Packages; [
-      #       setuptools-scm
-      #       selenium
-      #       coloredlogs
-      #       verboselogs
-      #       pynvim
-      #       psutil
-      #       persist-queue
-      #       packaging
-      #       setuptools
-      #       gitpython
-      #     ];
-      #   }
-      # )
     ];
 
     extraPackages = with pkgs; [
@@ -165,18 +142,6 @@
         '';
       }
 
-      
-      {
-        plugin = pkgs.vimExtraPlugins.jupynium-nvim;
-        type = "lua";
-        config = ''
-          require("jupynium").setup{
-            default_notebook_URL = "localhost:8888/nbclassic"
-          }
-        '';
-      }
-      nvim-notify
-      dressing-nvim
 
 
 # -- lvim.builtin.which_key.mappings["t"] = {
