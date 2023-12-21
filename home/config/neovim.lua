@@ -2,6 +2,7 @@
 -- Neovim Config --
 -- ------------- --
 
+vim.g.python3_host_prog = "/home/dan/Projects/nvim_venv/bin/python3"
 
 -- ------------- --
 --   Settings    --
