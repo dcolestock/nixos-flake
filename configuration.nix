@@ -176,6 +176,7 @@
     pavucontrol
     inotify-tools
     solaar
+    inputs.agenix.packages."${system}".default
 
     # (lutris.override {
     #   extraLibraries = pkgs: [

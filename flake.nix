@@ -10,11 +10,14 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     nixneovimplugins.url = "github:jooooscha/nixpkgs-vim-extra-plugins";
+
+    agenix.url = "github:ryantm/agenix";
   };
 
   outputs = inputs @ {
     nixpkgs,
     home-manager,
+    agenix,
     ...
   }: {
     nixosConfigurations = {
@@ -23,6 +26,7 @@
         specialArgs = {inherit inputs;};
         modules = [
           ./configuration.nix
+          agenix.nixosModules.default
 
           home-manager.nixosModules.home-manager
           {

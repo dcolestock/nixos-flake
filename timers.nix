@@ -1,4 +1,4 @@
-{}: {
+{ config, ... }: {
   systemd.timers."cloudflare_dns_update" = {
     wantedBy = [ "timers.target" ];
     timerConfig = {
@@ -8,10 +8,15 @@
     };
   };
 
+  age.secrets.cloudflare = {
+    file = ./secrets/cloudflare.age;
+    owner = "root";
+    group = "root";
+  };
   systemd.services."cloudflare_dns_update" = {
     script = ''
       set -eu
-      ${builtins.readFile ./secrets/cloudflare_tokens.txt}
+      source "${config.age.secrets.cloudflare.path}"
       ${builtins.readFile ./home/scripts/cloudflare_dns_update.sh}
     '';
     serviceConfig = {

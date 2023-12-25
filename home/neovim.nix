@@ -142,6 +142,13 @@
         '';
       }
 
+      {
+        plugin = vim-slime;
+        type = "lua";
+        config = ''
+
+        '';
+      }
 
 
 # -- lvim.builtin.which_key.mappings["t"] = {
