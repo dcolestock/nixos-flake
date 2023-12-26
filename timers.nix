@@ -1,4 +1,4 @@
-{ config, ... }: {
+{ pkgs, config, ... }: {
   systemd.timers."cloudflare_dns_update" = {
     wantedBy = [ "timers.target" ];
     timerConfig = {
@@ -19,6 +19,7 @@
       source "${config.age.secrets.cloudflare.path}"
       ${builtins.readFile ./home/scripts/cloudflare_dns_update.sh}
     '';
+    path = with pkgs; [ curl jq ];
     serviceConfig = {
       Type = "oneshot";
       User = "root";
