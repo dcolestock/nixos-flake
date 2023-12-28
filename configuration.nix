@@ -165,8 +165,10 @@
 
     # Gnome specific
     gnome3.gnome-tweaks
+    gnome3.gnome-remote-desktop
     gnomeExtensions.dash-to-panel
     gnomeExtensions.appindicator
+    gnomeExtensions.just-perfection
 
     # Nix tools
     alejandra # Nix code formatter

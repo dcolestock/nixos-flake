@@ -7,7 +7,7 @@
     shellAliases = {
       # Magic to let sudo use my aliases
       # https://unix.stackexchange.com/questions/139231/keep-aliases-when-i-use-sudo-bash
-      sudo = "sudo ";
+      # sudo = "sudo "; # Removed in favor of sudo function
 
       c = "cd";
       ".." = "c ..";

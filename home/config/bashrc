@@ -22,13 +22,13 @@ shopt -s histappend
 # https://unix.stackexchange.com/a/438712
 function sudo {
   local firstArg=$1
-  if [ $(type -t $firstArg) = function ]
+  if [ "$(type -t "$firstArg")" = function ]
   then
-    shift && command sudo bash -c "$(declare -f $firstArg);$firstArg $*"
-  elif [ $(type -t $firstArg) = alias ]
+    shift && command sudo bash -c "$(declare -f "$firstArg");$firstArg $*"
+  elif [ "$(type -t "$firstArg")" = alias ]
   then
     alias sudo='\sudo '
-    eval "sudo $@"
+    eval "sudo $*"
   else
     command sudo "$@"
   fi
