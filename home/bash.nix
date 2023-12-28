@@ -93,14 +93,21 @@
       name = "switch";
       text = ''
         cd /home/dan/Projects/dancolestock/nixos/
-        sudo nixos-rebuild switch --flake .
+        sudo nixos-rebuild switch --allow-dirty=false --flake .
       '';
     })
     (writeShellApplication {
       name = "switch-trace";
       text = ''
         cd /home/dan/Projects/dancolestock/nixos/
-        sudo nixos-rebuild switch --show-trace --option eval-cache false --flake .
+        sudo nixos-rebuild switch --allow-dirty=false --show-trace --option eval-cache false --flake .
+      '';
+    })
+    (writeShellApplication {
+      name = "testnix";
+      text = ''
+        cd /home/dan/Projects/dancolestock/nixos/
+        sudo nixos-rebuild test --show-trace --option eval-cache false --flake .
       '';
     })
     (writeShellApplication {
