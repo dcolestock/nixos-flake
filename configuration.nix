@@ -16,6 +16,10 @@
     })
   ];
 
+  nixpkgs.config.permittedInsecurePackages = [
+    "pulsar-1.109.0"
+  ];
+
   documentation.doc.enable = true;
   documentation.info.enable = true;
   documentation.dev.enable = true;
@@ -168,7 +172,7 @@
     obsidian
     heroic
     mpv
-    # pulsar
+    pulsar
     wireshark
 
     # Games
