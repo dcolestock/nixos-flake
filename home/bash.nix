@@ -89,52 +89,67 @@
   # };
   xdg.configFile."autostart/dconfwatch.desktop".source = ./config/dconfwatch.desktop;
   home.packages = with pkgs; [
+
     (writeShellApplication {
       name = "switch";
       text = ''
         cd /home/dan/Projects/dancolestock/nixos/
-        sudo nixos-rebuild switch --allow-dirty=false --flake .
+        gitstatus=$(git status --porcelain)
+        if [[ -n "$gitstatus" ]] ; then
+          echo "Flake's git not clean.  Aborting."
+          exit 1
+        fi
+        sudo nixos-rebuild switch --flake .
       '';
     })
+
     (writeShellApplication {
       name = "switch-trace";
       text = ''
         cd /home/dan/Projects/dancolestock/nixos/
-        sudo nixos-rebuild switch --allow-dirty=false --show-trace --option eval-cache false --flake .
+        gitstatus=$(git status --porcelain)
+        if [[ -n "$gitstatus" ]] ; then
+          echo "Flake's git not clean.  Aborting."
+          exit 1
+        fi
+        sudo nixos-rebuild switch --show-trace --option eval-cache false --flake .
       '';
     })
+
     (writeShellApplication {
       name = "testnix";
       text = ''
         cd /home/dan/Projects/dancolestock/nixos/
-        sudo nixos-rebuild test --show-trace --option eval-cache false --flake .
+        sudo nixos-rebuild switch --show-trace --option eval-cache false --flake .
       '';
     })
+
     (writeShellApplication {
       name = "update";
       text = ''
-                cd /home/dan/Projects/dancolestock/nixos/
-        	echo "Checking current git status..."
-                gitstatus=$(git status --porcelain)
-                if [[ -n "$gitstatus" ]] ; then
-                  echo "Flake's git not clean.  Aborting."
-                  exit 1
-                fi
-        	echo "Updating flake..."
-                nix flake update
-        	echo "Checking new git status..."
-                gitstatus=$(git status --porcelain)
-                if [[ -z "$gitstatus" ]] ; then
-                  echo "Flake already up to date."
-                  exit 0
-                fi
-        	echo "Committing changes..."
-                git commit -am "Flake update $(date '+%Y.%m.%d')"
-        	echo "Rebuilding..."
-                sudo nixos-rebuild switch --flake .
-        	echo "Done"
+        cd /home/dan/Projects/dancolestock/nixos/
+        echo "Checking current git status..."
+        gitstatus=$(git status --porcelain)
+        if [[ -n "$gitstatus" ]] ; then
+          echo "Flake's git not clean.  Aborting."
+          exit 1
+        fi
+        echo "Updating flake..."
+        nix flake update
+        echo "Checking new git status..."
+        gitstatus=$(git status --porcelain)
+        if [[ -z "$gitstatus" ]] ; then
+          echo "Flake already up to date."
+          exit 0
+        fi
+        echo "Committing changes..."
+        git commit -am "Flake update $(date '+%Y.%m.%d')"
+        echo "Rebuilding..."
+        sudo nixos-rebuild switch --flake .
+        echo "Done"
       '';
     })
+
     (writeShellApplication {
       name = "fzf-preview";
       runtimeInputs = [ tree file bat catimg ];
@@ -142,12 +157,15 @@
         ${builtins.readFile ./scripts/fzf-preview.sh}
       '';
     })
+
     (writeShellApplication {
       name = "rfv";
       runtimeInputs = [ fzf ripgrep bat ];
       text = builtins.readFile ./scripts/rfv.sh;
     })
+
     (writers.writePython3Bin "dconfwatch" { } (builtins.readFile ./scripts/dconfwatch.py))
+
     (writeShellApplication {
       name = "ee";
       runtimeInputs = [ fzf ];
@@ -156,6 +174,7 @@
         exec nvim "$(fzf)"
       '';
     })
+
     (writeShellApplication {
       name = "btconnect";
       text = ''
@@ -163,6 +182,7 @@
         bluetoothctl connect "$MAC"
       '';
     })
+
     (writeShellApplication {
       name = "btdisconnect";
       text = ''
@@ -170,6 +190,7 @@
         bluetoothctl disconnect "$MAC"
       '';
     })
+
     (writeShellApplication {
       name = "headset";
       text = ''
@@ -177,6 +198,7 @@
         btconnect WH-CH710N
       '';
     })
+
     (writeShellApplication {
       name = "speaker";
       text = ''
@@ -184,5 +206,6 @@
         btconnect Flip
       '';
     })
+
   ];
 }
