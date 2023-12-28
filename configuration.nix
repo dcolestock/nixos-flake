@@ -73,6 +73,11 @@
   services.avahi.nssmdns = true;
   services.printing.drivers = [ pkgs.brlaser ];
 
+  services.gnome.remote-desktop.enable = true;
+
+  hardware.logitech.wireless.enable = true;
+  hardware.logitech.wireless.enableGraphical = true;
+
   # Enable sound with pipewire.
   sound.enable = true;
   hardware.pulseaudio.enable = false;
