@@ -120,7 +120,7 @@
       name = "testnix";
       text = ''
         cd /home/dan/Projects/dancolestock/nixos/
-        sudo nixos-rebuild switch --show-trace --option eval-cache false --flake .
+        sudo nixos-rebuild test --flake .
       '';
     })
 

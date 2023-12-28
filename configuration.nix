@@ -8,7 +8,14 @@
     ./timers.nix
   ];
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  nixpkgs.overlays = [ inputs.nixneovimplugins.overlays.default ];
+
+  nixpkgs.overlays = [
+    inputs.nixneovimplugins.overlays.default
+    (final: prev: {
+      obsidian = prev.obsidian.override {electron = final.electron_26;};
+    })
+  ];
+
   documentation.doc.enable = true;
   documentation.info.enable = true;
   documentation.dev.enable = true;
