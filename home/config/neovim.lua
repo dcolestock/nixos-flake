@@ -2,8 +2,6 @@
 -- Neovim Config --
 -- ------------- --
 
-vim.g.python3_host_prog = "/home/dan/Projects/nvim_venv/bin/python3"
-
 -- ------------- --
 --   Settings    --
 -- ------------- --
@@ -70,16 +68,19 @@ local function toggle_visuals()
       relativenumber = vim.o.relativenumber,
       list = vim.o.list,
       signcolumn = vim.o.signcolumn,
+      miniindent = vim.b.miniindentscope_disable
     }
     vim.o.number = false
     vim.o.relativenumber = false
     vim.o.list = false
     vim.o.signcolumn = "no"
+    vim.b.miniindentscope_disable = true
   else
     vim.o.number = toggle_visuals_settings["number"]
     vim.o.relativenumber = toggle_visuals_settings["relativenumber"]
     vim.o.list = toggle_visuals_settings["list"]
     vim.o.signcolumn = toggle_visuals_settings["signcolumn"]
+    vim.b.miniindentscope_disable = toggle_visuals_settings["miniindent"]
   end
 end
 vim.keymap.set('n', '<F2>', toggle_visuals, {noremap = true, silent = true, desc = "Toggle Decorations"} )
