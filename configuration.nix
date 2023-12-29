@@ -174,6 +174,7 @@
     mpv
     pulsar
     wireshark
+    kicad
 
     # Games
     endless-sky
