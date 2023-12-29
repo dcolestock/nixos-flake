@@ -43,7 +43,6 @@
 # mini.cursorword
 # mini.indentscope # Keep animation?
 # mini.surround # Learn these hotkeys and usage
-# mini.trailspace
 
 # Investigate
 # mini.ai # Can it be used for ipython cells?
@@ -75,6 +74,7 @@
 # mini.visits
 
 # Exclude
+# mini.trailspace - Only highlights, list-charter + autoremove should be enough #TODO: autoremove on save
 
     plugins = with pkgs.vimPlugins; [
 
@@ -89,7 +89,6 @@
           require('mini.cursorword').setup()
           require('mini.indentscope').setup()
           require('mini.surround').setup()
-          require('mini.trailspace').setup()
 
           local miniclue = require('mini.clue')
           miniclue.setup({
