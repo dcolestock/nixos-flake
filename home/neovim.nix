@@ -1,12 +1,33 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+let
+  vim-slime-cells = pkgs.vimUtils.buildVimPlugin {
+    name = "vim-slime-cells";
+    src = pkgs.fetchFromGitHub {
+      owner = "klafyvel";
+      repo = "vim-slime-cells";
+      rev = "2252bc83fc0174c8e67bcf9a519edf2d328b8bc9";
+      sha256 = "sha256-d3+uH+LuIbrBFNp5BCHca2m94RN2asGgzQojC2f6yoQ=";
+    };
+  };
+  jupyter-kernel-nvim = pkgs.vimUtils.buildVimPlugin {
+    name = "jupyter-kernel-nvim";
+    src = pkgs.fetchFromGitHub {
+      owner = "lkhphuc";
+      repo = "jupyter-kernel.nvim";
+      rev = "5772fa8932f2c73736a777082656f1bfe0287076";
+      sha256 = "sha256-kixjgaAS6jk4DJw8EbG4aebtFxqp0Ibx3rtOCwO9Xi4=";
+    };
+  };
+in
+{
   programs.neovim = {
     enable = true;
     viAlias = true;
     vimAlias = true;
     withPython3 = true;
     extraPython3Packages = pyPkgs: with pyPkgs; [
-      pip
       python-lsp-server
+      jupyter_client
       pynvim
     ];
 
@@ -34,47 +55,47 @@
       gcc_multi
     ];
 
-# Included
-# mini.animate
-# mini.basics # How much can I remove thanks to this?
-# mini.bufremove
-# mini.clue # Adjust Window Size
-# mini.comment
-# mini.cursorword
-# mini.indentscope # Keep animation?
-# mini.surround # Learn these hotkeys and usage
+    # Included
+    # mini.animate
+    # mini.basics # How much can I remove thanks to this?
+    # mini.bufremove
+    # mini.clue # Adjust Window Size
+    # mini.comment
+    # mini.cursorword
+    # mini.indentscope # Keep animation?
+    # mini.surround # Learn these hotkeys and usage
 
-# Investigate
-# mini.ai # Can it be used for ipython cells?
-# mini.align
-# mini.base16
-# mini.bracketed
-# mini.colors
-# mini.completion
-# mini.doc
-# mini.extra
-# mini.files
-# mini.fuzzy
-# mini.hipatterns
-# mini.hues
-# mini.jump
-# mini.jump2d
-# mini.map
-# mini.misc
-# mini.move
-# mini.operators
-# mini.pairs
-# mini.pick
-# mini.sessions
-# mini.splitjoin
-# mini.starter
-# mini.statusline
-# mini.tabline
-# mini.test
-# mini.visits
+    # Investigate
+    # mini.ai # Can it be used for ipython cells?
+    # mini.align
+    # mini.base16
+    # mini.bracketed
+    # mini.colors
+    # mini.completion
+    # mini.doc
+    # mini.extra
+    # mini.files
+    # mini.fuzzy
+    # mini.hipatterns
+    # mini.hues
+    # mini.jump
+    # mini.jump2d
+    # mini.map
+    # mini.misc
+    # mini.move
+    # mini.operators
+    # mini.pairs
+    # mini.pick
+    # mini.sessions
+    # mini.splitjoin
+    # mini.starter
+    # mini.statusline
+    # mini.tabline
+    # mini.test
+    # mini.visits
 
-# Exclude
-# mini.trailspace - Only highlights, list-charter + autoremove should be enough #TODO: autoremove on save
+    # Exclude
+    # mini.trailspace - Only highlights, list-charter + autoremove should be enough #TODO: autoremove on save
 
     plugins = with pkgs.vimPlugins; [
 
@@ -82,9 +103,9 @@
         plugin = mini-nvim;
         type = "lua";
         config = ''
-
           require('mini.animate').setup()
           require('mini.basics').setup()
+          require('mini.bracketed').setup()
           require('mini.comment').setup()
           require('mini.cursorword').setup()
           require('mini.indentscope').setup()
@@ -137,78 +158,101 @@
               miniclue.gen_clues.windows(),
               miniclue.gen_clues.z(),
             },
-        })
+          })
         '';
       }
 
       {
         plugin = vim-slime;
         type = "lua";
+        optional = true;
         config = ''
+          vim.api.nvim_create_autocmd('FileType', {
+            desc = 'Activate vim-slime for python',
+            pattern = 'python',
+            once = true,
+            callback = function()
+              vim.g.slime_target = "tmux"
+              vim.g.slime_cell_delimiter = "^#\\s*%%"
+              vim.g.slime_default_config = {
+                ['socket_name'] = 'default',
+                ['target_pane'] = '{bottom-right}',
+              }
+              vim.g.slime_dont_ask_default = 1
+              vim.g.slime_bracketed_paste = 1
+              vim.g.slime_no_mappings = 1
+              vim.g.slime_python_ipython = 0 -- No %cpasted needed if using tmux's bracketed paste
 
+              function UnhideSlimeAndClear()
+                local target_pane = vim.fn.shellescape(vim.g.slime_default_config["target_pane"])
+                vim.fn.system("tmux if -F '#{window_zoomed_flag}' 'resize-pane -Z'")
+                vim.fn.system("tmux send -t " .. target_pane .. " C-u")
+              end
+
+              function StartIPython()
+                vim.fn.system("tmux if -F '#{==:#{window_panes},1}' 'split-window -hdZ ipython'")
+              end
+
+              vim.cmd([[function! SlimeOverride_EscapeText_python(text)
+                lua UnhideSlimeAndClear()
+                if slime#config#resolve("python_ipython") && len(split(a:text,"\n")) > 1
+                  return ["%cpaste -q\n", slime#config#resolve("dispatch_ipython_pause"), a:text, "--\n"]
+                else
+                  let empty_lines_pat = '\(^\|\n\)\zs\(\s*\n\+\)\+'
+                  let no_empty_lines = substitute(a:text, empty_lines_pat, "", "g")
+                  let dedent_pat = '\(^\|\n\)\zs'.matchstr(no_empty_lines, '^\s*')
+                  let dedented_lines = substitute(no_empty_lines, dedent_pat, "", "g")
+                  let except_pat = '\(elif\|else\|except\|finally\)\@!'
+                  let add_eol_pat = '\n\s[^\n]\+\n\zs\ze\('.except_pat.'\S\|$\)'
+                  return substitute(dedented_lines, add_eol_pat, "\n", "g")
+                end
+              endfunction]])
+
+              function Send_Ctrl_C()
+                local target_pane = vim.fn.shellescape(vim.g.slime_default_config["target_pane"])
+                vim.fn.system("tmux send -t " .. target_pane .. " C-c")
+              end
+
+              --vim.keymap.set('n', ',aa', UnhideSlimeAndClear, { desc = "[Slime] Scend" })
+              --vim.keymap.set('n', '<leader>rv', '<Plug>SlimeConfig', { desc = "[Slime] Config" })
+              vim.keymap.set('n', ',r', '<Plug>SlimeCellsSend', { desc = "[Slime] Send" })
+              vim.keymap.set('v', ',r', '<Plug>SlimeRegionSend', { desc = "[Slime] Send" })
+              vim.keymap.set('n', ',R', '<Plug>SlimeCellsSendAndGoToNext', { desc = "[Slime] Send+Next" })
+              vim.keymap.set('n', ',c', Send_Ctrl_C, { desc = "[Slime] Ctrl+C" })
+              vim.keymap.set('n', ',l', StartIPython, { desc = "[Slime] Start IPython" })
+              vim.keymap.set('n', ',j', '<Plug>SlimeCellsNext', { desc = "[Slime] Next Cell" })
+              vim.keymap.set('n', ',k', '<Plug>SlimeCellsPrev', { desc = "[Slime] Prev Cell" })
+              vim.cmd.packadd('vim-slime')
+              vim.cmd.packadd('vimplugin-vim-slime-cells')
+              StartIPython()
+            end,
+          })
         '';
       }
+      {
+        plugin = vim-slime-cells;
+        optional = true;
+      }
 
+      # {
+      #   plugin = jupyter-kernel-nvim;
+      #   optional = true;
+      #   type = "lua";
+      #   config = ''
+      #     vim.api.nvim_create_autocmd('FileType', {
+      #       desc = 'Activate jupyter-kernel for python',
+      #       pattern = 'python',
+      #       callback = function()
+      #         vim.cmd.packadd('vimplugin-jupyter-kernel-nvim')
+      #         require('jupyter-kernel.nvim').setup()
+      #         vim.keymap.set('n', ',a', '<Cmd>JupyterAttach<CR>', { desc = "[Jupyter] Attach" })
+      #         vim.keymap.set('n', ',i', '<Cmd>JupyterInspect<CR>', { desc = "[Jupyter] Inspect" })
+      #         vim.keymap.set('v', ',r', '<Cmd>JupyterExecute<CR>', { desc = "[Jupyter] Run" })
+      #       end,
+      #     })
+      #   '';
+      # }
 
-# -- lvim.builtin.which_key.mappings["t"] = {
-# --   name = "+Trouble",
-# --   r = { "<cmd>Trouble lsp_references<cr>", "References" },
-# --   f = { "<cmd>Trouble lsp_definitions<cr>", "Definitions" },
-# --   d = { "<cmd>Trouble document_diagnostics<cr>", "Diagnostics" },
-# --   q = { "<cmd>Trouble quickfix<cr>", "QuickFix" },
-# --   l = { "<cmd>Trouble loclist<cr>", "LocationList" },
-# --   w = { "<cmd>Trouble workspace_diagnostics<cr>", "Wordspace Diagnostics" },
-# -- }
-
-  # {
-  #   "jpalardy/vim-slime",
-  #   ft = { 'python' },
-  #   config = function()
-  #     vim.cmd([[
-  #     let g:slime_target = "tmux"
-  #     let g:slime_cell_delimiter = "^#\\s*%%"
-  #     " let g:slime_default_config = { "socket_name": get(split($TMUX, ","), 0), "target_pane": "{bottom-right}" }
-  #     let g:slime_default_config = { "socket_name": "default", "target_pane": "{bottom-right}" }
-  #     let g:slime_dont_ask_default = 1
-  #     " let g:slime_bracketed_paste = 1
-  #     let g:slime_no_mappings = 1
-  #     let g:slime_python_ipython = 1
-  #     nmap <leader>rv <Plug>SlimeConfig
-  #     vmap ,r <Plug>SlimeRegionSend
-  #     nmap ,R <Plug>SlimeCellsSendAndGoToNext
-  #     nmap ,r <Plug>SlimeCellsSend
-  #     nmap ,c :<C-U>call Send_Ctrl_C()<CR>
-  #     nmap ,l :<C-U>call StartIPython()<CR>
-  #     nmap ,j <Plug>SlimeCellsNext
-  #     nmap ,k <Plug>SlimeCellsPrev
-  #
-  #     function StartIPython()
-  #       let l:target_pane = shellescape(g:slime_default_config["target_pane"])
-  #       call system("tmux if -F '#{==:#{window_panes},1}' 'split-window -hd ipython'")
-  #       call system("tmux send -t " . l:target_pane . " C-u")
-  #       call system("tmux if -F '#{window_zoomed_flag}' 'resize-pane -Z'")
-  #     endfunction
-  #
-  #     function SlimeOverride_EscapeText_python(text)
-  #       call StartIPython()
-  #       return ["%cpaste -q\n", g:slime_dispatch_ipython_pause, a:text, "--\n"]
-  #     endfunction
-  #
-  #     function Send_Ctrl_C()
-  #       let l:target_pane = shellescape(g:slime_default_config["target_pane"])
-  #       call system("tmux send -t " . l:target_pane . " C-c")
-  #     endfunction
-  #
-  #
-  #     ]])
-  #   end
-  # },
-  #
-  # {
-  #   'klafyvel/vim-slime-cells',
-  #   requires = { { 'jpalardy/vim-slime', opt = true } },
-  #   ft = { 'python' },
-  # },
 
       # codeium-vim
       vim-sleuth
@@ -351,7 +395,6 @@
 
 
       # Language support
-      # vim-slime
       vim-nix
 
       null-ls-nvim
@@ -403,7 +446,8 @@
         plugin = telescope-nvim;
         type = "lua";
         config = ''
-          pcall(require('telescope').load_extension, 'fzf')
+          require("telescope").setup()
+          require('telescope').load_extension('fzf')
           vim.keymap.set('n', '<Leader>f',  "<Nop>", { desc = "Telescope" })
           vim.keymap.set('n', '<Leader>fF',
             function()
@@ -423,11 +467,13 @@
           vim.keymap.set('n', '<Leader>fc',  "<Cmd>lua require('telescope.builtin').colorscheme({enable_preview = true})<CR>", { desc = "Color Scheme" })
         '';
       }
+
+      telescope-fzf-native-nvim
+
       {
         plugin = telescope-file-browser-nvim;
         type = "lua";
         config = ''
-          require("telescope").setup()
           require("telescope").load_extension("file_browser")
           vim.keymap.set('n', '<Leader>fn',  "<Cmd>Telescope file_browser path=%:p:h<CR>", { desc = "Browser" })
           vim.keymap.set('n', '<Leader>fN',  "<Cmd>Telescope file_browser<CR>", { desc = "Browser CWD" })
@@ -445,10 +491,6 @@
 
     ];
 
-    extraConfig = ''
-      lua << EOF
-      ${builtins.readFile ./config/neovim.lua}
-      EOF
-    '';
+    extraLuaConfig = builtins.readFile ./config/neovim.lua;
   };
 }

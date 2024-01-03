@@ -21,6 +21,7 @@
       # df = "df -h";
       # du = "du -had1|sort -h";
       diff = "delta";
+      cat = "bat";
       du = "dust";
       df = "duf";
       ps = "procs";
