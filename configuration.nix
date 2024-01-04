@@ -1,17 +1,13 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-{ config, pkgs, inputs, ... }: {
+{ pkgs, inputs, ... }: {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ./timers.nix
   ];
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-  nixpkgs.overlays = [
-    inputs.nixneovimplugins.overlays.default
-  ];
 
   nixpkgs.config.permittedInsecurePackages = [
     "pulsar-1.109.0"

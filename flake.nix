@@ -9,8 +9,6 @@
     # home-manager.url = "git+file:/home/dan/Projects/dancolestock/home-manager/";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-    nixneovimplugins.url = "github:jooooscha/nixpkgs-vim-extra-plugins";
-
     agenix.url = "github:ryantm/agenix";
   };
 
