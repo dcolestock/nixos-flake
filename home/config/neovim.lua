@@ -53,6 +53,78 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
+function outputbuffersl()
+  local returnval = ""
+  for i,v in ipairs(vim.fn.getbufinfo()) do
+    -- local te = vim.fn.json_encode({ bufnr = v.bufnr, changed = v.changed, windows = v.windows, name = (v.name~="") })
+    local te = vim.fn.json_encode(v)
+    returnval = returnval .. te .. "\n"
+  end
+  return returnval
+end
+
+function log2(name)
+  logfile = io.open("/tmp/nvim.dan/buftest.log", "a")
+  logfile:write("\n" .. name .. "\n" .. outputbuffersl())
+  logfile:close()
+end
+
+vim.api.nvim_create_autocmd("BufDelete", {
+  desc = "Testing",
+  pattern = "*",
+  callback = function()
+    logfile = io.open("/tmp/nvim.dan/buftest.log", "a")
+    logfile:write("\nBuffDelete\n" .. outputbuffersl())
+    logfile:close()
+  end,
+})
+
+
+vim.api.nvim_create_autocmd("BufDelete", {
+  desc = "Delete All Buffers - Recursive issue?",
+  pattern = "*",
+  callback = function(event)
+    found = false
+    log2("before check")
+    for i,v in ipairs(vim.fn.getbufinfo({ buflisted = 1 })) do
+      if v.bufnr and v.bufnr ~= event.buf and vim.api.nvim_buf_is_valid(v.bufnr) then
+        if v.changed == 1 or v.name ~= "" then
+          print(vim.inspect(v))
+          return
+        else
+          found = true
+        end
+      end
+    end
+    -- Check important when opening a empty vim since alpha opens automatically and deletes 
+    if not found then
+      return
+    end
+    vim.api.nvim_command("Alpha")
+    log2("After Alpha Open")
+    for i,v in ipairs(vim.fn.getbufinfo({ buflisted = 1 })) do
+      if v.bufnr and v.bufnr ~= event.buf and vim.api.nvim_buf_is_valid(v.bufnr) then
+        print(v.bufnr, event.buf)
+        pcall(vim.api.nvim_buf_delete, v.bufnr, {})
+      end
+    end
+  end,
+})
+
+if vim.version.cmp(vim.version(), { 0, 10, 0 }) >= 0 then
+  local osc52 = require('vim.ui.clipboard.osc52')
+  vim.g.clipboard = {
+    name = 'OSC 52',
+    copy = {
+      ['+'] = osc52.copy('+'),
+      ['*'] = osc52.copy('*'),
+    },
+    paste = {
+      ['+'] = osc52.paste('+'),
+      ['*'] = osc52.paste('*'),
+    },
+  }
+end
 
 -- ------------- --
 --    Keymaps    --
@@ -85,7 +157,7 @@ local function toggle_visuals()
 end
 vim.keymap.set('n', '<F2>', toggle_visuals, {noremap = true, silent = true, desc = "Toggle Decorations"} )
 vim.keymap.set('n', '<CR>', '<Cmd>nohlsearch<CR><CR>', { desc = "Clear Search" })
-
+vim.keymap.set('n', 'ZS', 'ZQ', { desc = "Force Quit" })
 
 -- Remap for dealing with word wrap
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
@@ -110,8 +182,10 @@ vim.keymap.set('n', '<Leader>lps',  vim.diagnostic.setloclist, { desc = "Set Loc
 vim.keymap.set('v', 'p',  "\"_dP", { desc = "Paste Without Yanking" })
 vim.keymap.set('v', ",'",  "<C-v>I'<Esc>gv$A',<ESC>gvgJ$r<Cmd>keeppatterns s/\\(.\\{-\\},\\)\\{10\\}/&\r/g<CR>", { desc = "Comma Separate and Quote List" })
 
-vim.keymap.set('n', '<Leader>c',  "<Cmd>:bdelete<CR>", { desc = "Close Buffer" })
-vim.keymap.set('n', '<Leader>C',  "<Cmd>:bdelete!<CR>", { desc = "Force Close Buffer" })
+vim.keymap.set('n', '<Leader>c', "<Cmd>bdelete<CR>", { desc = "Close Buffer" })
+vim.keymap.set('n', '<Leader>C', "<Cmd>bdelete!<CR>", { desc = "Force Close Buffer" })
+
+
 
 
           -- lvim.keys.normal_mode[",<Tab>"] = "<Cmd>tabNext<CR>"

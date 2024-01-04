@@ -485,7 +485,7 @@ in
         type = "lua";
         config = ''
           require("alpha").setup(require("alpha.themes.startify").config)
-          vim.keymap.set('n', '<Leader>;',  "<Cmd>alpha<CR>", { desc = "Dashboard" })
+          vim.keymap.set('n', '<Leader>;',  "<Cmd>Alpha<CR>", { desc = "Dashboard" })
         '';
       }
 
