@@ -53,64 +53,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
-function outputbuffersl()
-  local returnval = ""
-  for i,v in ipairs(vim.fn.getbufinfo()) do
-    -- local te = vim.fn.json_encode({ bufnr = v.bufnr, changed = v.changed, windows = v.windows, name = (v.name~="") })
-    local te = vim.fn.json_encode(v)
-    returnval = returnval .. te .. "\n"
-  end
-  return returnval
-end
-
-function log2(name)
-  logfile = io.open("/tmp/nvim.dan/buftest.log", "a")
-  logfile:write("\n" .. name .. "\n" .. outputbuffersl())
-  logfile:close()
-end
-
-vim.api.nvim_create_autocmd("BufDelete", {
-  desc = "Testing",
-  pattern = "*",
-  callback = function()
-    logfile = io.open("/tmp/nvim.dan/buftest.log", "a")
-    logfile:write("\nBuffDelete\n" .. outputbuffersl())
-    logfile:close()
-  end,
-})
-
-
-vim.api.nvim_create_autocmd("BufDelete", {
-  desc = "Delete All Buffers - Recursive issue?",
-  pattern = "*",
-  callback = function(event)
-    found = false
-    log2("before check")
-    for i,v in ipairs(vim.fn.getbufinfo({ buflisted = 1 })) do
-      if v.bufnr and v.bufnr ~= event.buf and vim.api.nvim_buf_is_valid(v.bufnr) then
-        if v.changed == 1 or v.name ~= "" then
-          print(vim.inspect(v))
-          return
-        else
-          found = true
-        end
-      end
-    end
-    -- Check important when opening a empty vim since alpha opens automatically and deletes 
-    if not found then
-      return
-    end
-    vim.api.nvim_command("Alpha")
-    log2("After Alpha Open")
-    for i,v in ipairs(vim.fn.getbufinfo({ buflisted = 1 })) do
-      if v.bufnr and v.bufnr ~= event.buf and vim.api.nvim_buf_is_valid(v.bufnr) then
-        print(v.bufnr, event.buf)
-        pcall(vim.api.nvim_buf_delete, v.bufnr, {})
-      end
-    end
-  end,
-})
-
 if vim.version.cmp(vim.version(), { 0, 10, 0 }) >= 0 then
   local osc52 = require('vim.ui.clipboard.osc52')
   vim.g.clipboard = {
