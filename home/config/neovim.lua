@@ -7,7 +7,6 @@
 -- ------------- --
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
-
 vim.o.undofile = true
 
 -- Behavior --
@@ -105,20 +104,53 @@ vim.keymap.set('n', 'ZS', 'ZQ', { desc = "Force Quit" })
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
-vim.keymap.set('n', '<Leader>l', '<Nop>', { desc = 'LSP' })
-vim.keymap.set('n', '<Leader>lf',  function() vim.lsp.buf.format { async = true } end, { desc = "Format" })
-vim.keymap.set('n', '<Leader>ld',  vim.lsp.buf.definition, { desc = "Definition" })
-vim.keymap.set('n', '<Leader>lD',  vim.lsp.buf.declaration, { desc = "Declaration" })
-vim.keymap.set('n', '<Leader>li',  vim.lsp.buf.implementation, { desc = "Implementation" })
-vim.keymap.set('n', '<Leader>lr',  vim.lsp.buf.rename, { desc = "Rename" })
-vim.keymap.set('n', '<Leader>lR',  vim.lsp.buf.references, { desc = "References" })
-vim.keymap.set('n', '<Leader>l ',  vim.lsp.buf.hover, { desc = "Hover" })
-vim.keymap.set('n', '<Leader>la',  vim.lsp.buf.code_action, { desc = "Code Action" })
-vim.keymap.set('n', '<Leader>ls',  vim.lsp.buf.signature_help, { desc = "Signature Help" })
-vim.keymap.set('n', '<Leader>lpp',  vim.diagnostic.goto_prev, { desc = "Goto Prev" })
-vim.keymap.set('n', '<Leader>lpn',  vim.diagnostic.goto_next, { desc = "Goto Next" })
-vim.keymap.set('n', '<Leader>lpf',  vim.diagnostic.open_float, { desc = "Open Float" })
-vim.keymap.set('n', '<Leader>lps',  vim.diagnostic.setloclist, { desc = "Set Loc List" })
+-- vim.keymap.set('n', '<Leader>l', '<Nop>', { desc = 'LSP' })
+-- vim.keymap.set('n', '<Leader>lf',  function() vim.lsp.buf.format { async = true } end, { desc = "Format" })
+-- vim.keymap.set('n', '<Leader>ld',  vim.lsp.buf.definition, { desc = "Definition" })
+-- vim.keymap.set('n', '<Leader>lt',  vim.lsp.buf.type_definition, { desc = "Definition" })
+-- vim.keymap.set('n', '<Leader>lD',  vim.lsp.buf.declaration, { desc = "Declaration" })
+-- vim.keymap.set('n', '<Leader>li',  vim.lsp.buf.implementation, { desc = "Implementation" })
+-- vim.keymap.set('n', '<Leader>lr',  vim.lsp.buf.rename, { desc = "Rename" })
+-- vim.keymap.set('n', '<Leader>lR',  vim.lsp.buf.references, { desc = "References" })
+-- vim.keymap.set('n', '<Leader>l ',  vim.lsp.buf.hover, { desc = "Hover" })
+-- vim.keymap.set({'n', 'v'}, '<Leader>la',  vim.lsp.buf.code_action, { desc = "Code Action" })
+-- vim.keymap.set('n', '<Leader>ls',  vim.lsp.buf.signature_help, { desc = "Signature Help" })
+-- vim.keymap.set('n', '[d',  vim.diagnostic.goto_prev, { desc = "[Diag] Goto Prev" })
+-- vim.keymap.set('n', ']d',  vim.diagnostic.goto_next, { desc = "[Diag] Goto Next" })
+-- vim.keymap.set('n', '<Leader>lpf',  vim.diagnostic.open_float, { desc = "Open Float" })
+-- vim.keymap.set('n', '<Leader>lps',  vim.diagnostic.setloclist, { desc = "Set Loc List" })
+--
+
+vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, { desc = "Open Float" })
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = "[Diag] Next" })
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = "[Diag] Prev" })
+vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, { desc = "Set Loc List" })
+
+
+vim.api.nvim_create_autocmd('LspAttach', {
+  group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+  callback = function(ev)
+    -- Enable completion triggered by <c-x><c-o>
+    vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+
+    -- Buffer local mappings.
+    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { buffer = ev.buf, desc = "Declaration" })
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = ev.buf, desc = "Definition" })
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = ev.buf, desc = "Hover" })
+    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, { buffer = ev.buf, desc = "Implementation" })
+    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, { buffer = ev.buf, desc = "Signature Help" })
+    vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, { buffer = ev.buf, desc = "Add Workspace Folder" })
+    vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, { buffer = ev.buf, desc = "Remove Workspace Folder" })
+    vim.keymap.set('n', '<space>wl', function()
+      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    end, { buffer = ev.buf, desc = "List Workspace Folders" })
+    vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, { buffer = ev.buf, desc = "Type Definition" })
+    vim.keymap.set('n', '<space>lr', vim.lsp.buf.rename, { buffer = ev.buf, desc = "Rename" })
+    vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, { buffer = ev.buf, desc = "Code Action" })
+    vim.keymap.set('n', 'gr', vim.lsp.buf.references, { buffer = ev.buf, desc = "References" })
+    vim.keymap.set('n', '<space>lf', function() vim.lsp.buf.format { async = true } end, { buffer = ev.buf, desc = "Format" })
+  end,
+})
 
 
 vim.keymap.set('v', 'p',  "\"_dP", { desc = "Paste Without Yanking" })

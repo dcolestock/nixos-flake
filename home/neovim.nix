@@ -9,6 +9,15 @@ let
       sha256 = "sha256-d3+uH+LuIbrBFNp5BCHca2m94RN2asGgzQojC2f6yoQ=";
     };
   };
+  lazy-nix-helper-nvim = pkgs.vimUtils.buildVimPlugin {
+    name = "lazy-nix-helper.nvim";
+    src = pkgs.fetchFromGitHub {
+      owner = "b-src";
+      repo = "lazy-nix-helper.nvim";
+      rev = "63b20ed071647bb492ed3256fbda709e4bfedc45";
+      hash = "sha256-kixj0000000000w8EbG4aebtFxqp0Ibx3rtOCwO9Xi4=";
+    };
+  };
   jupyter-kernel-nvim = pkgs.vimUtils.buildVimPlugin {
     name = "jupyter-kernel-nvim";
     src = pkgs.fetchFromGitHub {
@@ -29,6 +38,15 @@ in
       python-lsp-server
       jupyter_client
       pynvim
+      python-lsp-ruff
+      pyls-isort
+      pylsp-rope
+      pylsp-mypy
+      black
+      isort
+      mypy
+      flake8
+      ruff-lsp
     ];
 
     extraPackages = with pkgs; [
@@ -102,7 +120,7 @@ in
       {
         plugin = mini-nvim;
         type = "lua";
-        config = ''
+        config = /*lua*/ ''
           require('mini.animate').setup()
           require('mini.basics').setup()
           require('mini.bracketed').setup()
@@ -166,7 +184,7 @@ in
         plugin = vim-slime;
         type = "lua";
         optional = true;
-        config = ''
+        config = /*lua*/ ''
           vim.api.nvim_create_autocmd('FileType', {
             desc = 'Activate vim-slime for python',
             pattern = 'python',
@@ -183,14 +201,16 @@ in
               vim.g.slime_no_mappings = 1
               vim.g.slime_python_ipython = 0 -- No %cpasted needed if using tmux's bracketed paste
 
+
+              function StartIPython()
+                vim.fn.system("tmux if -F '#{==:#{window_panes},1}' 'split-window -hdZ ipython'")
+              end
+
               function UnhideSlimeAndClear()
                 local target_pane = vim.fn.shellescape(vim.g.slime_default_config["target_pane"])
                 vim.fn.system("tmux if -F '#{window_zoomed_flag}' 'resize-pane -Z'")
                 vim.fn.system("tmux send -t " .. target_pane .. " C-u")
-              end
-
-              function StartIPython()
-                vim.fn.system("tmux if -F '#{==:#{window_panes},1}' 'split-window -hdZ ipython'")
+                StartIPython()
               end
 
               vim.cmd([[function! SlimeOverride_EscapeText_python(text)
@@ -238,7 +258,7 @@ in
       #   plugin = jupyter-kernel-nvim;
       #   optional = true;
       #   type = "lua";
-      #   config = ''
+      #   config = /*lua*/ ''
       #     vim.api.nvim_create_autocmd('FileType', {
       #       desc = 'Activate jupyter-kernel for python',
       #       pattern = 'python',
@@ -264,7 +284,7 @@ in
       {
         plugin = nvim-lspconfig;
         type = "lua";
-        config = ''
+        config = /*lua*/ ''
           local lspconfig = require("lspconfig")
           -- Bash --
           lspconfig.bashls.setup{}
@@ -295,23 +315,8 @@ in
           }
 
           -- Python --
-          -- lspconfig.pyright.setup{}
-          lspconfig.pylsp.setup{
-            settings = {
-              pylsp = {
-                plugins = {
-                  ruff = {
-                    enable = true,
-                    -- select = { "All" },
-                    -- format = { "All" },
-                  },
-                  rope = { enabled = true },
-                  rope_autoimport = { enabled = true },
-                }
-              }
-            }
-          }
-          -- lspconfig.ruff_lsp.setup{}
+          lspconfig.pyright.setup{}
+          lspconfig.ruff_lsp.setup{}
 
           -- Nix --
           lspconfig.nil_ls.setup{} -- nix language server - no format
@@ -329,7 +334,7 @@ in
       {
         plugin = nvim-cmp;
         type = "lua";
-        config = ''
+        config = /*lua*/ ''
           local cmp = require("cmp")
           cmp.setup {
             snippet = {
@@ -376,7 +381,7 @@ in
       {
         plugin = cmp-cmdline;
         type = "lua";
-        config = ''
+        config = /*lua*/ ''
           cmp.setup.cmdline(":", {
             mapping = cmp.mapping.preset.cmdline(),
             sources = cmp.config.sources({
@@ -400,7 +405,18 @@ in
       null-ls-nvim
       # vim-markdown
 
-      nvim-treesitter.withAllGrammars
+      {
+        plugin = nvim-treesitter.withAllGrammars;
+        type = "lua";
+        config = /*lua*/ ''
+          require'nvim-treesitter.configs'.setup {
+            highlight = {
+              enable = true,
+              additional_vim_regex_highlighting = false,
+            },
+          }
+        '';
+      }
 
       # Color Schemes
       tokyonight-nvim
@@ -414,7 +430,7 @@ in
       {
         plugin = lualine-nvim;
         type = "lua";
-        config = ''
+        config = /*lua*/ ''
           require("lualine").setup{
             options = {
               theme = "onedark"
@@ -426,7 +442,7 @@ in
       {
         plugin = bufferline-nvim;
         type = "lua";
-        config = ''
+        config = /*lua*/ ''
           require("bufferline").setup{}
           vim.keymap.set('n', '<Leader>b',  "<Cmd>BufferLineCycleNext<CR>", { desc = "Buffer Next" })
           vim.keymap.set('n', '<Leader>B',  "<Cmd>BufferLineCyclePrev<CR>", { desc = "Buffer Prev" })
@@ -436,7 +452,7 @@ in
       {
         plugin = lazygit-nvim;
         type = "lua";
-        config = ''
+        config = /*lua*/ ''
           vim.keymap.set('n', '<Leader>gg',  "<Cmd>LazyGit<CR>", { desc = "LazyGit" })
         '';
       }
@@ -445,7 +461,7 @@ in
       {
         plugin = telescope-nvim;
         type = "lua";
-        config = ''
+        config = /*lua*/ ''
           require("telescope").setup()
           require('telescope').load_extension('fzf')
           vim.keymap.set('n', '<Leader>f',  "<Nop>", { desc = "Telescope" })
@@ -473,7 +489,7 @@ in
       {
         plugin = telescope-file-browser-nvim;
         type = "lua";
-        config = ''
+        config = /*lua*/ ''
           require("telescope").load_extension("file_browser")
           vim.keymap.set('n', '<Leader>fn',  "<Cmd>Telescope file_browser path=%:p:h<CR>", { desc = "Browser" })
           vim.keymap.set('n', '<Leader>fN',  "<Cmd>Telescope file_browser<CR>", { desc = "Browser CWD" })
@@ -483,7 +499,7 @@ in
       {
         plugin = alpha-nvim;
         type = "lua";
-        config = ''
+        config = /*lua*/ ''
           require("alpha").setup(require("alpha.themes.startify").config)
           vim.keymap.set('n', '<Leader>;',  "<Cmd>Alpha<CR>", { desc = "Dashboard" })
         '';

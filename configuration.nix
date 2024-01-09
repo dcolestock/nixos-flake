@@ -112,6 +112,8 @@
     ];
   };
 
+  virtualisation.waydroid.enable = true;
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
@@ -169,6 +171,7 @@
     pulsar
     wireshark
     kicad
+    nyxt
 
     # Games
     endless-sky
