@@ -7,6 +7,7 @@ let
     ipykernel
     jupyter
 
+    # Images
     pillow
     types-pillow
 
@@ -19,6 +20,7 @@ let
     sortedcontainers
     ply
     pygraphviz
+    jsondiff
 
     # Utilities
     more-itertools
