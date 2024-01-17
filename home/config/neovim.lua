@@ -22,7 +22,7 @@ vim.o.timeout = true
 vim.o.timeoutlen = 300
 vim.o.updatetime = 250
 vim.o.completeopt = "menuone,noselect"
-vim.o.clipboard = "unnamedplus"
+vim.o.clipboard = "unnamedplus,unnamed"
 
 -- Mouse --
 vim.o.mouse = "a"
@@ -66,6 +66,50 @@ if vim.version.cmp(vim.version(), { 0, 10, 0 }) >= 0 then
     },
   }
 end
+-- ------------- --
+--  Treesitter   --
+-- ------------- --
+local nix_embedded_lua = vim.treesitter.query.parse(
+  "nix",
+  [[
+  (binding_set
+    (binding
+      attrpath: (attrpath) @_typename (#eq? @_typename "type")
+      expression: (_
+                    (string_fragment) @_typevalue (#eq? @_typevalue "lua")))
+    (binding
+      attrpath: (attrpath) @_configname (#eq? @_configname "config")
+      expression: (_
+                    (string_fragment) @lua)
+      )
+    )
+  ]]
+)
+
+local python_embedded_sql = vim.treesitter.query.parse(
+  "python",
+  [[
+  (assignment
+    left: (identifier) @_varname
+    (#match? @_varname "query$")
+    right: (string (string_content) @sql)
+    (#match? @sql "^[\n \t\s]*([sS](elect|ELECT)|[iI](nsert|NSERT)|[uU](pdate|PDATE)|[cC](reate|REATE)|[dD](elete|ELETE)|[aA](lter|LTER)|[dD](rop|ROP))[\n \t\s]+")
+  )
+  (call
+    function: [
+      (attribute attribute: (identifier) @_funcname)
+      (identifier) @_funcname]
+    (#match? @_funcname "^(runquery|read_sql|execute)$")
+    arguments: (argument_list . (string (string_content) @sql))
+  )
+]])
+
+local get_root = function(bufnr)
+  local parser = vim.treesitter.get_parser(bufnr, "nix", {})
+  local tree = parser:parse()[1]
+  return tree:root()
+end
+
 
 -- ------------- --
 --    Keymaps    --
@@ -103,6 +147,11 @@ vim.keymap.set('n', 'ZS', 'ZQ', { desc = "Force Quit" })
 -- Remap for dealing with word wrap
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+
+vim.keymap.set("n", "<C-J>", "<C-W><C-J>")
+vim.keymap.set("n", "<C-H>", "<C-W><C-H>")
+vim.keymap.set("n", "<C-K>", "<C-W><C-K>")
+vim.keymap.set("n", "<C-L>", "<C-W><C-L>")
 
 -- vim.keymap.set('n', '<Leader>l', '<Nop>', { desc = 'LSP' })
 -- vim.keymap.set('n', '<Leader>lf',  function() vim.lsp.buf.format { async = true } end, { desc = "Format" })

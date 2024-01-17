@@ -34,6 +34,7 @@ in
     viAlias = true;
     vimAlias = true;
     withPython3 = true;
+    package = pkgs.neovim-nightly;
     extraPython3Packages = pyPkgs: with pyPkgs; [
       python-lsp-server
       jupyter_client
@@ -417,6 +418,7 @@ in
           }
         '';
       }
+      playground
 
       # Color Schemes
       tokyonight-nvim
