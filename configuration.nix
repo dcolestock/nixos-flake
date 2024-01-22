@@ -73,11 +73,6 @@
   # services.xserver.desktopManager.gnome.enable = true;
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
-  environment.plasma5.excludePackages = with pkgs.libsForQt5; [
-    plasma-browser-integration
-    konsole
-    oxygen
-  ];
 
   # Configure keymap in X11
   services.xserver = {
@@ -95,6 +90,12 @@
 
   hardware.logitech.wireless.enable = true;
   hardware.logitech.wireless.enableGraphical = true;
+  hardware = {
+    bluetooth = {
+      enable = true;
+      settings.General.Experimental = true;
+    };
+  };
 
   # Enable sound with pipewire.
   sound.enable = true;
@@ -185,6 +186,7 @@
     wireshark
     kicad
     nyxt
+    libsForQt5.krfb
 
     # Games
     endless-sky
@@ -245,6 +247,7 @@
     git.enable = true;
     wireshark.enable = true;
     adb.enable = true;
+    kdeconnect.enable = true;
   };
 
   # Disable the GNOME3/GDM auto-suspend feature that cannot be disabled in GUI!
