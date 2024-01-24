@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 let
   vim-slime-cells = pkgs.vimUtils.buildVimPlugin {
     name = "vim-slime-cells";
@@ -34,7 +34,7 @@ in
     viAlias = true;
     vimAlias = true;
     withPython3 = true;
-    package = pkgs.neovim-nightly;
+    # package = pkgs.neovim-nightly;
     extraPython3Packages = pyPkgs: with pyPkgs; [
       python-lsp-server
       jupyter_client
@@ -53,6 +53,14 @@ in
     extraPackages = with pkgs; [
       ### Language Servers ###
       nodePackages.bash-language-server
+      nodePackages.sql-formatter
+      stylua
+      ruff
+      alejandra
+      codespell
+      # sqlfluff
+      # sqls
+
       lua-language-server
       nodejs
       nil
@@ -316,6 +324,7 @@ in
             },
           }
 
+          -- lspconfig.sqls.setup{}
           -- Python --
           lspconfig.pyright.setup{}
           lspconfig.ruff_lsp.setup{}
@@ -329,6 +338,27 @@ in
 
           -- Diagnostic --
           -- lspconfig.diagnosticls.setup{}
+        '';
+      }
+
+      {
+        plugin = conform-nvim;
+        type = "lua";
+        config = /*lua*/ ''
+          require("conform").setup({
+            formatters_by_ft = {
+              lua = { "stylua" },
+              python = { "isort", "ruff_format", "ruff_fix" },
+              nix = { "alejandra" },
+              sql = { "sql_formatter" },
+              ["*"] = { "injected", "codespell" },
+              ["_"] = { "trim_whitespace" },
+            },
+          })
+          require("conform").formatters.sql_formatter = {
+            prepend_args = { "--config", vim.fn.expand("~/.config/nvim/sql_formatter.json") },
+          }
+          vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
         '';
       }
 
@@ -418,7 +448,12 @@ in
               enable = true,
               disable = function(_, bufnr) return vim.b[bufnr].large_buf end,
             },
-            incremental_selection = { enable = true },
+            incremental_selection = {
+              enable = true,
+              keymaps = {
+                node_incremental = "v",
+              },
+            },
             indent = { enable = true },
             textobjects = {
               select = {
@@ -572,5 +607,14 @@ in
     ];
 
     extraLuaConfig = builtins.readFile ./config/neovim.lua;
+  };
+  xdg.configFile = with config.lib.file; {
+    "nvim/queries".source = mkOutOfStoreSymlink ./nvimqueries;
+    "nvim/sql_formatter.json".text = ''
+      {
+        "language": "sqlite",
+        "keywordCase": "preserve"
+      }
+    '';
   };
 }

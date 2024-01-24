@@ -44,8 +44,8 @@ vim.wo.signcolumn = "yes"
 -- Autocommands  --
 -- ------------- --
 vim.api.nvim_create_autocmd("TextYankPost", {
-  group = vim.api.nvim_create_augroup("highlight_yank", {}),
   desc = "Hightlight selection on yank",
+  group = vim.api.nvim_create_augroup("highlight_yank", {}),
   pattern = "*",
   callback = function()
     vim.highlight.on_yank { higroup = "IncSearch", timeout = 150 }
@@ -66,6 +66,45 @@ if vim.version.cmp(vim.version(), { 0, 10, 0 }) >= 0 then
     },
   }
 end
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+  desc = "Format on save [Conform.nvim]",
+  pattern = "*",
+  callback = function(args)
+    require("conform").format({ bufnr = args.buf })
+  end,
+})
+
+vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+  desc = "mkdir if folder doesn't exist",
+  pattern = "*",
+  callback = function()
+    local function auto_mkdir(dir, force)
+      if not dir or string.len(dir) == 0 then
+        return
+      end
+      local stats = vim.uv.fs_stat(dir)
+      local is_directory = (stats and stats.type == "directory") or false
+      if string.match(dir, "^%w%+://") or is_directory or string.match(dir, "^suda:") then
+        return
+      end
+      if not force then
+        vim.fn.inputsave()
+        local result = vim.fn.input(string.format('"%s" does not exist. Create? [y/N]', dir), "")
+        if string.len(result) == 0 then
+          print("Canceled")
+          return
+        end
+        vim.fn.inputrestore()
+      end
+      vim.fn.mkdir(dir, "p")
+    end
+    auto_mkdir(vim.fn.expand("<afile>:p:h"), vim.v.cmdbang)
+  end,
+  once = false,
+})
+
+
 -- ------------- --
 --  Treesitter   --
 -- ------------- --
@@ -174,7 +213,19 @@ vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, { desc = "Open Float"
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = "[Diag] Next" })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = "[Diag] Prev" })
 vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, { desc = "Set Loc List" })
-
+vim.keymap.set('n', '<space>lf', function() require("conform").format { async = true } end, { desc = "Format" })
+vim.api.nvim_create_user_command("Format", function(args)
+  local range = nil
+  if args.count ~= -1 then
+    local end_line = vim.api.nvim_buf_get_lines(0, args.line2 - 1, args.line2, true)[1]
+    range = {
+      start = { args.line1, 0 },
+      ["end"] = { args.line2, end_line:len() },
+    }
+  end
+  require("conform").format({ async = true, lsp_fallback = true, range = range })
+end, { range = true })
+vim.keymap.set('v', '<space>lf', "<Cmd>Format<CR>", { desc = "Format" })
 
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('UserLspConfig', {}),
@@ -197,7 +248,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', '<space>lr', vim.lsp.buf.rename, { buffer = ev.buf, desc = "Rename" })
     vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, { buffer = ev.buf, desc = "Code Action" })
     vim.keymap.set('n', 'gr', vim.lsp.buf.references, { buffer = ev.buf, desc = "References" })
-    vim.keymap.set('n', '<space>lf', function() vim.lsp.buf.format { async = true } end, { buffer = ev.buf, desc = "Format" })
   end,
 })
 

@@ -1,19 +1,23 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-{ pkgs, inputs, ... }: {
+{
+  pkgs,
+  inputs,
+  ...
+}: {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ./timers.nix
   ];
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = ["nix-command" "flakes"];
 
-  nixpkgs = {
-    overlays = [
-      inputs.neovim-nightly-overlay.overlay
-    ];
-  };
+  # nixpkgs = {
+  #   overlays = [
+  #     inputs.neovim-nightly-overlay.overlay
+  #   ];
+  # };
 
   nixpkgs.config.permittedInsecurePackages = [
     "pulsar-1.109.0"
@@ -57,7 +61,7 @@
   services.resolved.enable = true;
 
   # Video Card Drivers
-  services.xserver.videoDrivers = [ "amdgpu" ];
+  services.xserver.videoDrivers = ["amdgpu"];
   hardware.opengl.driSupport = true;
   # For 32 bit applications
   hardware.opengl.driSupport32Bit = true;
@@ -84,7 +88,7 @@
   services.printing.enable = true;
   services.avahi.enable = true;
   services.avahi.nssmdns4 = true;
-  services.printing.drivers = [ pkgs.brlaser ];
+  services.printing.drivers = [pkgs.brlaser];
 
   services.gnome.gnome-remote-desktop.enable = true;
 
@@ -121,7 +125,7 @@
   users.users.dan = {
     isNormalUser = true;
     description = "dan";
-    extraGroups = [ "networkmanager" "wheel" "adbusers" "wireshark" ];
+    extraGroups = ["networkmanager" "wheel" "adbusers" "wireshark"];
     packages = with pkgs; [
     ];
   };
@@ -140,8 +144,8 @@
     fd
     fzf
     ripgrep
-    xclip
-    xsel
+    wl-clipboard
+    wl-clipboard-x11
     tree
     wget
     curl
@@ -154,6 +158,7 @@
     procs
     tldr
     nodePackages.pyright
+    nodePackages.sql-formatter
 
     # General Command Line Applications
     taskwarrior
@@ -219,7 +224,7 @@
   ];
 
   fonts.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
+    (nerdfonts.override {fonts = ["JetBrainsMono"];})
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -262,7 +267,7 @@
   # Enable the OpenSSH daemon.
   services.openssh = {
     enable = true;
-    ports = [ 33221 ];
+    ports = [33221];
     settings = {
       PasswordAuthentication = false;
       KbdInteractiveAuthentication = false;
@@ -286,8 +291,8 @@
   security.polkit.enable = true;
 
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 3389 ];
-  networking.firewall.allowedUDPPorts = [ 3389 ];
+  networking.firewall.allowedTCPPorts = [3389];
+  networking.firewall.allowedUDPPorts = [3389];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
