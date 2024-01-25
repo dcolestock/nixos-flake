@@ -167,6 +167,10 @@
 
     (writers.writePython3Bin "dconfwatch" { } (builtins.readFile ./scripts/dconfwatch.py))
 
+    (writers.writePython3Bin "sqlparser" {
+      libraries = [ pkgs.python3Packages.sqlparse ];
+    } (builtins.readFile ./scripts/sqlparser.py))
+
     (writeShellApplication {
       name = "ee";
       runtimeInputs = [ fzf ];

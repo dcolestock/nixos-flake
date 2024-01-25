@@ -67,42 +67,34 @@ if vim.version.cmp(vim.version(), { 0, 10, 0 }) >= 0 then
   }
 end
 
-vim.api.nvim_create_autocmd("BufWritePre", {
-  desc = "Format on save [Conform.nvim]",
-  pattern = "*",
-  callback = function(args)
-    require("conform").format({ bufnr = args.buf })
-  end,
-})
-
-vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-  desc = "mkdir if folder doesn't exist",
-  pattern = "*",
-  callback = function()
-    local function auto_mkdir(dir, force)
-      if not dir or string.len(dir) == 0 then
-        return
-      end
-      local stats = vim.uv.fs_stat(dir)
-      local is_directory = (stats and stats.type == "directory") or false
-      if string.match(dir, "^%w%+://") or is_directory or string.match(dir, "^suda:") then
-        return
-      end
-      if not force then
-        vim.fn.inputsave()
-        local result = vim.fn.input(string.format('"%s" does not exist. Create? [y/N]', dir), "")
-        if string.len(result) == 0 then
-          print("Canceled")
-          return
-        end
-        vim.fn.inputrestore()
-      end
-      vim.fn.mkdir(dir, "p")
-    end
-    auto_mkdir(vim.fn.expand("<afile>:p:h"), vim.v.cmdbang)
-  end,
-  once = false,
-})
+-- vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+--   desc = "mkdir if folder doesn't exist",
+--   pattern = "*",
+--   callback = function()
+--     local function auto_mkdir(dir, force)
+--       if not dir or string.len(dir) == 0 then
+--         return
+--       end
+--       local stats = vim.uv.fs_stat(dir)
+--       local is_directory = (stats and stats.type == "directory") or false
+--       if string.match(dir, "^%w%+://") or is_directory or string.match(dir, "^suda:") then
+--         return
+--       end
+--       if not force then
+--         vim.fn.inputsave()
+--         local result = vim.fn.input(string.format('"%s" does not exist. Create? [y/N]', dir), "")
+--         if string.len(result) == 0 then
+--           print("Canceled")
+--           return
+--         end
+--         vim.fn.inputrestore()
+--       end
+--       vim.fn.mkdir(dir, "p")
+--     end
+--     auto_mkdir(vim.fn.expand("<afile>:p:h"), vim.v.cmdbang)
+--   end,
+--   once = false,
+-- })
 
 
 -- ------------- --

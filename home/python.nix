@@ -45,6 +45,7 @@ let
     mypy
     flake8
     ruff-lsp
+    sqlparse
 
     # Machine Learning
     scikit-learn
