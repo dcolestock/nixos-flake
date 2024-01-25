@@ -172,10 +172,10 @@
     openjdk17
     libgccjit
     poetry
-    libGL
-    libsForQt5.qtwayland
-    qt5.qtwayland
-    qt6.qtwayland
+    # libGL
+    # libsForQt5.qtwayland
+    # qt5.qtwayland
+    # qt6.qtwayland
 
     # GUI Applications
     keepassxc

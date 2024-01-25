@@ -351,13 +351,13 @@ in
               lua = { "stylua" },
               python = { "isort", "ruff_format", "ruff_fix" },
               nix = { "alejandra" },
-              sql = { "sqlparser" },
+              sql = { "sqlcustom" },
               sh = { "shfmt" },
               ["*"] = { "injected", "codespell" },
               ["_"] = { "trim_whitespace" },
             },
             formatters = {
-              sqlparser = {
+              sqlcustom = {
                 command = "sqlparser",
                 prepend_args = function(self, ctx)
                   return ctx.range

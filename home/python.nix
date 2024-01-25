@@ -25,7 +25,7 @@ let
     # Utilities
     more-itertools
     tqdm
-    aocd
+    # aocd
     icecream
     rich
 

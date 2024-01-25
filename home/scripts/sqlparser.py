@@ -1,5 +1,5 @@
 import sys
-import sqlparse
+from subprocess import Popen, PIPE
 from pathlib import Path
 
 logfile = Path.home() / "sqlparser.log"
@@ -8,18 +8,13 @@ contents = sys.stdin.read()
 
 with logfile.open("a") as f:
     f.write("\n\n" + repr(contents))
+    f.write(f"\nargs:{sys.argv}")
 
-result = sqlparse.format(
-    contents,
-    keyword_case="upper",
-    identifier_case="lower",
-    reindent=True,
-    reindent_aligned=True,
-    output_format="sql",
-    wrap_after=80,
-    comma_first=False,
-)
+p = Popen(['sql-formatter'], stdout=PIPE, stdin=PIPE, stderr=PIPE)
+result = p.communicate(input=contents.encode())[0].decode()
 
+# Keep as one line if started as one line to prevent
+# messing up SQL in regular quotes (not always in block quotes)
 if "\n" not in contents.removesuffix("\n"):
     result = " ".join(line.strip() for line in result.splitlines()) + "\n"
 
