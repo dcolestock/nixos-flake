@@ -34,7 +34,7 @@ in
     viAlias = true;
     vimAlias = true;
     withPython3 = true;
-    # package = pkgs.neovim-nightly;
+    package = pkgs.neovim-nightly;
     extraPython3Packages = pyPkgs: with pyPkgs; [
       python-lsp-server
       jupyter_client
@@ -287,6 +287,7 @@ in
 
       # codeium-vim
       vim-sleuth
+      nvim-lastplace
 
       plenary-nvim
       nvim-snippy
@@ -362,7 +363,10 @@ in
                 prepend_args = function(self, ctx)
                   return ctx.range
                 end,
-              }
+              },
+              stylua = {
+                prepend_args = { "--indent-type", "Spaces", "--indent-width", "2" },
+              },
             },
             format_on_save = function(bufnr)
                 -- Disable with a global or buffer-local variable

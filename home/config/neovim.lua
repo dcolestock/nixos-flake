@@ -148,6 +148,24 @@ end
 vim.keymap.set('n', ',v', '<Cmd>edit $MYVIMRC<CR>', {desc = "edit config file"})
 vim.keymap.set('n', ',,', '<C-^>', {desc = "Swap to Recent Buffer" })
 
+-- Only yank the line if it's not empty
+local function smart_dd()
+    if vim.api.nvim_get_current_line():match("^%s*$") then
+        return '"_dd'
+    else
+        return "dd"
+    end
+end
+vim.keymap.set("n", "dd", smart_dd, {desc= "Smart dd"})
+
+-- Repeat or execute macro on each selected line
+vim.keymap.set("x", ".", ":norm .<CR>", {desc = "Repeat for each selected line"})
+vim.keymap.set("x", "@", ":norm @q<CR>", {desc = "Macro q for each selected line"})
+
+-- Non-LSP rename
+vim.keymap.set("v", "<leader>re", '"hy:%s/<C-r>h/<C-r>h/gc<left><left><left>', {desc="Rename selected text"})
+vim.keymap.set("n", "<leader>re", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gcI<Left><Left><Left><Left>", {desc="Rename current word"})
+
 local toggle_visuals_settings
 local function toggle_visuals()
   if vim.wo.number or vim.o.relativenumber then
@@ -246,6 +264,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
 vim.keymap.set('v', 'p',  "\"_dP", { desc = "Paste Without Yanking" })
 vim.keymap.set('v', ",'",  "<C-v>I'<Esc>gv$A',<ESC>gvgJ$r<Cmd>keeppatterns s/\\(.\\{-\\},\\)\\{10\\}/&\r/g<CR>", { desc = "Comma Separate and Quote List" })
+vim.keymap.set("n", ",o", '0ml"lyy:keeppatterns s/[^_]//g<CR>:keeppatterns s/_/<C-r>l\\r/g<CR>J\'l')
 
 vim.keymap.set('n', '<Leader>c', "<Cmd>bdelete<CR>", { desc = "Close Buffer" })
 vim.keymap.set('n', '<Leader>C', "<Cmd>bdelete!<CR>", { desc = "Force Close Buffer" })
