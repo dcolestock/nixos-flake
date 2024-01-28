@@ -29,7 +29,7 @@ vim.o.mouse = "a"
 vim.o.mousefocus = true
 vim.o.mousemodel = "extend"
 
--- Apperance --
+-- Appearance --
 vim.wo.number = true
 vim.o.wrap = true
 vim.o.termguicolors = true
@@ -44,25 +44,25 @@ vim.wo.signcolumn = "yes"
 -- Autocommands  --
 -- ------------- --
 vim.api.nvim_create_autocmd("TextYankPost", {
-  desc = "Hightlight selection on yank",
+  desc = "Highlight selection on yank",
   group = vim.api.nvim_create_augroup("highlight_yank", {}),
   pattern = "*",
   callback = function()
-    vim.highlight.on_yank { higroup = "IncSearch", timeout = 150 }
+    vim.highlight.on_yank({ higroup = "IncSearch", timeout = 150 })
   end,
 })
 
 if vim.version.cmp(vim.version(), { 0, 10, 0 }) >= 0 then
-  local osc52 = require('vim.ui.clipboard.osc52')
+  local osc52 = require("vim.ui.clipboard.osc52")
   vim.g.clipboard = {
-    name = 'OSC 52',
+    name = "OSC 52",
     copy = {
-      ['+'] = osc52.copy('+'),
-      ['*'] = osc52.copy('*'),
+      ["+"] = osc52.copy("+"),
+      ["*"] = osc52.copy("*"),
     },
     paste = {
-      ['+'] = osc52.paste('+'),
-      ['*'] = osc52.paste('*'),
+      ["+"] = osc52.paste("+"),
+      ["*"] = osc52.paste("*"),
     },
   }
 end
@@ -95,7 +95,6 @@ end
 --   end,
 --   once = false,
 -- })
-
 
 -- ------------- --
 --  Treesitter   --
@@ -133,7 +132,8 @@ local python_embedded_sql = vim.treesitter.query.parse(
     (#match? @_funcname "^(runquery|read_sql|execute)$")
     arguments: (argument_list . (string (string_content) @sql))
   )
-]])
+]]
+)
 
 local get_root = function(bufnr)
   local parser = vim.treesitter.get_parser(bufnr, "nix", {})
@@ -141,30 +141,34 @@ local get_root = function(bufnr)
   return tree:root()
 end
 
-
 -- ------------- --
 --    Keymaps    --
 -- ------------- --
-vim.keymap.set('n', ',v', '<Cmd>edit $MYVIMRC<CR>', {desc = "edit config file"})
-vim.keymap.set('n', ',,', '<C-^>', {desc = "Swap to Recent Buffer" })
+vim.keymap.set("n", ",v", "<Cmd>edit $MYVIMRC<CR>", { desc = "edit config file" })
+vim.keymap.set("n", ",,", "<C-^>", { desc = "Swap to Recent Buffer" })
 
 -- Only yank the line if it's not empty
 local function smart_dd()
-    if vim.api.nvim_get_current_line():match("^%s*$") then
-        return '"_dd'
-    else
-        return "dd"
-    end
+  if vim.api.nvim_get_current_line():match("^%s*$") then
+    return '"_dd'
+  else
+    return "dd"
+  end
 end
-vim.keymap.set("n", "dd", smart_dd, {desc= "Smart dd"})
+vim.keymap.set("n", "dd", smart_dd, { desc = "Smart dd", noremap = true, expr = true })
 
 -- Repeat or execute macro on each selected line
-vim.keymap.set("x", ".", ":norm .<CR>", {desc = "Repeat for each selected line"})
-vim.keymap.set("x", "@", ":norm @q<CR>", {desc = "Macro q for each selected line"})
+vim.keymap.set("x", ".", ":norm .<CR>", { desc = "Repeat for each selected line" })
+vim.keymap.set("x", "@", ":norm @q<CR>", { desc = "Macro q for each selected line" })
 
 -- Non-LSP rename
-vim.keymap.set("v", "<leader>re", '"hy:%s/<C-r>h/<C-r>h/gc<left><left><left>', {desc="Rename selected text"})
-vim.keymap.set("n", "<leader>re", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gcI<Left><Left><Left><Left>", {desc="Rename current word"})
+vim.keymap.set("v", "<leader>re", '"hy:%s/<C-r>h/<C-r>h/gc<left><left><left>', { desc = "Rename selected text" })
+vim.keymap.set(
+  "n",
+  "<leader>re",
+  ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gcI<Left><Left><Left><Left>",
+  { desc = "Rename current word" }
+)
 
 local toggle_visuals_settings
 local function toggle_visuals()
@@ -174,7 +178,7 @@ local function toggle_visuals()
       relativenumber = vim.o.relativenumber,
       list = vim.o.list,
       signcolumn = vim.o.signcolumn,
-      miniindent = vim.b.miniindentscope_disable
+      miniindent = vim.b.miniindentscope_disable,
     }
     vim.o.number = false
     vim.o.relativenumber = false
@@ -189,13 +193,13 @@ local function toggle_visuals()
     vim.b.miniindentscope_disable = toggle_visuals_settings["miniindent"]
   end
 end
-vim.keymap.set('n', '<F2>', toggle_visuals, {noremap = true, silent = true, desc = "Toggle Decorations"} )
-vim.keymap.set('n', '<CR>', '<Cmd>nohlsearch<CR><CR>', { desc = "Clear Search" })
-vim.keymap.set('n', 'ZS', 'ZQ', { desc = "Force Quit" })
+vim.keymap.set("n", "<F2>", toggle_visuals, { noremap = true, silent = true, desc = "Toggle Decorations" })
+vim.keymap.set("n", "<CR>", "<Cmd>nohlsearch<CR><CR>", { desc = "Clear Search" })
+vim.keymap.set("n", "ZS", "ZQ", { desc = "Force Quit" })
 
 -- Remap for dealing with word wrap
-vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
-vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
 vim.keymap.set("n", "<C-J>", "<C-W><C-J>")
 vim.keymap.set("n", "<C-H>", "<C-W><C-H>")
@@ -219,11 +223,13 @@ vim.keymap.set("n", "<C-L>", "<C-W><C-L>")
 -- vim.keymap.set('n', '<Leader>lps',  vim.diagnostic.setloclist, { desc = "Set Loc List" })
 --
 
-vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, { desc = "Open Float" })
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = "[Diag] Next" })
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = "[Diag] Prev" })
-vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, { desc = "Set Loc List" })
-vim.keymap.set('n', '<space>lf', function() require("conform").format { async = true } end, { desc = "Format" })
+vim.keymap.set("n", "<space>e", vim.diagnostic.open_float, { desc = "Open Float" })
+vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "[Diag] Next" })
+vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "[Diag] Prev" })
+vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, { desc = "Set Loc List" })
+vim.keymap.set("n", "<space>lf", function()
+  require("conform").format({ async = true })
+end, { desc = "Format" })
 vim.api.nvim_create_user_command("Format", function(args)
   local range = nil
   if args.count ~= -1 then
@@ -235,58 +241,69 @@ vim.api.nvim_create_user_command("Format", function(args)
   end
   require("conform").format({ async = true, lsp_fallback = true, range = range })
 end, { range = true })
-vim.keymap.set('v', '<space>lf', "<Cmd>Format<CR>", { desc = "Format" })
+vim.keymap.set("v", "<space>lf", "<Cmd>Format<CR>", { desc = "Format" })
 
-vim.api.nvim_create_autocmd('LspAttach', {
-  group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = vim.api.nvim_create_augroup("UserLspConfig", {}),
   callback = function(ev)
     -- Enable completion triggered by <c-x><c-o>
-    vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+    vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
 
     -- Buffer local mappings.
-    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { buffer = ev.buf, desc = "Declaration" })
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = ev.buf, desc = "Definition" })
-    vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = ev.buf, desc = "Hover" })
-    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, { buffer = ev.buf, desc = "Implementation" })
-    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, { buffer = ev.buf, desc = "Signature Help" })
-    vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, { buffer = ev.buf, desc = "Add Workspace Folder" })
-    vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, { buffer = ev.buf, desc = "Remove Workspace Folder" })
-    vim.keymap.set('n', '<space>wl', function()
+    vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = ev.buf, desc = "Declaration" })
+    vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = ev.buf, desc = "Definition" })
+    vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = ev.buf, desc = "Hover" })
+    vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { buffer = ev.buf, desc = "Implementation" })
+    vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, { buffer = ev.buf, desc = "Signature Help" })
+    vim.keymap.set(
+      "n",
+      "<space>wa",
+      vim.lsp.buf.add_workspace_folder,
+      { buffer = ev.buf, desc = "Add Workspace Folder" }
+    )
+    vim.keymap.set(
+      "n",
+      "<space>wr",
+      vim.lsp.buf.remove_workspace_folder,
+      { buffer = ev.buf, desc = "Remove Workspace Folder" }
+    )
+    vim.keymap.set("n", "<space>wl", function()
       print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
     end, { buffer = ev.buf, desc = "List Workspace Folders" })
-    vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, { buffer = ev.buf, desc = "Type Definition" })
-    vim.keymap.set('n', '<space>lr', vim.lsp.buf.rename, { buffer = ev.buf, desc = "Rename" })
-    vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, { buffer = ev.buf, desc = "Code Action" })
-    vim.keymap.set('n', 'gr', vim.lsp.buf.references, { buffer = ev.buf, desc = "References" })
+    vim.keymap.set("n", "<space>D", vim.lsp.buf.type_definition, { buffer = ev.buf, desc = "Type Definition" })
+    vim.keymap.set("n", "<space>lr", vim.lsp.buf.rename, { buffer = ev.buf, desc = "Rename" })
+    vim.keymap.set({ "n", "v" }, "<space>ca", vim.lsp.buf.code_action, { buffer = ev.buf, desc = "Code Action" })
+    vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = ev.buf, desc = "References" })
   end,
 })
 
+vim.keymap.set("v", "p", '"_dP', { desc = "Paste Without Yanking" })
+vim.keymap.set(
+  "v",
+  ",'",
+  "<C-v>I'<Esc>gv$A',<ESC>gvgJ$r<Cmd>keeppatterns s/\\(.\\{-\\},\\)\\{10\\}/&\r/g<CR>",
+  { desc = "Comma Separate and Quote List" }
+)
+vim.keymap.set("n", ",o", "0ml\"lyy:keeppatterns s/[^_]//g<CR>:keeppatterns s/_/<C-r>l\\r/g<CR>J'l")
 
-vim.keymap.set('v', 'p',  "\"_dP", { desc = "Paste Without Yanking" })
-vim.keymap.set('v', ",'",  "<C-v>I'<Esc>gv$A',<ESC>gvgJ$r<Cmd>keeppatterns s/\\(.\\{-\\},\\)\\{10\\}/&\r/g<CR>", { desc = "Comma Separate and Quote List" })
-vim.keymap.set("n", ",o", '0ml"lyy:keeppatterns s/[^_]//g<CR>:keeppatterns s/_/<C-r>l\\r/g<CR>J\'l')
+vim.keymap.set("n", "<Leader>c", "<Cmd>bdelete<CR>", { desc = "Close Buffer" })
+vim.keymap.set("n", "<Leader>C", "<Cmd>bdelete!<CR>", { desc = "Force Close Buffer" })
 
-vim.keymap.set('n', '<Leader>c', "<Cmd>bdelete<CR>", { desc = "Close Buffer" })
-vim.keymap.set('n', '<Leader>C', "<Cmd>bdelete!<CR>", { desc = "Force Close Buffer" })
-
-
-
-
-          -- lvim.keys.normal_mode[",<Tab>"] = "<Cmd>tabNext<CR>"
-          -- lvim.keys.normal_mode[",<S-Tab>"] = "<Cmd>tabprevious<CR>"
-          -- -- lvim.keys.insert_mode["<Up>"] = "<Esc><Up>"
-          -- -- lvim.keys.insert_mode["<Down>"] = "<Esc><Down>"
-          -- lvim.builtin.which_key.mappings["x"] = {
-          --   "<Cmd>enew | setlocal ft=python bt=nofile bh=hide noswapfile nu | file Scratch<CR>", "Scratch"
-          -- }
-          -- lvim.keys.insert_mode["<C-Del>"] = "<C-o>dw"
-          -- -- for neoscroll support
-          -- lvim.keys.visual_mode["<PageUp>"] = { "<C-b>", { remap = true } }
-          -- lvim.keys.visual_mode["<PageDown>"] = { "<C-f>", { remap = true } }
-          -- 
-          -- 
-          -- lvim.keys.insert_mode["<C-l>"] = "<Esc><C-w>l"
-          -- lvim.keys.insert_mode["<C-h>"] = "<Esc><C-w>h"
-          -- lvim.keys.insert_mode["<C-k>"] = "<Esc><C-w>k"
-          -- lvim.keys.insert_mode["<C-j>"] = "<Esc><C-w>j"
-          --
+-- lvim.keys.normal_mode[",<Tab>"] = "<Cmd>tabNext<CR>"
+-- lvim.keys.normal_mode[",<S-Tab>"] = "<Cmd>tabprevious<CR>"
+-- -- lvim.keys.insert_mode["<Up>"] = "<Esc><Up>"
+-- -- lvim.keys.insert_mode["<Down>"] = "<Esc><Down>"
+-- lvim.builtin.which_key.mappings["x"] = {
+--   "<Cmd>new | setlocal ft=python bt=nofile bh=hide noswapfile nu | file Scratch<CR>", "Scratch"
+-- }
+-- lvim.keys.insert_mode["<C-Del>"] = "<C-o>dw"
+-- -- for neoscroll support
+-- lvim.keys.visual_mode["<PageUp>"] = { "<C-b>", { remap = true } }
+-- lvim.keys.visual_mode["<PageDown>"] = { "<C-f>", { remap = true } }
+--
+--
+-- lvim.keys.insert_mode["<C-l>"] = "<Esc><C-w>l"
+-- lvim.keys.insert_mode["<C-h>"] = "<Esc><C-w>h"
+-- lvim.keys.insert_mode["<C-k>"] = "<Esc><C-w>k"
+-- lvim.keys.insert_mode["<C-j>"] = "<Esc><C-w>j"
+--

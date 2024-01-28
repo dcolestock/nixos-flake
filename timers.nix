@@ -1,6 +1,10 @@
-{ pkgs, config, ... }: {
+{
+  pkgs,
+  config,
+  ...
+}: {
   systemd.timers."cloudflare_dns_update" = {
-    wantedBy = [ "timers.target" ];
+    wantedBy = ["timers.target"];
     timerConfig = {
       OnBootSec = "1m";
       OnUnitActiveSec = "2h";
@@ -19,7 +23,7 @@
       source "${config.age.secrets.cloudflare.path}"
       ${builtins.readFile ./home/scripts/cloudflare_dns_update.sh}
     '';
-    path = with pkgs; [ curl jq ];
+    path = with pkgs; [curl jq];
     serviceConfig = {
       Type = "oneshot";
       User = "root";

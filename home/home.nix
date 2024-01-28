@@ -1,6 +1,7 @@
-{ config
-, pkgs
-, ...
+{
+  config,
+  pkgs,
+  ...
 }: {
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
@@ -32,17 +33,17 @@
           ${pkgs.rclone}/bin/rclone mount --vfs-cache-mode writes gdrive: /home/dan/gdrive
         '';
         StandardOutput = "journal";
-        Environment = [ "PATH=/run/wrappers/bin" ];
+        Environment = ["PATH=/run/wrappers/bin"];
       };
       Install = {
-        WantedBy = [ "default.target" ];
+        WantedBy = ["default.target"];
       };
     };
   };
 
   programs.ruff = {
     enable = true;
-    settings = { };
+    settings = {};
   };
 
   programs.fzf = {
@@ -64,7 +65,7 @@
       enable_audio_bell no
       update_check_interval 0
       kitty_mod ctrl+shift
-      tab_title_template "{index}: {title[title.rfind('/')+1:]}"  
+      tab_title_template "{index}: {title[title.rfind('/')+1:]}"
       mouse_map middle release ungrabbed paste_from_selection
       map kitty_mod+/ kitten keymap.py
       map kitty_mod+z toggle_layout stack

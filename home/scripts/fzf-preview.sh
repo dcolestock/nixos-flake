@@ -19,5 +19,5 @@ elif [[ $(file --mime "${file}") =~ binary ]]; then
     echo "${fileinfo}" && false
   fi
 else
-  bat --paging=never --style=numbers --color=always "${file}" 2> /dev/null | head -100
+  bat --paging=never --style=numbers --color=always "${file}" 2>/dev/null | head -100
 fi

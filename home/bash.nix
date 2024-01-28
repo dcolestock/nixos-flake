@@ -1,6 +1,7 @@
-{ pkgs
-, config
-, ...
+{
+  pkgs,
+  config,
+  ...
 }: {
   programs.bash = {
     enable = true;
@@ -90,7 +91,6 @@
   # };
   xdg.configFile."autostart/dconfwatch.desktop".source = ./config/dconfwatch.desktop;
   home.packages = with pkgs; [
-
     (writeShellApplication {
       name = "switch";
       text = ''
@@ -153,7 +153,7 @@
 
     (writeShellApplication {
       name = "fzf-preview";
-      runtimeInputs = [ tree file bat catimg ];
+      runtimeInputs = [tree file bat catimg];
       text = ''
         ${builtins.readFile ./scripts/fzf-preview.sh}
       '';
@@ -161,19 +161,19 @@
 
     (writeShellApplication {
       name = "rfv";
-      runtimeInputs = [ fzf ripgrep bat ];
+      runtimeInputs = [fzf ripgrep bat];
       text = builtins.readFile ./scripts/rfv.sh;
     })
 
-    (writers.writePython3Bin "dconfwatch" { } (builtins.readFile ./scripts/dconfwatch.py))
+    (writers.writePython3Bin "dconfwatch" {} (builtins.readFile ./scripts/dconfwatch.py))
 
     (writers.writePython3Bin "sqlparser" {
-      libraries = [ pkgs.python3Packages.sqlparse ];
+      libraries = [pkgs.python3Packages.sqlparse];
     } (builtins.readFile ./scripts/sqlparser.py))
 
     (writeShellApplication {
       name = "ee";
-      runtimeInputs = [ fzf ];
+      runtimeInputs = [fzf];
       text = ''
         set -x
         exec nvim "$(fzf)"
@@ -211,6 +211,5 @@
         btconnect Flip
       '';
     })
-
   ];
 }

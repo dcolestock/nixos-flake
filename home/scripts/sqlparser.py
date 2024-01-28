@@ -1,12 +1,12 @@
 import sys
-from subprocess import Popen, PIPE
 from pathlib import Path
+from subprocess import PIPE, Popen
 
 logfile = Path.home() / "sqlparser.log"
 
 contents = sys.stdin.read()
 
-p = Popen(['sql-formatter'], stdout=PIPE, stdin=PIPE, stderr=PIPE)
+p = Popen(["sql-formatter"], stdout=PIPE, stdin=PIPE, stderr=PIPE)
 result = p.communicate(input=contents.encode())[0].decode()
 
 # Keep as one line if started as one line to prevent

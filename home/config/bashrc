@@ -8,7 +8,7 @@ promptFunc() {
   # right before prompting for the next command, save the previous
   # command in a file.
   echo "$(date +%Y-%m-%d--%H-%M-%S) $(hostname) $PWD $(history 1)" \
-    >> ~/.full_history
+    >>~/.full_history
   # Also save it to history
   history -a
 }
@@ -22,11 +22,9 @@ shopt -s histappend
 # https://unix.stackexchange.com/a/438712
 function sudo {
   local firstArg=$1
-  if [ "$(type -t "$firstArg")" = function ]
-  then
+  if [ "$(type -t "$firstArg")" = function ]; then
     shift && command sudo bash -c "$(declare -f "$firstArg");$firstArg $*"
-  elif [ "$(type -t "$firstArg")" = alias ]
-  then
+  elif [ "$(type -t "$firstArg")" = alias ]; then
     alias sudo='\sudo '
     eval "sudo $*"
   else
@@ -40,9 +38,8 @@ function sudo {
 # This is because I want the behavior of -I (interactive) to be the default,
 # but I also want to have the -r flag available when I need it without being
 # prompted for single files.
-function rm () {
-  if [ $# -eq 1 ] && [ -d "$1" ]
-  then
+function rm() {
+  if [ $# -eq 1 ] && [ -d "$1" ]; then
     command rm --verbose --interactive=once --recursive "$1"
   else
     command rm --verbose --interactive=once "$@"
@@ -50,15 +47,14 @@ function rm () {
 }
 
 ### mkdir + cd ###
-mc () {
+mc() {
   command mkdir -p -- "$1" && builtin cd -P -- "$1"
 }
 
 ### which ###
 
 function which() {
-  if [ -t 1 ]
-  then
+  if [ -t 1 ]; then
     builtin type -a $1
   else
     command which $1
@@ -69,8 +65,7 @@ function which() {
 eval "$(starship init bash)"
 
 ### FZF ###
-if command -v fzf-share >/dev/null
-then
+if command -v fzf-share >/dev/null; then
   source "$(fzf-share)/key-bindings.bash"
   source "$(fzf-share)/completion.bash"
 fi
@@ -89,8 +84,7 @@ function configeditline() {
 
 # ALT-E - Edit NixOS Configuration Files
 # ALT-O - with ripgrep
-if [[ $- =~ i ]]
-then
+if [[ $- =~ i ]]; then
   function __fzf_nixedit__() {
     local cmd opts file
     cmd="fd --mount --type f --hidden --exclude .git . ~/nixos"
@@ -125,13 +119,10 @@ fi
 function __fzf_preview__() {
   local file columns
   file="$1"
-  if [[ -d "${file}" ]]
-  then
+  if [[ -d "${file}" ]]; then
     ls -al --color "${file}"
-  elif [[ $(file --mime "${file}") =~ binary ]]
- then
-    if [[ $(file --mime "${file}") =~ "image/" ]]
-    then
+  elif [[ $(file --mime "${file}") =~ binary ]]; then
+    if [[ $(file --mime "${file}") =~ "image/" ]]; then
       columns=$(tput cols)
       columns=$((columns / 2))
       catimg -w ${columns} "${file}"
@@ -140,6 +131,6 @@ function __fzf_preview__() {
       echo "${fileinfo}" && false
     fi
   else
-    bat --style=numbers --color=always "${file}" 2> /dev/null | head -100
+    bat --style=numbers --color=always "${file}" 2>/dev/null | head -100
   fi
 }

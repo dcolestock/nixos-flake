@@ -1,5 +1,8 @@
-{ pkgs, config, ... }:
-let
+{
+  pkgs,
+  config,
+  ...
+}: let
   vim-slime-cells = pkgs.vimUtils.buildVimPlugin {
     name = "vim-slime-cells";
     src = pkgs.fetchFromGitHub {
@@ -27,28 +30,28 @@ let
       sha256 = "sha256-kixjgaAS6jk4DJw8EbG4aebtFxqp0Ibx3rtOCwO9Xi4=";
     };
   };
-in
-{
+in {
   programs.neovim = {
     enable = true;
     viAlias = true;
     vimAlias = true;
     withPython3 = true;
     package = pkgs.neovim-nightly;
-    extraPython3Packages = pyPkgs: with pyPkgs; [
-      python-lsp-server
-      jupyter_client
-      pynvim
-      python-lsp-ruff
-      pyls-isort
-      pylsp-rope
-      pylsp-mypy
-      black
-      isort
-      mypy
-      flake8
-      ruff-lsp
-    ];
+    extraPython3Packages = pyPkgs:
+      with pyPkgs; [
+        python-lsp-server
+        jupyter_client
+        pynvim
+        python-lsp-ruff
+        pyls-isort
+        pylsp-rope
+        pylsp-mypy
+        black
+        isort
+        mypy
+        flake8
+        ruff-lsp
+      ];
 
     extraPackages = with pkgs; [
       ### Language Servers ###
@@ -126,56 +129,59 @@ in
     # mini.trailspace - Only highlights, list-charter + autoremove should be enough #TODO: autoremove on save
 
     plugins = with pkgs.vimPlugins; [
-
       {
         plugin = mini-nvim;
         type = "lua";
-        config = /*lua*/ ''
-          require('mini.ai').setup()
-          require('mini.animate').setup()
-          require('mini.basics').setup()
-          require('mini.bracketed').setup()
-          require('mini.comment').setup()
-          require('mini.cursorword').setup()
-          require('mini.indentscope').setup()
-          require('mini.surround').setup()
+        config =
+          /*
+          lua
+          */
+          ''
+          require("mini.ai").setup()
+          require("mini.animate").setup()
+          require("mini.basics").setup()
+          require("mini.bracketed").setup()
+          require("mini.comment").setup()
+          require("mini.cursorword").setup()
+          require("mini.indentscope").setup()
+          require("mini.surround").setup()
 
-          local miniclue = require('mini.clue')
+          local miniclue = require("mini.clue")
           miniclue.setup({
             triggers = {
               -- Leader triggers
-              { mode = 'n', keys = '<Leader>' },
-              { mode = 'x', keys = '<Leader>' },
-              { mode = 'n', keys = ',' },
-              { mode = 'x', keys = ',' },
-              { mode = 'n', keys = ']' },
-              { mode = 'n', keys = '[' },
+              { mode = "n", keys = "<Leader>" },
+              { mode = "x", keys = "<Leader>" },
+              { mode = "n", keys = "," },
+              { mode = "x", keys = "," },
+              { mode = "n", keys = "]" },
+              { mode = "n", keys = "[" },
 
               -- Built-in completion
-              { mode = 'i', keys = '<C-x>' },
+              { mode = "i", keys = "<C-x>" },
 
               -- `g` key
-              { mode = 'n', keys = 'g' },
-              { mode = 'x', keys = 'g' },
+              { mode = "n", keys = "g" },
+              { mode = "x", keys = "g" },
 
               -- Marks
-              { mode = 'n', keys = "'" },
-              { mode = 'n', keys = '`' },
-              { mode = 'x', keys = "'" },
-              { mode = 'x', keys = '`' },
+              { mode = "n", keys = "'" },
+              { mode = "n", keys = "`" },
+              { mode = "x", keys = "'" },
+              { mode = "x", keys = "`" },
 
               -- Registers
-              { mode = 'n', keys = '"' },
-              { mode = 'x', keys = '"' },
-              { mode = 'i', keys = '<C-r>' },
-              { mode = 'c', keys = '<C-r>' },
+              { mode = "n", keys = '"' },
+              { mode = "x", keys = '"' },
+              { mode = "i", keys = "<C-r>" },
+              { mode = "c", keys = "<C-r>" },
 
               -- Window commands
-              { mode = 'n', keys = '<C-w>' },
+              { mode = "n", keys = "<C-w>" },
 
               -- `z` key
-              { mode = 'n', keys = 'z' },
-              { mode = 'x', keys = 'z' },
+              { mode = "n", keys = "z" },
+              { mode = "x", keys = "z" },
             },
 
             clues = {
@@ -188,30 +194,33 @@ in
               miniclue.gen_clues.z(),
             },
           })
-        '';
+'';
       }
 
       {
         plugin = vim-slime;
         type = "lua";
         optional = true;
-        config = /*lua*/ ''
-          vim.api.nvim_create_autocmd('FileType', {
-            desc = 'Activate vim-slime for python',
-            pattern = 'python',
+        config =
+          /*
+          lua
+          */
+          ''
+          vim.api.nvim_create_autocmd("FileType", {
+            desc = "Activate vim-slime for python",
+            pattern = "python",
             once = true,
             callback = function()
               vim.g.slime_target = "tmux"
               vim.g.slime_cell_delimiter = "^#\\s*%%"
               vim.g.slime_default_config = {
-                ['socket_name'] = 'default',
-                ['target_pane'] = '{bottom-right}',
+                ["socket_name"] = "default",
+                ["target_pane"] = "{bottom-right}",
               }
               vim.g.slime_dont_ask_default = 1
               vim.g.slime_bracketed_paste = 1
               vim.g.slime_no_mappings = 1
               vim.g.slime_python_ipython = 0 -- No %cpasted needed if using tmux's bracketed paste
-
 
               function StartIPython()
                 vim.fn.system("tmux if -F '#{==:#{window_panes},1}' 'split-window -hdZ ipython'")
@@ -225,19 +234,19 @@ in
               end
 
               vim.cmd([[function! SlimeOverride_EscapeText_python(text)
-                lua UnhideSlimeAndClear()
-                if slime#config#resolve("python_ipython") && len(split(a:text,"\n")) > 1
-                  return ["%cpaste -q\n", slime#config#resolve("dispatch_ipython_pause"), a:text, "--\n"]
-                else
-                  let empty_lines_pat = '\(^\|\n\)\zs\(\s*\n\+\)\+'
-                  let no_empty_lines = substitute(a:text, empty_lines_pat, "", "g")
-                  let dedent_pat = '\(^\|\n\)\zs'.matchstr(no_empty_lines, '^\s*')
-                  let dedented_lines = substitute(no_empty_lines, dedent_pat, "", "g")
-                  let except_pat = '\(elif\|else\|except\|finally\)\@!'
-                  let add_eol_pat = '\n\s[^\n]\+\n\zs\ze\('.except_pat.'\S\|$\)'
-                  return substitute(dedented_lines, add_eol_pat, "\n", "g")
-                end
-              endfunction]])
+                                lua UnhideSlimeAndClear()
+                                if slime#config#resolve("python_ipython") && len(split(a:text,"\n")) > 1
+                                  return ["%cpaste -q\n", slime#config#resolve("dispatch_ipython_pause"), a:text, "--\n"]
+                                else
+                                  let empty_lines_pat = '\(^\|\n\)\zs\(\s*\n\+\)\+'
+                                  let no_empty_lines = substitute(a:text, empty_lines_pat, "", "g")
+                                  let dedent_pat = '\(^\|\n\)\zs'.matchstr(no_empty_lines, '^\s*')
+                                  let dedented_lines = substitute(no_empty_lines, dedent_pat, "", "g")
+                                  let except_pat = '\(elif\|else\|except\|finally\)\@!'
+                                  let add_eol_pat = '\n\s[^\n]\+\n\zs\ze\('.except_pat.'\S\|$\)'
+                                  return substitute(dedented_lines, add_eol_pat, "\n", "g")
+                                end
+                              endfunction]])
 
               function Send_Ctrl_C()
                 local target_pane = vim.fn.shellescape(vim.g.slime_default_config["target_pane"])
@@ -246,19 +255,19 @@ in
 
               --vim.keymap.set('n', ',aa', UnhideSlimeAndClear, { desc = "[Slime] Scend" })
               --vim.keymap.set('n', '<leader>rv', '<Plug>SlimeConfig', { desc = "[Slime] Config" })
-              vim.keymap.set('n', ',r', '<Plug>SlimeCellsSend', { desc = "[Slime] Send" })
-              vim.keymap.set('v', ',r', '<Plug>SlimeRegionSend', { desc = "[Slime] Send" })
-              vim.keymap.set('n', ',R', '<Plug>SlimeCellsSendAndGoToNext', { desc = "[Slime] Send+Next" })
-              vim.keymap.set('n', ',c', Send_Ctrl_C, { desc = "[Slime] Ctrl+C" })
-              vim.keymap.set('n', ',l', StartIPython, { desc = "[Slime] Start IPython" })
-              vim.keymap.set('n', ',j', '<Plug>SlimeCellsNext', { desc = "[Slime] Next Cell" })
-              vim.keymap.set('n', ',k', '<Plug>SlimeCellsPrev', { desc = "[Slime] Prev Cell" })
-              vim.cmd.packadd('vim-slime')
-              vim.cmd.packadd('vimplugin-vim-slime-cells')
+              vim.keymap.set("n", ",r", "<Plug>SlimeCellsSend", { desc = "[Slime] Send" })
+              vim.keymap.set("v", ",r", "<Plug>SlimeRegionSend", { desc = "[Slime] Send" })
+              vim.keymap.set("n", ",R", "<Plug>SlimeCellsSendAndGoToNext", { desc = "[Slime] Send+Next" })
+              vim.keymap.set("n", ",c", Send_Ctrl_C, { desc = "[Slime] Ctrl+C" })
+              vim.keymap.set("n", ",l", StartIPython, { desc = "[Slime] Start IPython" })
+              vim.keymap.set("n", ",j", "<Plug>SlimeCellsNext", { desc = "[Slime] Next Cell" })
+              vim.keymap.set("n", ",k", "<Plug>SlimeCellsPrev", { desc = "[Slime] Prev Cell" })
+              vim.cmd.packadd("vim-slime")
+              vim.cmd.packadd("vimplugin-vim-slime-cells")
               StartIPython()
             end,
           })
-        '';
+'';
       }
       {
         plugin = vim-slime-cells;
@@ -284,7 +293,6 @@ in
       #   '';
       # }
 
-
       # codeium-vim
       vim-sleuth
       nvim-lastplace
@@ -296,13 +304,17 @@ in
       {
         plugin = nvim-lspconfig;
         type = "lua";
-        config = /*lua*/ ''
+        config =
+          /*
+          lua
+          */
+          ''
           local lspconfig = require("lspconfig")
           -- Bash --
-          lspconfig.bashls.setup{}
+          lspconfig.bashls.setup({})
 
           -- Lua --
-          lspconfig.lua_ls.setup{
+          lspconfig.lua_ls.setup({
             settings = {
               Lua = {
                 runtime = {
@@ -311,7 +323,7 @@ in
                 },
                 diagnostics = {
                   -- Get the language server to recognize the `vim` global
-                  globals = {"vim"},
+                  globals = { "vim" },
                 },
                 workspace = {
                   -- Make the server aware of Neovim runtime files
@@ -324,29 +336,33 @@ in
                 },
               },
             },
-          }
+          })
 
           -- lspconfig.sqls.setup{}
           -- Python --
-          lspconfig.pyright.setup{}
-          lspconfig.ruff_lsp.setup{}
+          lspconfig.pyright.setup({})
+          lspconfig.ruff_lsp.setup({})
 
           -- Nix --
-          lspconfig.nil_ls.setup{} -- nix language server - no format
-          lspconfig.rnix.setup{}
+          lspconfig.nil_ls.setup({}) -- nix language server - no format
+          lspconfig.rnix.setup({})
 
           -- Markdown --
-          lspconfig.marksman.setup{}
+          lspconfig.marksman.setup({})
 
           -- Diagnostic --
           -- lspconfig.diagnosticls.setup{}
-        '';
+'';
       }
 
       {
         plugin = conform-nvim;
         type = "lua";
-        config = /*lua*/ ''
+        config =
+          /*
+          lua
+          */
+          ''
           require("conform").setup({
             formatters_by_ft = {
               lua = { "stylua" },
@@ -367,57 +383,64 @@ in
               stylua = {
                 prepend_args = { "--indent-type", "Spaces", "--indent-width", "2" },
               },
+              shfmt = {
+                prepend_args = { "-i", "2" },
+              },
             },
             format_on_save = function(bufnr)
-                -- Disable with a global or buffer-local variable
-                if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
-                  return
-                end
-                return { timeout_ms = 500, lsp_fallback = true }
-              end,
+              -- Disable with a global or buffer-local variable
+              if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
+                return
+              end
+              return { timeout_ms = 500, lsp_fallback = true }
+            end,
           })
           require("conform").formatters.sql_formatter = {
             prepend_args = { "--config", vim.fn.expand("~/.config/nvim/sql_formatter.json") },
           }
           vim.api.nvim_create_user_command("FormatDisable", function(args)
-              if args.bang then
-                -- FormatDisable! will disable formatting just for this buffer
-                vim.b.disable_autoformat = true
-              else
-                vim.g.disable_autoformat = true
-              end
-            end, {
-              desc = "Disable autoformat-on-save",
-              bang = true,
+            if args.bang then
+              -- FormatDisable! will disable formatting just for this buffer
+              vim.b.disable_autoformat = true
+            else
+              vim.g.disable_autoformat = true
+            end
+          end, {
+            desc = "Disable autoformat-on-save",
+            bang = true,
           })
           vim.api.nvim_create_user_command("FormatEnable", function()
-              vim.b.disable_autoformat = false
-              vim.g.disable_autoformat = false
-            end, {
-              desc = "Re-enable autoformat-on-save",
+            vim.b.disable_autoformat = false
+            vim.g.disable_autoformat = false
+          end, {
+            desc = "Re-enable autoformat-on-save",
           })
           vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
-        '';
+'';
       }
 
       ### Completion ###
       {
         plugin = nvim-cmp;
         type = "lua";
-        config = /*lua*/ ''
+        config =
+          /*
+          lua
+          */
+          ''
           local cmp = require("cmp")
-          cmp.setup {
+          cmp.setup({
             snippet = {
               expand = function(args)
                 require("luasnip").lsp_expand(args.body)
-              end
+              end,
             },
             mapping = {
               ["<C-p>"] = cmp.mapping.select_prev_item(),
               ["<C-n>"] = cmp.mapping.select_next_item(),
               ["<C-space>"] = cmp.mapping.complete(),
               ["<C-e>"] = cmp.mapping.close(),
-              ["<tab>"] = cmp.mapping.confirm { select = true },
+              ["<tab>"] = cmp.mapping.confirm({ select = true }),
             },
 
             sources = cmp.config.sources({
@@ -428,21 +451,21 @@ in
               { name = "path" },
               { name = "treesitter" },
             }),
-          }
+          })
           cmp.setup.filetype("gitcommit", {
             sources = cmp.config.sources({
               { name = "git" }, -- You can specify the `git` source if [you were installed it](https://github.com/petertriho/cmp-git).
             }, {
               { name = "buffer" },
-            })
+            }),
           })
           cmp.setup.cmdline({ "/", "?" }, {
             mapping = cmp.mapping.preset.cmdline(),
             sources = {
-              { name = "buffer" }
-            }
+              { name = "buffer" },
+            },
           })
-        '';
+'';
       }
       cmp-nvim-lsp
       cmp-buffer
@@ -451,23 +474,26 @@ in
       {
         plugin = cmp-cmdline;
         type = "lua";
-        config = /*lua*/ ''
+        config =
+          /*
+          lua
+          */
+          ''
           cmp.setup.cmdline(":", {
             mapping = cmp.mapping.preset.cmdline(),
             sources = cmp.config.sources({
-              { name = "path" }
+              { name = "path" },
             }, {
-              { name = "cmdline" }
-            })
+              { name = "cmdline" },
+            }),
           })
-        '';
+'';
       }
 
       cmp-treesitter
 
       luasnip
       cmp_luasnip
-
 
       # Language support
       vim-nix
@@ -478,13 +504,19 @@ in
       {
         plugin = nvim-treesitter.withAllGrammars;
         type = "lua";
-        config = /*lua*/ ''
-          require'nvim-treesitter.configs'.setup {
+        config =
+          /*
+          lua
+          */
+          ''
+          require("nvim-treesitter.configs").setup({
             autotag = { enable = true },
             context_commentstring = { enable = true, enable_autocmd = false },
             highlight = {
               enable = true,
-              disable = function(_, bufnr) return vim.b[bufnr].large_buf end,
+              disable = function(_, bufnr)
+                return vim.b[bufnr].large_buf
+              end,
             },
             incremental_selection = {
               enable = true,
@@ -550,8 +582,8 @@ in
                 },
               },
             },
-          }
-        '';
+          })
+'';
       }
       playground
 
@@ -567,58 +599,77 @@ in
       {
         plugin = lualine-nvim;
         type = "lua";
-        config = /*lua*/ ''
-          require("lualine").setup{
+        config =
+          /*
+          lua
+          */
+          ''
+          require("lualine").setup({
             options = {
-              theme = "onedark"
-            }
-          }
-        '';
+              theme = "onedark",
+            },
+          })
+'';
       }
 
       {
         plugin = bufferline-nvim;
         type = "lua";
-        config = /*lua*/ ''
-          require("bufferline").setup{}
-          vim.keymap.set('n', '<Leader>b',  "<Cmd>BufferLineCycleNext<CR>", { desc = "Buffer Next" })
-          vim.keymap.set('n', '<Leader>B',  "<Cmd>BufferLineCyclePrev<CR>", { desc = "Buffer Prev" })
-        '';
+        config =
+          /*
+          lua
+          */
+          ''
+          require("bufferline").setup({})
+          vim.keymap.set("n", "<Leader>b", "<Cmd>BufferLineCycleNext<CR>", { desc = "Buffer Next" })
+          vim.keymap.set("n", "<Leader>B", "<Cmd>BufferLineCyclePrev<CR>", { desc = "Buffer Prev" })
+'';
       }
 
       {
         plugin = lazygit-nvim;
         type = "lua";
-        config = /*lua*/ ''
-          vim.keymap.set('n', '<Leader>gg',  "<Cmd>LazyGit<CR>", { desc = "LazyGit" })
-        '';
+        config =
+          /*
+          lua
+          */
+          ''
+          vim.keymap.set("n", "<Leader>gg", "<Cmd>LazyGit<CR>", { desc = "LazyGit" })
+'';
       }
-
 
       {
         plugin = telescope-nvim;
         type = "lua";
-        config = /*lua*/ ''
+        config =
+          /*
+          lua
+          */
+          ''
           require("telescope").setup()
-          require('telescope').load_extension('fzf')
-          vim.keymap.set('n', '<Leader>f',  "<Nop>", { desc = "Telescope" })
-          vim.keymap.set('n', '<Leader>fF',
-            function()
-              require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-                winblend = 10,
-                previewer = false,
-              })
-            end, { desc = "Fuzzy Search Current Buffer" })
-          vim.keymap.set('n', '<Leader>ff',  "<Cmd>Telescope find_files<CR>", { desc = "Find File" })
-          vim.keymap.set('n', '<Leader>fr',  "<Cmd>Telescope oldfiles<CR>", { desc = "Open Recent File" })
-          vim.keymap.set('n', '<Leader>fg',  "<Cmd>Telescope live_grep<CR>", { desc = "Live Grep" })
-          vim.keymap.set('n', '<Leader>fG',  "<Cmd>Telescope git_files<CR>", { desc = "Git Files" })
-          vim.keymap.set('n', '<Leader>fb',  "<Cmd>Telescope buffers<CR>", { desc = "Buffers" })
-          vim.keymap.set('n', '<Leader>fh',  "<Cmd>Telescope help_tags<CR>", { desc = "Help" })
-          vim.keymap.set('n', '<Leader>fs',  "<Cmd>Telescope grep_string<CR>", { desc = "Current Word" })
-          vim.keymap.set('n', '<Leader>fd',  "<Cmd>Telescope diagnostics<CR>", { desc = "Diagnostics" })
-          vim.keymap.set('n', '<Leader>fc',  "<Cmd>lua require('telescope.builtin').colorscheme({enable_preview = true})<CR>", { desc = "Color Scheme" })
-        '';
+          require("telescope").load_extension("fzf")
+          vim.keymap.set("n", "<Leader>f", "<Nop>", { desc = "Telescope" })
+          vim.keymap.set("n", "<Leader>fF", function()
+            require("telescope.builtin").current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
+              winblend = 10,
+              previewer = false,
+            }))
+          end, { desc = "Fuzzy Search Current Buffer" })
+          vim.keymap.set("n", "<Leader>ff", "<Cmd>Telescope find_files<CR>", { desc = "Find File" })
+          vim.keymap.set("n", "<Leader>fr", "<Cmd>Telescope oldfiles<CR>", { desc = "Open Recent File" })
+          vim.keymap.set("n", "<Leader>fg", "<Cmd>Telescope live_grep<CR>", { desc = "Live Grep" })
+          vim.keymap.set("n", "<Leader>fG", "<Cmd>Telescope git_files<CR>", { desc = "Git Files" })
+          vim.keymap.set("n", "<Leader>fb", "<Cmd>Telescope buffers<CR>", { desc = "Buffers" })
+          vim.keymap.set("n", "<Leader>fh", "<Cmd>Telescope help_tags<CR>", { desc = "Help" })
+          vim.keymap.set("n", "<Leader>fs", "<Cmd>Telescope grep_string<CR>", { desc = "Current Word" })
+          vim.keymap.set("n", "<Leader>fd", "<Cmd>Telescope diagnostics<CR>", { desc = "Diagnostics" })
+          vim.keymap.set(
+            "n",
+            "<Leader>fc",
+            "<Cmd>lua require('telescope.builtin').colorscheme({enable_preview = true})<CR>",
+            { desc = "Color Scheme" }
+          )
+'';
       }
 
       telescope-fzf-native-nvim
@@ -626,22 +677,29 @@ in
       {
         plugin = telescope-file-browser-nvim;
         type = "lua";
-        config = /*lua*/ ''
+        config =
+          /*
+          lua
+          */
+          ''
           require("telescope").load_extension("file_browser")
-          vim.keymap.set('n', '<Leader>fn',  "<Cmd>Telescope file_browser path=%:p:h<CR>", { desc = "Browser" })
-          vim.keymap.set('n', '<Leader>fN',  "<Cmd>Telescope file_browser<CR>", { desc = "Browser CWD" })
-        '';
+          vim.keymap.set("n", "<Leader>fn", "<Cmd>Telescope file_browser path=%:p:h<CR>", { desc = "Browser" })
+          vim.keymap.set("n", "<Leader>fN", "<Cmd>Telescope file_browser<CR>", { desc = "Browser CWD" })
+'';
       }
 
       {
         plugin = alpha-nvim;
         type = "lua";
-        config = /*lua*/ ''
+        config =
+          /*
+          lua
+          */
+          ''
           require("alpha").setup(require("alpha.themes.startify").config)
-          vim.keymap.set('n', '<Leader>;',  "<Cmd>Alpha<CR>", { desc = "Dashboard" })
-        '';
+          vim.keymap.set("n", "<Leader>;", "<Cmd>Alpha<CR>", { desc = "Dashboard" })
+'';
       }
-
     ];
 
     extraLuaConfig = builtins.readFile ./config/neovim.lua;

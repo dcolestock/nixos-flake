@@ -6,7 +6,7 @@ sequences).
 
 import re
 from collections import defaultdict
-from typing import Union, Final
+from typing import Final, Union
 
 from kittens.tui.handler import result_handler
 from kitty import fast_data_types
