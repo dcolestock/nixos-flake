@@ -284,7 +284,13 @@ vim.keymap.set(
   "<C-v>I'<Esc>gv$A',<ESC>gvgJ$r<Cmd>keeppatterns s/\\(.\\{-\\},\\)\\{10\\}/&\r/g<CR>",
   { desc = "Comma Separate and Quote List" }
 )
-vim.keymap.set("n", ",o", "0ml\"lyy:keeppatterns s/[^_]//g<CR>:keeppatterns s/_/<C-r>l\\r/g<CR>J'l")
+
+vim.keymap.set(
+  "n",
+  ",o",
+  "I•<Esc>ml\"lyy:keeppatterns s/[^_]//g<CR>:keeppatterns s/_/<C-r>l\\r/g<CR>J'lV<Esc>f_r#jf_r#jf_r#jf_r#jf_r#v'<:keeppatterns s/•//<CR>gv:s/#/"
+)
+vim.keymap.set("v", ",a", ":source<CR>")
 
 vim.keymap.set("n", "<Leader>c", "<Cmd>bdelete<CR>", { desc = "Close Buffer" })
 vim.keymap.set("n", "<Leader>C", "<Cmd>bdelete!<CR>", { desc = "Force Close Buffer" })
