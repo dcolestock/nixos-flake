@@ -45,7 +45,7 @@
       untar = "tar -xvaf";
       pbcopy = "xclip -selection clipboard";
       pbpaste = "xclip -selection clipboard -o";
-      sudoedit = "command sudo -E vim";
+      sudoedit = "command sudo -E nvim";
       myvim = "NVIM_APPNAME=myvim nvim";
     };
     sessionVariables = {

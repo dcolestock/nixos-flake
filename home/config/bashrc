@@ -73,13 +73,13 @@ fi
 function configedit() {
   local path
   path=$(realpath $1)
-  (cd ~/nixos && vim -- $path)
+  (cd ~/nixos && nvim -- $path)
 }
 
 function configeditline() {
   local path
   path=$(realpath $2)
-  (cd ~/nixos && vim +$1 -- $path)
+  (cd ~/nixos && nvim +$1 -- $path)
 }
 
 # ALT-E - Edit NixOS Configuration Files
