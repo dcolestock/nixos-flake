@@ -6,4 +6,5 @@ let
   systems = [desktop];
 in {
   "cloudflare.age".publicKeys = users ++ systems;
+  "vimgolf.age".publicKeys = users ++ systems;
 }

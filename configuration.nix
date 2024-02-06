@@ -10,6 +10,7 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ./timers.nix
+    ./vimgolf.nix
   ];
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
@@ -54,6 +55,14 @@
     LC_PAPER = "en_US.UTF-8";
     LC_TELEPHONE = "en_US.UTF-8";
     LC_TIME = "en_US.UTF-8";
+  };
+
+  virtualisation.docker = {
+    enable = true;
+    rootless = {
+      enable = true;
+      setSocketVariable = true;
+    };
   };
 
   # Enable the X11 windowing system.
@@ -125,7 +134,7 @@
   users.users.dan = {
     isNormalUser = true;
     description = "dan";
-    extraGroups = ["networkmanager" "wheel" "adbusers" "wireshark"];
+    extraGroups = ["networkmanager" "wheel" "adbusers" "wireshark" "docker"];
     packages = with pkgs; [
     ];
   };
