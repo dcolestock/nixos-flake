@@ -57,13 +57,7 @@
     LC_TIME = "en_US.UTF-8";
   };
 
-  virtualisation.docker = {
-    enable = true;
-    rootless = {
-      enable = true;
-      setSocketVariable = true;
-    };
-  };
+  virtualisation.docker.enable = true;
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
