@@ -29,15 +29,16 @@
 
           home-manager.nixosModules.home-manager
           {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.dan = import ./home;
-
-            # Optionally, use home-manager.extraSpecialArgs to pass
-            # arguments to home.nix
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              users.dan = import ./home;
+              extraSpecialArgs = {};
+            };
           }
         ];
       };
     };
+    formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
   };
 }

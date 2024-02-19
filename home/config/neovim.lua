@@ -206,6 +206,8 @@ vim.keymap.set("n", "<C-H>", "<C-W><C-H>")
 vim.keymap.set("n", "<C-K>", "<C-W><C-K>")
 vim.keymap.set("n", "<C-L>", "<C-W><C-L>")
 
+-- getcharstr -- For wordle functions
+
 -- vim.keymap.set('n', '<Leader>l', '<Nop>', { desc = 'LSP' })
 -- vim.keymap.set('n', '<Leader>lf',  function() vim.lsp.buf.format { async = true } end, { desc = "Format" })
 -- vim.keymap.set('n', '<Leader>ld',  vim.lsp.buf.definition, { desc = "Definition" })
