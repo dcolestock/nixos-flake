@@ -43,7 +43,7 @@
     homeConfigurations."dcolest" = home-manager.lib.homeManagerConfiguration {
       inherit pkgs;
       modules = [./home/work.nix];
-      extraSpecialArgs = {};
+      extraSpecialArgs = {inherit inputs;};
     };
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
   };

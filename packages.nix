@@ -3,11 +3,7 @@
   inputs,
   ...
 }: {
-  nixpkgs = {
-    overlays = [
-      inputs.neovim-nightly-overlay.overlay
-    ];
-  };
+  nixpkgs.overlays = [inputs.neovim-nightly-overlay.overlay];
 
   nixpkgs.config.permittedInsecurePackages = [
     "pulsar-1.109.0"
