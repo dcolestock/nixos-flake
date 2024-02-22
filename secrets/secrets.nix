@@ -7,4 +7,5 @@ let
 in {
   "cloudflare.age".publicKeys = users ++ systems;
   "vimgolf.age".publicKeys = users ++ systems;
+  "tailscale.age".publicKeys = users ++ systems;
 }

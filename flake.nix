@@ -1,5 +1,5 @@
 {
-  description = "NixOS configuration";
+  description = "Nix configuration";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -18,26 +18,32 @@
     home-manager,
     agenix,
     ...
-  }: {
-    nixosConfigurations = {
-      nixos = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = {inherit inputs;};
-        modules = [
-          ./configuration.nix
-          agenix.nixosModules.default
+  }: let
+    system = "x86_64-linux";
+    pkgs = nixpkgs.legacyPackages.${system};
+  in {
+    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      specialArgs = {inherit inputs;};
+      modules = [
+        ./configuration.nix
+        agenix.nixosModules.default
 
-          home-manager.nixosModules.home-manager
-          {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              users.dan = import ./home;
-              extraSpecialArgs = {};
-            };
-          }
-        ];
-      };
+        home-manager.nixosModules.home-manager
+        {
+          home-manager = {
+            useGlobalPkgs = true;
+            useUserPackages = true;
+            users.dan = import ./home;
+            extraSpecialArgs = {};
+          };
+        }
+      ];
+    };
+    homeConfigurations."dcolest" = home-manager.lib.homeManagerConfiguration {
+      inherit pkgs;
+      modules = [./home/work.nix];
+      extraSpecialArgs = {};
     };
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
   };
