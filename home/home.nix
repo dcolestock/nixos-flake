@@ -1,8 +1,4 @@
-{
-  config,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home.username = "dan";
@@ -41,17 +37,15 @@
     };
   };
 
-  programs.ruff = {
-    enable = true;
-    settings = {};
+  programs = {
+    ruff = {
+      enable = true;
+      settings = {};
+    };
+    fzf.enable = true;
+    direnv.enable = true;
   };
 
-  programs.fzf = {
-    enable = true;
-    enableBashIntegration = true;
-  };
-
-  # qt.enable = true;
   programs.kitty = {
     enable = true;
     font = {

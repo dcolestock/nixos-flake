@@ -9,23 +9,23 @@
         jupyter
 
         # Math and Data
-        pandas
-        sympy
-        numpy
-        sortedcontainers
-        jsondiff
-        datascroller
+        # pandas
+        # sympy
+        # numpy
+        # sortedcontainers
+        # jsondiff
+        # datascroller
 
         # Utilities
-        more-itertools
-        tqdm
-        icecream
-        rich
+        # more-itertools
+        # tqdm
+        # icecream
+        # rich
 
         # Network
-        beautifulsoup4
-        requests
-        lxml
+        # beautifulsoup4
+        # requests
+        # lxml
 
         # LSP
         python-lsp-server
@@ -39,6 +39,29 @@
         flake8
         ruff-lsp
         sqlparse
+
+        # optumdb
+        # pyodbc
+        # marimo
+
+        # Images
+        # pillow
+        # types-pillow
+
+        # Math and Data
+        # networkx
+        # primecountpy
+        # ply
+        # pygraphviz
+        # jsondiff
+
+        # Utilities
+        # aocd
+
+        # Machine Learning
+        # scikit-learn
+        # opencv4
+        # pytesseract
       ]
       ++ python-lsp-server.passthru.optional-dependencies.all;
 in {

@@ -45,17 +45,17 @@
     duf
     procs
     tldr
+    poetry
     # nodePackages.pyright
     # nodePackages.sql-formatter
   ];
 
-  programs.ruff = {
-    enable = true;
-    settings = {};
-  };
-
-  programs.fzf = {
-    enable = true;
-    enableBashIntegration = true;
+  programs = {
+    ruff = {
+      enable = true;
+      settings = {};
+    };
+    fzf.enable = true;
+    direnv.enable = true;
   };
 }
