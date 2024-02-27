@@ -234,19 +234,19 @@ in {
                 end
 
                 vim.cmd([[function! SlimeOverride_EscapeText_python(text)
-                                              lua UnhideSlimeAndClear()
-                                              if slime#config#resolve("python_ipython") && len(split(a:text,"\n")) > 1
-                                                return ["%cpaste -q\n", slime#config#resolve("dispatch_ipython_pause"), a:text, "--\n"]
-                                              else
-                                                let empty_lines_pat = '\(^\|\n\)\zs\(\s*\n\+\)\+'
-                                                let no_empty_lines = substitute(a:text, empty_lines_pat, "", "g")
-                                                let dedent_pat = '\(^\|\n\)\zs'.matchstr(no_empty_lines, '^\s*')
-                                                let dedented_lines = substitute(no_empty_lines, dedent_pat, "", "g")
-                                                let except_pat = '\(elif\|else\|except\|finally\)\@!'
-                                                let add_eol_pat = '\n\s[^\n]\+\n\zs\ze\('.except_pat.'\S\|$\)'
-                                                return substitute(dedented_lines, add_eol_pat, "\n", "g")
-                                              end
-                                            endfunction]])
+                                                      lua UnhideSlimeAndClear()
+                                                      if slime#config#resolve("python_ipython") && len(split(a:text,"\n")) > 1
+                                                        return ["%cpaste -q\n", slime#config#resolve("dispatch_ipython_pause"), a:text, "--\n"]
+                                                      else
+                                                        let empty_lines_pat = '\(^\|\n\)\zs\(\s*\n\+\)\+'
+                                                        let no_empty_lines = substitute(a:text, empty_lines_pat, "", "g")
+                                                        let dedent_pat = '\(^\|\n\)\zs'.matchstr(no_empty_lines, '^\s*')
+                                                        let dedented_lines = substitute(no_empty_lines, dedent_pat, "", "g")
+                                                        let except_pat = '\(elif\|else\|except\|finally\)\@!'
+                                                        let add_eol_pat = '\n\s[^\n]\+\n\zs\ze\('.except_pat.'\S\|$\)'
+                                                        return substitute(dedented_lines, add_eol_pat, "\n", "g")
+                                                      end
+                                                    endfunction]])
 
                 function Send_Ctrl_C()
                   local target_pane = vim.fn.shellescape(vim.g.slime_default_config["target_pane"])
@@ -388,13 +388,13 @@ in {
                   prepend_args = { "-i", "2" },
                 },
               },
-              format_on_save = function(bufnr)
-                -- Disable with a global or buffer-local variable
-                if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
-                  return
-                end
-                return { timeout_ms = 500, lsp_fallback = true }
-              end,
+              -- format_on_save = function(bufnr)
+              --   -- Disable with a global or buffer-local variable
+              --   if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
+              --     return
+              --   end
+              --   return { timeout_ms = 500, lsp_fallback = true }
+              -- end,
             })
             require("conform").formatters.sql_formatter = {
               prepend_args = { "--config", vim.fn.expand("~/.config/nvim/sql_formatter.json") },
@@ -710,7 +710,7 @@ in {
     "nvim/sql_formatter.json".text = ''
       {
         "language": "sqlite",
-        "keywordCase": "preserve"
+        "keywordCase": "upper"
       }
     '';
   };
