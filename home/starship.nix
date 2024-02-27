@@ -1,21 +1,25 @@
 {
   programs.starship = {
-    enable = true;
+    # enable = true;
     settings = {
       username = {
-        style_user = "blue bold";
+        style_user = "#3bfd8b bold";
         style_root = "red bold";
-        format = "[$user]($style) ";
+        format = "[$user]($style)";
         disabled = false;
         show_always = true;
       };
       hostname = {
-        ssh_only = false;
+        ssh_only = true;
         ssh_symbol = "🌐 ";
-        format = "on [$hostname](bold red) ";
+        format = "@[$hostname](bold red)";
         trim_at = ".local";
         disabled = false;
       };
     };
+  };
+  programs.oh-my-posh = {
+    enable = true;
+    useTheme = "hunk";
   };
 }
