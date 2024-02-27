@@ -37,15 +37,6 @@
     };
   };
 
-  programs = {
-    ruff = {
-      enable = true;
-      settings = {};
-    };
-    fzf.enable = true;
-    direnv.enable = true;
-  };
-
   programs.kitty = {
     enable = true;
     font = {

@@ -27,6 +27,7 @@ function sudo {
   elif [ "$(type -t "$firstArg")" = alias ]; then
     alias sudo='\sudo '
     eval "sudo $*"
+    unalias sudo
   else
     command sudo "$@"
   fi
@@ -61,8 +62,17 @@ function which() {
   fi
 }
 
-### Starship ###
-eval "$(starship init bash)"
+flakify() {
+  if [ ! -e flake.nix ]; then
+    nix flake new -t github:nix-community/nix-direnv .
+  elif [ ! -e .envrc ]; then
+    echo "use flake" >.envrc
+  fi
+  if [ ! -e pyproject.toml ]; then
+    poetry init
+  fi
+  direnv allow
+}
 
 ### FZF ###
 if command -v fzf-share >/dev/null; then

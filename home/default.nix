@@ -1,6 +1,7 @@
 {
   imports = [
     ./home.nix
+    ./sharedprograms.nix
     ./bash.nix
     ./dconf.nix
     ./tmux.nix

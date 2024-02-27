@@ -7,7 +7,11 @@
     ./packages.nix
     ./tailscale.nix
   ];
-  nix.settings.experimental-features = ["nix-command" "flakes"];
+  nix.settings = {
+    experimental-features = ["nix-command" "flakes"];
+    substituters = ["https://cache.thalheim.io"];
+    trusted-public-keys = ["cache.thalheim.io-1:R7msbosLEZKrxk/lKxf9BTjOOH7Ax3H0Qj0/6wiHOgc="];
+  };
 
   documentation.doc.enable = true;
   documentation.info.enable = true;

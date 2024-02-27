@@ -1,10 +1,7 @@
-{
-  pkgs,
-  inputs,
-  ...
-}: {
+{inputs, ...}: {
   imports = [
     ./bash.nix
+    ./sharedprograms.nix
     ./tmux.nix
     ./starship.nix
     ./neovim.nix
@@ -27,35 +24,4 @@
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
-
-  home.packages = with pkgs; [
-    tmux
-    eza
-    bat
-    fd
-    fzf
-    ripgrep
-    tree
-    wget
-    curl
-    unzip
-    jq
-    delta
-    du-dust
-    duf
-    procs
-    tldr
-    poetry
-    # nodePackages.pyright
-    # nodePackages.sql-formatter
-  ];
-
-  programs = {
-    ruff = {
-      enable = true;
-      settings = {};
-    };
-    fzf.enable = true;
-    direnv.enable = true;
-  };
 }
