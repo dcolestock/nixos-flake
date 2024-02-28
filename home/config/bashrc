@@ -64,12 +64,11 @@ function which() {
 
 flakify() {
   if [ ! -e flake.nix ]; then
-    nix flake new -t github:nix-community/nix-direnv .
-  elif [ ! -e .envrc ]; then
-    echo "use flake" >.envrc
+    nix flake init --template github:nix-community/poetry2nix
   fi
-  if [ ! -e pyproject.toml ]; then
-    poetry init
+  if [ ! -e .envrc ]; then
+    echo "watch_file poetry.lock
+use flake" >.envrc
   fi
   direnv allow
 }
