@@ -65,6 +65,7 @@
     libsForQt5.krfb
     wl-clipboard
     wl-clipboard-x11
+    neovide
 
     # Games
     endless-sky
