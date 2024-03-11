@@ -8,6 +8,7 @@
   nixpkgs.config.permittedInsecurePackages = [
     "pulsar-1.109.0"
     "electron-25.9.0"
+    "nix-2.15.3"
   ];
 
   environment.systemPackages = with pkgs; [
@@ -60,7 +61,7 @@
     mpv
     pulsar
     wireshark
-    kicad
+    # kicad
     nyxt
     libsForQt5.krfb
     wl-clipboard
