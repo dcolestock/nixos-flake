@@ -37,7 +37,7 @@
       lla = "ll -a -a";
       lt = "ll -s=modified";
 
-      tmux = "tmux -2 new -As0 -c ~";
+      tmux = "direnv exec / tmux -2 new -As0 -c ~";
       untar = "tar -xvaf";
       pbcopy = "xclip -selection clipboard";
       pbpaste = "xclip -selection clipboard -o";
@@ -89,6 +89,7 @@
   home.packages = with pkgs; [
     (writeShellApplication {
       name = "switch";
+      runtimeInputs = [ git nh ];
       text = ''
         cd /home/dan/Projects/dancolestock/nixos/
         gitstatus=$(git status --porcelain)
@@ -96,12 +97,13 @@
           echo "Flake's git not clean.  Aborting."
           exit 1
         fi
-        sudo nixos-rebuild switch --flake .
+        nh os switch .
       '';
     })
 
     (writeShellApplication {
       name = "switch-trace";
+      runtimeInputs = [ git nh ];
       text = ''
         cd /home/dan/Projects/dancolestock/nixos/
         gitstatus=$(git status --porcelain)
@@ -109,7 +111,7 @@
           echo "Flake's git not clean.  Aborting."
           exit 1
         fi
-        sudo nixos-rebuild switch --show-trace --option eval-cache false --flake .
+        nh os switch . -- --show-trace --option eval-cache false
       '';
     })
 
@@ -123,13 +125,17 @@
 
     (writeShellApplication {
       name = "update";
+      runtimeInputs = [ git nh ];
       text = ''
         cd /home/dan/Projects/dancolestock/nixos/
-        echo "Checking current git status..."
-        gitstatus=$(git status --porcelain)
-        if [[ -n "$gitstatus" ]] ; then
-          echo "Flake's git not clean.  Aborting."
-          exit 1
+        STASH_ID=$(git stash create --all)
+        if [ -n "$STASH_ID" ]; then
+          echo "Storing stash"
+          git stash store -m "Automated stash for update script" "$STASH_ID"
+          git reset --hard
+          git clean -fd
+        else
+          echo "No git changes found, no need to stash"
         fi
         echo "Updating flake..."
         nix flake update
@@ -137,12 +143,16 @@
         gitstatus=$(git status --porcelain)
         if [[ -z "$gitstatus" ]] ; then
           echo "Flake already up to date."
-          exit 0
+        else
+          echo "Committing changes..."
+          git commit -am "Flake update $(date '+%Y.%m.%d')"
+          echo "Rebuilding..."
+          nh os switch . || true
         fi
-        echo "Committing changes..."
-        git commit -am "Flake update $(date '+%Y.%m.%d')"
-        echo "Rebuilding..."
-        sudo nixos-rebuild switch --flake .
+        if [ -n "$STASH_ID" ]; then
+          echo "Restoring stash"
+          git stash pop "$STASH_ID"
+        fi
         echo "Done"
       '';
     })
