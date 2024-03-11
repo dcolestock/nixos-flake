@@ -9,18 +9,18 @@
         jupyter
 
         # Math and Data
-        # pandas
-        # sympy
-        # numpy
-        # sortedcontainers
-        # jsondiff
+        pandas
+        sympy
+        numpy
+        sortedcontainers
+        jsondiff
         # datascroller
 
         # Utilities
-        # more-itertools
-        # tqdm
-        # icecream
-        # rich
+        more-itertools
+        tqdm
+        icecream
+        rich
 
         # Network
         # beautifulsoup4
