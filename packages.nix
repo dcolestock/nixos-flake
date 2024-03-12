@@ -31,6 +31,7 @@
     tldr
     nodePackages.pyright
     nodePackages.sql-formatter
+    pre-commit
 
     # General Command Line Applications
     taskwarrior
@@ -83,6 +84,7 @@
     # Nix tools
     alejandra # Nix code formatter
     manix # Nix doc searcher
+    nh
 
     # System
     pavucontrol
