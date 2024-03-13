@@ -14,9 +14,6 @@ promptFunc() {
 }
 export PROMPT_COMMAND=promptFunc
 
-# Make bash append rather than overwrite the history on disk
-shopt -s histappend
-
 ### sudo ###
 # Allows sudo to use user alias and functions
 # https://unix.stackexchange.com/a/438712

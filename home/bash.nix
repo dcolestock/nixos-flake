@@ -1,6 +1,8 @@
 {pkgs, ...}: {
   programs.bash = {
     enable = true;
+    historySize = -1;
+    historyFileSize = -1;
     shellAliases = {
       # Magic to let sudo use my aliases
       # https://unix.stackexchange.com/questions/139231/keep-aliases-when-i-use-sudo-bash
@@ -89,7 +91,7 @@
   home.packages = with pkgs; [
     (writeShellApplication {
       name = "switch";
-      runtimeInputs = [ git nh ];
+      runtimeInputs = [git nh];
       text = ''
         cd /home/dan/Projects/dancolestock/nixos/
         gitstatus=$(git status --porcelain)
@@ -103,7 +105,7 @@
 
     (writeShellApplication {
       name = "switch-trace";
-      runtimeInputs = [ git nh ];
+      runtimeInputs = [git nh];
       text = ''
         cd /home/dan/Projects/dancolestock/nixos/
         gitstatus=$(git status --porcelain)
@@ -125,7 +127,7 @@
 
     (writeShellApplication {
       name = "update";
-      runtimeInputs = [ git nh ];
+      runtimeInputs = [git nh];
       text = ''
         cd /home/dan/Projects/dancolestock/nixos/
         STASH_ID=$(git stash create --all)
