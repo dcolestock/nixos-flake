@@ -23,9 +23,12 @@
     pkgs = nixpkgs.legacyPackages.${system};
   in {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
+      inherit system;
       specialArgs = {inherit inputs;};
       modules = [
+        # make `nix run nixpkgs#nixpkgs` use the same nixpkgs as the one used by this flake.
+        {nix.registry.nixpkgs.flake = nixpkgs;}
+
         ./configuration.nix
         agenix.nixosModules.default
 
@@ -42,9 +45,14 @@
     };
     homeConfigurations."dcolest" = home-manager.lib.homeManagerConfiguration {
       inherit pkgs;
-      modules = [./home/work.nix];
+      modules = [
+        # make `nix run nixpkgs#nixpkgs` use the same nixpkgs as the one used by this flake.
+        {nix.registry.nixpkgs.flake = nixpkgs;}
+
+        ./home/work.nix
+      ];
       extraSpecialArgs = {inherit inputs;};
     };
-    formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
+    formatter.${system} = pkgs.alejandra;
   };
 }
