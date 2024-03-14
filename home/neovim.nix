@@ -38,20 +38,24 @@ in {
     withPython3 = true;
     package = pkgs.neovim-nightly;
     extraPython3Packages = pyPkgs:
-      with pyPkgs; [
-        python-lsp-server
-        jupyter_client
-        pynvim
-        python-lsp-ruff
-        pyls-isort
-        pylsp-rope
-        pylsp-mypy
-        black
-        isort
-        mypy
-        flake8
-        ruff-lsp
-      ];
+      with pyPkgs;
+        [
+          pynvim
+          # jupyter_client
+
+          python-lsp-server
+          pylsp-mypy
+          pyls-isort
+          # python-lsp-black
+          pylsp-rope
+          python-lsp-ruff
+          # black
+          # isort
+          # mypy
+          # flake8
+          # ruff-lsp
+        ]
+        ++ python-lsp-server.optional-dependencies.all;
 
     extraPackages = with pkgs; [
       ### Language Servers ###
@@ -223,7 +227,7 @@ in {
                 vim.g.slime_python_ipython = 0 -- No %cpasted needed if using tmux's bracketed paste
 
                 function StartIPython()
-                  vim.fn.system("tmux if -F '#{==:#{window_panes},1}' 'split-window -hdZ ipython'")
+                  vim.fn.system("tmux if -F '#{==:#{window_panes},1}' 'split-window -hdZ eval \"$(direnv export bash)\"; ipython'")
                 end
 
                 function UnhideSlimeAndClear()
@@ -234,19 +238,19 @@ in {
                 end
 
                 vim.cmd([[function! SlimeOverride_EscapeText_python(text)
-                                                      lua UnhideSlimeAndClear()
-                                                      if slime#config#resolve("python_ipython") && len(split(a:text,"\n")) > 1
-                                                        return ["%cpaste -q\n", slime#config#resolve("dispatch_ipython_pause"), a:text, "--\n"]
-                                                      else
-                                                        let empty_lines_pat = '\(^\|\n\)\zs\(\s*\n\+\)\+'
-                                                        let no_empty_lines = substitute(a:text, empty_lines_pat, "", "g")
-                                                        let dedent_pat = '\(^\|\n\)\zs'.matchstr(no_empty_lines, '^\s*')
-                                                        let dedented_lines = substitute(no_empty_lines, dedent_pat, "", "g")
-                                                        let except_pat = '\(elif\|else\|except\|finally\)\@!'
-                                                        let add_eol_pat = '\n\s[^\n]\+\n\zs\ze\('.except_pat.'\S\|$\)'
-                                                        return substitute(dedented_lines, add_eol_pat, "\n", "g")
-                                                      end
-                                                    endfunction]])
+                                                        lua UnhideSlimeAndClear()
+                                                        if slime#config#resolve("python_ipython") && len(split(a:text,"\n")) > 1
+                                                          return ["%cpaste -q\n", slime#config#resolve("dispatch_ipython_pause"), a:text, "--\n"]
+                                                        else
+                                                          let empty_lines_pat = '\(^\|\n\)\zs\(\s*\n\+\)\+'
+                                                          let no_empty_lines = substitute(a:text, empty_lines_pat, "", "g")
+                                                          let dedent_pat = '\(^\|\n\)\zs'.matchstr(no_empty_lines, '^\s*')
+                                                          let dedented_lines = substitute(no_empty_lines, dedent_pat, "", "g")
+                                                          let except_pat = '\(elif\|else\|except\|finally\)\@!'
+                                                          let add_eol_pat = '\n\s[^\n]\+\n\zs\ze\('.except_pat.'\S\|$\)'
+                                                          return substitute(dedented_lines, add_eol_pat, "\n", "g")
+                                                        end
+                                                      endfunction]])
 
                 function Send_Ctrl_C()
                   local target_pane = vim.fn.shellescape(vim.g.slime_default_config["target_pane"])
@@ -310,6 +314,7 @@ in {
           lua
           */
           ''
+            local capabilities = require("cmp_nvim_lsp").default_capabilities()
             local lspconfig = require("lspconfig")
             -- Bash --
             lspconfig.bashls.setup({})
@@ -341,8 +346,18 @@ in {
 
             -- lspconfig.sqls.setup{}
             -- Python --
-            lspconfig.pyright.setup({})
-            lspconfig.ruff_lsp.setup({})
+            lspconfig.pylsp.setup({
+              settings = {
+                pylsp = {
+                  plugins = {
+                    rope_autoimport = {
+                      enabled = true
+                    },
+                  },
+                },
+              },
+              -- capabilities = capabilities,
+            })
 
             -- Nix --
             lspconfig.nil_ls.setup({}) -- nix language server - no format
@@ -430,6 +445,7 @@ in {
           */
           ''
             local cmp = require("cmp")
+            local lspkind = require('lspkind')
             cmp.setup({
               snippet = {
                 expand = function(args)
@@ -442,6 +458,16 @@ in {
                 ["<C-space>"] = cmp.mapping.complete(),
                 ["<C-e>"] = cmp.mapping.close(),
                 ["<tab>"] = cmp.mapping.confirm({ select = true }),
+              },
+              formatting = {
+                format = lspkind.cmp_format({
+                  mode = 'symbol_text',
+                  maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+                                 -- can also be a function to dynamically calculate max width such as
+                                 -- maxwidth = function() return math.floor(0.45 * vim.o.columns) end,
+                  ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+                  show_labelDetails = true, -- show labelDetails in menu. Disabled by default
+                })
               },
 
               sources = cmp.config.sources({
@@ -469,6 +495,7 @@ in {
           '';
       }
       cmp-nvim-lsp
+      lspkind-nvim
       cmp-buffer
       cmp-path
 
