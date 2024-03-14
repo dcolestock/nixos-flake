@@ -12,8 +12,8 @@
       experimental-features = ["nix-command" "flakes"];
       substituters = ["https://cache.thalheim.io"];
       trusted-public-keys = ["cache.thalheim.io-1:R7msbosLEZKrxk/lKxf9BTjOOH7Ax3H0Qj0/6wiHOgc="];
-      optimise.automatic = true;
     };
+    optimise.automatic = true;
     gc.automatic = true;
     gc.dates = "weekly";
 
