@@ -71,8 +71,9 @@ in {
 
       lua-language-server
       # nodejs
-      nil
-      rnix-lsp
+      nixd
+      # nil
+      # rnix-lsp
       # nixfmt
       # statix - Client crashed when opening .nix file
       # deadnix
@@ -238,19 +239,19 @@ in {
                 end
 
                 vim.cmd([[function! SlimeOverride_EscapeText_python(text)
-                                                        lua UnhideSlimeAndClear()
-                                                        if slime#config#resolve("python_ipython") && len(split(a:text,"\n")) > 1
-                                                          return ["%cpaste -q\n", slime#config#resolve("dispatch_ipython_pause"), a:text, "--\n"]
-                                                        else
-                                                          let empty_lines_pat = '\(^\|\n\)\zs\(\s*\n\+\)\+'
-                                                          let no_empty_lines = substitute(a:text, empty_lines_pat, "", "g")
-                                                          let dedent_pat = '\(^\|\n\)\zs'.matchstr(no_empty_lines, '^\s*')
-                                                          let dedented_lines = substitute(no_empty_lines, dedent_pat, "", "g")
-                                                          let except_pat = '\(elif\|else\|except\|finally\)\@!'
-                                                          let add_eol_pat = '\n\s[^\n]\+\n\zs\ze\('.except_pat.'\S\|$\)'
-                                                          return substitute(dedented_lines, add_eol_pat, "\n", "g")
-                                                        end
-                                                      endfunction]])
+                                                          lua UnhideSlimeAndClear()
+                                                          if slime#config#resolve("python_ipython") && len(split(a:text,"\n")) > 1
+                                                            return ["%cpaste -q\n", slime#config#resolve("dispatch_ipython_pause"), a:text, "--\n"]
+                                                          else
+                                                            let empty_lines_pat = '\(^\|\n\)\zs\(\s*\n\+\)\+'
+                                                            let no_empty_lines = substitute(a:text, empty_lines_pat, "", "g")
+                                                            let dedent_pat = '\(^\|\n\)\zs'.matchstr(no_empty_lines, '^\s*')
+                                                            let dedented_lines = substitute(no_empty_lines, dedent_pat, "", "g")
+                                                            let except_pat = '\(elif\|else\|except\|finally\)\@!'
+                                                            let add_eol_pat = '\n\s[^\n]\+\n\zs\ze\('.except_pat.'\S\|$\)'
+                                                            return substitute(dedented_lines, add_eol_pat, "\n", "g")
+                                                          end
+                                                        endfunction]])
 
                 function Send_Ctrl_C()
                   local target_pane = vim.fn.shellescape(vim.g.slime_default_config["target_pane"])
@@ -351,7 +352,7 @@ in {
                 pylsp = {
                   plugins = {
                     rope_autoimport = {
-                      enabled = true
+                      enabled = true,
                     },
                   },
                 },
@@ -360,8 +361,9 @@ in {
             })
 
             -- Nix --
-            lspconfig.nil_ls.setup({}) -- nix language server - no format
-            lspconfig.rnix.setup({})
+            -- lspconfig.nil_ls.setup({}) -- nix language server - no format
+            -- lspconfig.rnix.setup({})
+            lspconfig.nixd.setup({})
 
             -- Markdown --
             lspconfig.marksman.setup({})
@@ -445,7 +447,7 @@ in {
           */
           ''
             local cmp = require("cmp")
-            local lspkind = require('lspkind')
+            local lspkind = require("lspkind")
             cmp.setup({
               snippet = {
                 expand = function(args)
@@ -461,13 +463,13 @@ in {
               },
               formatting = {
                 format = lspkind.cmp_format({
-                  mode = 'symbol_text',
+                  mode = "symbol_text",
                   maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-                                 -- can also be a function to dynamically calculate max width such as
-                                 -- maxwidth = function() return math.floor(0.45 * vim.o.columns) end,
-                  ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+                  -- can also be a function to dynamically calculate max width such as
+                  -- maxwidth = function() return math.floor(0.45 * vim.o.columns) end,
+                  ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
                   show_labelDetails = true, -- show labelDetails in menu. Disabled by default
-                })
+                }),
               },
 
               sources = cmp.config.sources({
