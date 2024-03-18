@@ -30,6 +30,18 @@
       sha256 = "sha256-kixjgaAS6jk4DJw8EbG4aebtFxqp0Ibx3rtOCwO9Xi4=";
     };
   };
+  conform-nvimtest = pkgs.vimUtils.buildVimPlugin {
+    pname = "conform.nvim";
+    version = "2024-03-15";
+    src = pkgs.fetchFromGitHub {
+      owner = "stevearc";
+      repo = "conform.nvim";
+      rev = "f92d4e931a3b0d341fe1d93148d1199eac08d104";
+      sha256 = "4Plbs4ygv+cD/7f2a5kmG1T1EQ8oOhfYU7kYBF9oMc8=";
+      fetchSubmodules = true;
+    };
+    meta.homepage = "https://github.com/stevearc/conform.nvim/";
+  };
 in {
   programs.neovim = {
     enable = true;
@@ -239,19 +251,19 @@ in {
                 end
 
                 vim.cmd([[function! SlimeOverride_EscapeText_python(text)
-                                                          lua UnhideSlimeAndClear()
-                                                          if slime#config#resolve("python_ipython") && len(split(a:text,"\n")) > 1
-                                                            return ["%cpaste -q\n", slime#config#resolve("dispatch_ipython_pause"), a:text, "--\n"]
-                                                          else
-                                                            let empty_lines_pat = '\(^\|\n\)\zs\(\s*\n\+\)\+'
-                                                            let no_empty_lines = substitute(a:text, empty_lines_pat, "", "g")
-                                                            let dedent_pat = '\(^\|\n\)\zs'.matchstr(no_empty_lines, '^\s*')
-                                                            let dedented_lines = substitute(no_empty_lines, dedent_pat, "", "g")
-                                                            let except_pat = '\(elif\|else\|except\|finally\)\@!'
-                                                            let add_eol_pat = '\n\s[^\n]\+\n\zs\ze\('.except_pat.'\S\|$\)'
-                                                            return substitute(dedented_lines, add_eol_pat, "\n", "g")
-                                                          end
-                                                        endfunction]])
+                                                                lua UnhideSlimeAndClear()
+                                                                if slime#config#resolve("python_ipython") && len(split(a:text,"\n")) > 1
+                                                                  return ["%cpaste -q\n", slime#config#resolve("dispatch_ipython_pause"), a:text, "--\n"]
+                                                                else
+                                                                  let empty_lines_pat = '\(^\|\n\)\zs\(\s*\n\+\)\+'
+                                                                  let no_empty_lines = substitute(a:text, empty_lines_pat, "", "g")
+                                                                  let dedent_pat = '\(^\|\n\)\zs'.matchstr(no_empty_lines, '^\s*')
+                                                                  let dedented_lines = substitute(no_empty_lines, dedent_pat, "", "g")
+                                                                  let except_pat = '\(elif\|else\|except\|finally\)\@!'
+                                                                  let add_eol_pat = '\n\s[^\n]\+\n\zs\ze\('.except_pat.'\S\|$\)'
+                                                                  return substitute(dedented_lines, add_eol_pat, "\n", "g")
+                                                                end
+                                                              endfunction]])
 
                 function Send_Ctrl_C()
                   local target_pane = vim.fn.shellescape(vim.g.slime_default_config["target_pane"])
@@ -374,7 +386,7 @@ in {
       }
 
       {
-        plugin = conform-nvim;
+        plugin = conform-nvimtest;
         type = "lua";
         config =
           /*
@@ -394,9 +406,6 @@ in {
               formatters = {
                 sqlcustom = {
                   command = "sqlparser",
-                  prepend_args = function(self, ctx)
-                    return ctx.range
-                  end,
                 },
                 stylua = {
                   prepend_args = { "--indent-type", "Spaces", "--indent-width", "2" },
@@ -405,6 +414,7 @@ in {
                   prepend_args = { "-i", "2" },
                 },
               },
+              -- log_level = vim.log.levels.TRACE,
               -- format_on_save = function(bufnr)
               --   -- Disable with a global or buffer-local variable
               --   if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
