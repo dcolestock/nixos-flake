@@ -127,7 +127,7 @@
 
     (writeShellApplication {
       name = "update";
-      runtimeInputs = [git nh];
+      runtimeInputs = [git nh pre-commit];
       text = ''
         cd /home/dan/Projects/dancolestock/nixos/
         STASH_ID=$(git stash create --all)
@@ -147,6 +147,7 @@
           echo "Flake already up to date."
         else
           echo "Committing changes..."
+          pre-commit install
           git commit -am "Flake update $(date '+%Y.%m.%d')"
           echo "Rebuilding..."
           nh os switch . || true
