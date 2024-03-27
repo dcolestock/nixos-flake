@@ -17,9 +17,11 @@
     bat.enable = true;
     eza.enable = true;
     fzf.enable = true;
+    gh.enable = true;
     jq.enable = true;
     less.enable = true;
     ripgrep.enable = true;
+    zellij.enable = true;
 
     # oh-my-posh - starship alternative
     # taskwarrior, taskwarrior-sync
