@@ -81,6 +81,9 @@
       # https://askubuntu.com/questions/701824/getting-ctrl-backspace-to-delete-words-in-gnome-terminal-and-vim-insert-mo
       # Allows ctrl+backspace to delete words in bash vim insert mode
       "\C-H":"\C-W"
+
+      # Prevents ~[[200 from showing up at the start of some pastes into terminal
+      set enable-bracketed-paste off
     '';
   };
   # programs.mcfly = {
