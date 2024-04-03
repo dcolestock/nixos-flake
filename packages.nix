@@ -70,6 +70,7 @@
     wl-clipboard
     wl-clipboard-x11
     neovide
+    newsflash
 
     # Games
     endless-sky
