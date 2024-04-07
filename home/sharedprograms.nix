@@ -41,8 +41,8 @@
     git = {
       enable = true;
       delta.enable = true;
-      core.editor = "nvim";
       extraConfig = {
+        core.editor = "nvim";
         init.defaultBranch = "main";
         merge.conflictStyle = "diff3";
         merge.tool = "nvimdiff";
