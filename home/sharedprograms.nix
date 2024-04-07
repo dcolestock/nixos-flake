@@ -17,7 +17,6 @@
     bat.enable = true;
     eza.enable = true;
     fzf.enable = true;
-    gh.enable = true;
     jq.enable = true;
     less.enable = true;
     ripgrep.enable = true;
@@ -34,9 +33,24 @@
     # atuin - bash ctrl+r alternative.  Mcfly?
     # smartcd - autojump, zoxide, pazi, z-lua?
     # zellij - tmux alternative
+
+    gh = {
+      enable = true;
+      settings.git_protocol = "ssh";
+    };
     git = {
       enable = true;
       delta.enable = true;
+      core.editor = "nvim";
+      extraConfig = {
+        init.defaultBranch = "main";
+        merge.conflictStyle = "diff3";
+        merge.tool = "nvimdiff";
+        mergetool.nvimdiff = {
+          cmd = "nvim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'";
+          prompt = false;
+        };
+      };
     };
     ruff = {
       enable = true;
