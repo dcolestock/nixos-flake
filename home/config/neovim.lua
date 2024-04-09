@@ -96,6 +96,15 @@ end
 --   once = false,
 -- })
 
+vim.api.nvim_create_autocmd('FileType', {
+  group = myCommandGroup,
+  desc = "Set commentstring for devicetree files",
+  pattern = 'dts',
+  callback = function()
+    vim.opt_local.commentstring = '// %s'
+  end,
+})
+
 -- ------------- --
 --  Treesitter   --
 -- ------------- --
@@ -252,7 +261,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(ev)
     local client = vim.lsp.get_client_by_id(ev.data.client_id)
     -- Enable completion triggered by <c-x><c-o>
-    vim.api.nvim_buf_set_option(ev.buf, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+    vim.api.nvim_buf_set_option(ev.buf, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
     -- Buffer local mappings.
     vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = ev.buf, desc = "Declaration" })
@@ -271,7 +280,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
       vim.keymap.set({ "n", "v" }, "<space>lc", vim.lsp.buf.code_action, { buffer = ev.buf, desc = "Code Action" })
     end
     vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = ev.buf, desc = "References" })
-    vim.keymap.set('n', '<Leader>lF',  function() vim.lsp.buf.format { async = true } end, { desc = "[LSP] Format" })
+    vim.keymap.set("n", "<Leader>lF", function()
+      vim.lsp.buf.format({ async = true })
+    end, { desc = "[LSP] Format" })
   end,
 })
 
@@ -310,4 +321,15 @@ vim.keymap.set("n", "<Leader>C", "<Cmd>bdelete!<CR>", { desc = "Force Close Buff
 -- lvim.keys.insert_mode["<C-h>"] = "<Esc><C-w>h"
 -- lvim.keys.insert_mode["<C-k>"] = "<Esc><C-w>k"
 -- lvim.keys.insert_mode["<C-j>"] = "<Esc><C-w>j"
---
+
+-- ZMK related files
+vim.filetype.add({
+  extension = {
+    keymap = "dts",
+    overlay = "dts",
+  },
+  pattern = {
+    [".*_defconfig"] = "kconfig",
+    [".*/zmk%-config/.*%.conf"] = "kconfig", -- Careful to not include all .conf files
+  },
+})

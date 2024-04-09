@@ -515,11 +515,6 @@ in {
                 { name = "buffer" },
               },
             })
-            vim.filetype.add({
-              filename = {
-                [".keymap"] = "dts",
-              },
-            })
           '';
       }
       cmp-nvim-lsp
