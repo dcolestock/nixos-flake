@@ -312,7 +312,18 @@ in {
 
       # codeium-vim
       vim-sleuth
-      nvim-lastplace
+
+      {
+        plugin = nvim-lastplace;
+        type = "lua";
+        config =
+          /*
+          lua
+          */
+          ''
+            require("nvim-lastplace").setup({})
+          '';
+      }
       auto-save-nvim
 
       plenary-nvim
