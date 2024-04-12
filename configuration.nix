@@ -91,13 +91,16 @@
 
   services.gnome.gnome-remote-desktop.enable = true;
 
-  hardware.logitech.wireless.enable = true;
-  hardware.logitech.wireless.enableGraphical = true;
   hardware = {
     bluetooth = {
       enable = true;
       settings.General.Experimental = true;
     };
+    logitech.wireless = {
+      enable = true;
+      enableGraphical = true;
+    };
+    enableAllFirmware = true;
   };
 
   # Enable sound with pipewire.
