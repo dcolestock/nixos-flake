@@ -5,14 +5,6 @@
 }: {
   nixpkgs.overlays = [inputs.neovim-nightly-overlay.overlay];
 
-  nixpkgs.config.permittedInsecurePackages = [
-    "pulsar-1.109.0"
-    "pulsar-1.114.0"
-    "electron-25.9.0"
-    "nix-2.15.3"
-    "nix-2.16.2"
-  ];
-
   environment.systemPackages = with pkgs; [
     # General Command Line Tools
     eza
@@ -62,7 +54,7 @@
     obsidian
     heroic
     mpv
-    pulsar
+    # pulsar
     wireshark
     # kicad
     nyxt
