@@ -3,7 +3,7 @@
   inputs,
   ...
 }: {
-  nixpkgs.overlays = [inputs.neovim-nightly-overlay.overlay];
+  # nixpkgs.overlays = [inputs.neovim-nightly-overlay.overlay];
 
   environment.systemPackages = with pkgs; [
     # General Command Line Tools
@@ -63,6 +63,7 @@
     wl-clipboard-x11
     neovide
     newsflash
+    syncthing
 
     # Games
     endless-sky
