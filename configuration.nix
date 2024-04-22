@@ -10,8 +10,14 @@
   nix = {
     settings = {
       experimental-features = ["nix-command" "flakes"];
-      substituters = ["https://cache.thalheim.io"];
-      trusted-public-keys = ["cache.thalheim.io-1:R7msbosLEZKrxk/lKxf9BTjOOH7Ax3H0Qj0/6wiHOgc="];
+      substituters = [
+        "https://cache.thalheim.io"
+        "https://nix-community.cachix.org"
+      ];
+      trusted-public-keys = [
+        "cache.thalheim.io-1:R7msbosLEZKrxk/lKxf9BTjOOH7Ax3H0Qj0/6wiHOgc="
+        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      ];
     };
     optimise.automatic = true;
     gc.automatic = true;
