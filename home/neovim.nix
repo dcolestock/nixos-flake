@@ -73,6 +73,7 @@ in {
       ### Language Servers ###
       # nodePackages.bash-language-server
       # nodePackages.sql-formatter
+      nodePackages.fixjson
       stylua
       ruff
       alejandra
@@ -412,6 +413,7 @@ in {
                 python = { "isort", "ruff_format", "ruff_fix" },
                 nix = { "alejandra" },
                 sql = { "sqlcustom" },
+                json = { "fixjson" },
                 sh = { "shfmt" },
                 ["*"] = { "injected", "codespell" },
                 ["_"] = { "trim_whitespace" },

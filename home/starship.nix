@@ -20,6 +20,7 @@
   };
   programs.oh-my-posh = {
     enable = true;
-    useTheme = "hunk";
+    # useTheme = "hunk";
+    settings = builtins.fromJSON (builtins.unsafeDiscardStringContext (builtins.readFile ./config/ohmyposh.json));
   };
 }

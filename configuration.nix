@@ -10,6 +10,7 @@
   nix = {
     settings = {
       experimental-features = ["nix-command" "flakes"];
+      bash-prompt-prefix = "(nix:$name)\\040";
       substituters = [
         "https://cache.thalheim.io"
         "https://nix-community.cachix.org"
