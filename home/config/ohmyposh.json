@@ -13,7 +13,7 @@
           "foreground": "#ffffff",
           "background": "#7c273f",
           "leading_diamond": "",
-          "template": "{{ if .WSL }}WSL at {{ end }}{{.Icon}}",
+          "template": "{{ if .WSL }}WSL at {{ end }}{{.Icon}} ",
           "properties": {
             "windows": ""
           }
@@ -24,10 +24,15 @@
           "powerline_symbol": "",
           "foreground": "#ffffff",
           "background": "#7c273f",
-          "template": "{{ .Path }} ",
+          "template": "{{ .Path }}{{ if .StackCount }}({{ .StackCount }}){{ end }}{{ if not .Writable }}   {{ end }}",
           "properties": {
-            "style": "full",
-            "folder_separator_icon": " ❯ "
+            "style": "agnoster_full",
+            "folder_separator_icon": " ❯ ",
+            "mapped_locations": {
+              "~/Projects": " ",
+              "~/projects": " ",
+              "~/": ""
+            }
           }
         },
         {
@@ -58,14 +63,6 @@
             "fetch_status": true,
             "fetch_upstream_icon": true
           }
-        },
-        {
-          "type": "project",
-          "style": "powerline",
-          "powerline_symbol": "",
-          "foreground": "#193549",
-          "background": "#ffeb3b",
-          "template": " {{ if .Error }}{{ .Error }}{{ else }}{{ if .Version }} {{.Version}}{{ end }} {{ if .Name }}{{ .Name }}{{ end }}{{ end }} "
         },
         {
           "type": "text",
