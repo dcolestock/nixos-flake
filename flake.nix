@@ -3,10 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    # nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/*.tar.gz";
-
     home-manager.url = "github:nix-community/home-manager";
-    # home-manager.url = "git+file:/home/dan/Projects/dancolestock/home-manager/";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     agenix.url = "github:ryantm/agenix";

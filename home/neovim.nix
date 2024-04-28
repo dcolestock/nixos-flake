@@ -9,7 +9,7 @@
       owner = "klafyvel";
       repo = "vim-slime-cells";
       rev = "2252bc83fc0174c8e67bcf9a519edf2d328b8bc9";
-      sha256 = "sha256-d3+uH+LuIbrBFNp5BCHca2m94RN2asGgzQojC2f6yoQ=";
+      sha256 = "116az9khn8qarnhc2skn2ghvssbbvhhh8yfs2k0vl8gfw8gswzvp";
     };
   };
   lazy-nix-helper-nvim = pkgs.vimUtils.buildVimPlugin {
@@ -27,17 +27,17 @@
       owner = "lkhphuc";
       repo = "jupyter-kernel.nvim";
       rev = "5772fa8932f2c73736a777082656f1bfe0287076";
-      sha256 = "sha256-kixjgaAS6jk4DJw8EbG4aebtFxqp0Ibx3rtOCwO9Xi4=";
+      sha256 = "0bjypl1hnkmvvvqqdl5938byvrk9p2qi2g4w1hw3kshjl20n6b4j";
     };
   };
   conform-nvimtest = pkgs.vimUtils.buildVimPlugin {
     pname = "conform.nvim";
-    version = "2024-03-15";
+    version = "unstable-2024-04-24";
     src = pkgs.fetchFromGitHub {
       owner = "stevearc";
       repo = "conform.nvim";
-      rev = "f92d4e931a3b0d341fe1d93148d1199eac08d104";
-      sha256 = "4Plbs4ygv+cD/7f2a5kmG1T1EQ8oOhfYU7kYBF9oMc8=";
+      rev = "4660e534bf7678ee0f85879aa75fdcb6855612c2";
+      sha256 = "1plg37985ij4q3nklni8rpk453s43gihjiy88sagkgay8wimczfx";
       fetchSubmodules = true;
     };
     meta.homepage = "https://github.com/stevearc/conform.nvim/";
