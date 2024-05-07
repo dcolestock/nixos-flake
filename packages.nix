@@ -47,7 +47,6 @@
     # GUI Applications
     keepassxc
     libreoffice
-    discord
     google-chrome
     chromium
     firefox

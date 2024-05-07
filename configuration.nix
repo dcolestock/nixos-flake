@@ -32,7 +32,12 @@
   documentation.dev.enable = true;
 
   # Bootloader.
-  boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot = {
+    enable = true;
+    editor = false;
+    # consoleMode = "max";
+  };
+  system.nixos.label = "";
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "nixos"; # Define your hostname.

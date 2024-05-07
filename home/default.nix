@@ -8,5 +8,6 @@
     ./starship.nix
     ./neovim.nix
     ./python.nix
+    ./discord
   ];
 }
