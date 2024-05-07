@@ -12,24 +12,6 @@
       sha256 = "116az9khn8qarnhc2skn2ghvssbbvhhh8yfs2k0vl8gfw8gswzvp";
     };
   };
-  lazy-nix-helper-nvim = pkgs.vimUtils.buildVimPlugin {
-    name = "lazy-nix-helper.nvim";
-    src = pkgs.fetchFromGitHub {
-      owner = "b-src";
-      repo = "lazy-nix-helper.nvim";
-      rev = "63b20ed071647bb492ed3256fbda709e4bfedc45";
-      hash = "sha256-kixj0000000000w8EbG4aebtFxqp0Ibx3rtOCwO9Xi4=";
-    };
-  };
-  jupyter-kernel-nvim = pkgs.vimUtils.buildVimPlugin {
-    name = "jupyter-kernel-nvim";
-    src = pkgs.fetchFromGitHub {
-      owner = "lkhphuc";
-      repo = "jupyter-kernel.nvim";
-      rev = "5772fa8932f2c73736a777082656f1bfe0287076";
-      sha256 = "0bjypl1hnkmvvvqqdl5938byvrk9p2qi2g4w1hw3kshjl20n6b4j";
-    };
-  };
   conform-nvimtest = pkgs.vimUtils.buildVimPlugin {
     pname = "conform.nvim";
     version = "unstable-2024-04-24";

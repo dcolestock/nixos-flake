@@ -68,19 +68,25 @@
 
   # Video Card Drivers
   services.xserver.videoDrivers = ["amdgpu"];
-  hardware.opengl.driSupport = true;
-  # For 32 bit applications
-  hardware.opengl.driSupport32Bit = true;
-  hardware.opengl.extraPackages = with pkgs; [
-    libGL
-    amdvlk
-    driversi686Linux.amdvlk # For 32 bit applications
-  ];
-  hardware.opengl.setLdLibraryPath = true;
+  hardware.opengl = {
+    enable = true;
+    driSupport = true;
+    # For 32 bit applications
+    driSupport32Bit = true;
+    extraPackages = with pkgs; [
+      libGL
+      amdvlk
+      driversi686Linux.amdvlk # For 32 bit applications
+    ];
+    setLdLibraryPath = true;
+  };
 
   # Enable the GNOME Desktop Environment.
   # services.xserver.displayManager.gdm.enable = true;
   # services.xserver.desktopManager.gnome.enable = true;
+  # services.gnome.gnome-remote-desktop.enable = true;
+
+  # Enable the Plasma 5 Desktop Environment
   services.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
 
@@ -95,8 +101,6 @@
   services.avahi.enable = true;
   services.avahi.nssmdns4 = true;
   services.printing.drivers = [pkgs.brlaser];
-
-  services.gnome.gnome-remote-desktop.enable = true;
 
   hardware = {
     bluetooth = {
@@ -181,7 +185,7 @@
   '';
   security.polkit.enable = true;
 
-  # Open ports in the firewall.
+  # Open RDP ports in the firewall.
   networking.firewall.allowedTCPPorts = [3389];
   networking.firewall.allowedUDPPorts = [3389];
   # Or disable the firewall altogether.
