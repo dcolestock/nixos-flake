@@ -12,7 +12,7 @@
       ".." = "c ..";
       "..." = "c ../..";
       open = "xdg-open";
-      path = "echo -e \${PATH//:/\\n}";
+      path = "echo -e \${PATH//:/\\\\n}";
       ping = "ping -c 5";
       mkdir = "mkdir -pv";
       wget = "wget -c";
