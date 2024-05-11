@@ -30,6 +30,16 @@ function sudo {
   fi
 }
 
+### cd ###
+# ls after each cd
+function cd() {
+  DIR="$*";
+  if [ $# -lt 1 ]; then
+    DIR=$HOME;
+  fi;
+  builtin cd "${DIR}" && ls
+}
+
 ### rm ###
 # adds a '-r' flag only if there is a single argument and that argument
 # is a directory.
@@ -38,9 +48,9 @@ function sudo {
 # prompted for single files.
 function rm() {
   if [ $# -eq 1 ] && [ -d "$1" ]; then
-    command rm --verbose --interactive=once --recursive "$1"
+    command rm --verbose --interactive=once --preserve-root=all --recursive "$1"
   else
-    command rm --verbose --interactive=once "$@"
+    command rm --verbose --interactive=once --preserve-root=all "$@"
   fi
 }
 
@@ -50,7 +60,8 @@ mc() {
 }
 
 ### which ###
-
+# Lists alias, function, builtin, file, and keyword definitions if output is
+# terminal, otherwise normal which to preserve piping behavior
 function which() {
   if [ -t 1 ]; then
     builtin type -a $1

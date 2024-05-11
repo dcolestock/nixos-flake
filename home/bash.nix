@@ -12,9 +12,17 @@
       ".." = "c ..";
       "..." = "c ../..";
       open = "xdg-open";
+      path = "echo -e \${PATH//:/\\n}";
+      ping = "ping -c 5";
+      mkdir = "mkdir -pv";
+      wget = "wget -c";
+      chmod = "chmod -c --preserve-root";
+      chown = "chown -c --preserve-root";
+      chgrp = "chgrp -c --preserve-root";
 
-      cp = "cp --recursive --interactive --verbose --reflink=auto";
+      cp = "cp --interactive --verbose --recursive --reflink=auto";
       mv = "mv --interactive --verbose";
+      ln = "ln --interactive --verbose";
 
       # Default to human readable figures
       # df = "df -h";
