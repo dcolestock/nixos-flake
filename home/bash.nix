@@ -19,10 +19,12 @@
       chmod = "chmod -c --preserve-root";
       chown = "chown -c --preserve-root";
       chgrp = "chgrp -c --preserve-root";
+      please = "sudo $(fc -ln -1)";
 
       cp = "cp --interactive --verbose --recursive --reflink=auto";
       mv = "mv --interactive --verbose";
       ln = "ln --interactive --verbose";
+      cpv = "rsync -ah --info=progress2";
 
       # Default to human readable figures
       # df = "df -h";
@@ -42,6 +44,7 @@
       fgrep = "fgrep --color=auto";
 
       ls = "ls -h --group-directories-first --color=auto";
+      l = "ls";
       ll = "exa -l --group-directories-first";
       la = "exa --group-directories-first -a -a";
       lla = "ll -a -a";
@@ -53,6 +56,11 @@
       pbpaste = "xclip -selection clipboard -o";
       sudoedit = "command sudo -E nvim";
       myvim = "NVIM_APPNAME=myvim nvim";
+      weather = "curl wttr.in";
+
+      gs = "git status";
+      gd = "git diff";
+      gc = "git commit";
     };
     sessionVariables = {
       LD_LIBRARY_PATH = "/run/opengl-driver/lib";
