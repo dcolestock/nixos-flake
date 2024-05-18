@@ -31,10 +31,11 @@
   documentation.info.enable = true;
   documentation.dev.enable = true;
 
-  # Bootloader.
+  # Bootloader
   boot.loader.systemd-boot = {
     enable = true;
     editor = false;
+    configurationLimit = 40;
     # consoleMode = "max";
   };
   system.nixos.label = "";
