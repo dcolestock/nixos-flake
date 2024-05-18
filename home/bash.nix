@@ -56,7 +56,7 @@
       pbpaste = "xclip -selection clipboard -o";
       sudoedit = "command sudo -E nvim";
       myvim = "NVIM_APPNAME=myvim nvim";
-      weather = "curl wttr.in";
+      weather = "curl -sS wttr.in|head -n -2";
 
       gs = "git status";
       gd = "git diff";
