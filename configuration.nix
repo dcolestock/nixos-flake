@@ -35,7 +35,7 @@
   boot.loader.systemd-boot = {
     enable = true;
     editor = false;
-    configurationLimit = 40;
+    configurationLimit = 25;
     # consoleMode = "max";
   };
   system.nixos.label = "";
