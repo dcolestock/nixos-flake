@@ -70,6 +70,20 @@ function which() {
   fi
 }
 
+### python venv ###
+# Activate python venv
+
+function venv() {
+  if [ -f venv/bin/activate ]; then
+    source venv/bin/activate
+    exit
+  fi
+  if [ -f .venv/bin/activate ]; then
+    source .venv/bin/activate
+    exit
+  fi
+}
+
 flakify() {
   if [ ! -e flake.nix ]; then
     nix flake init --template github:nix-community/poetry2nix
