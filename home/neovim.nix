@@ -141,7 +141,6 @@ in {
             require("mini.animate").setup()
             require("mini.basics").setup()
             require("mini.bracketed").setup()
-            require("mini.comment").setup()
             require("mini.cursorword").setup()
             require("mini.indentscope").setup()
             require("mini.surround").setup()

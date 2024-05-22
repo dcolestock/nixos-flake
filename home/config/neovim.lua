@@ -22,7 +22,7 @@ vim.o.timeout = true
 vim.o.timeoutlen = 300
 vim.o.updatetime = 250
 vim.o.completeopt = "menuone,noselect"
-vim.o.clipboard = "unnamedplus,unnamed"
+vim.o.conceallevel = 2
 
 -- Mouse --
 vim.o.mouse = "a"
