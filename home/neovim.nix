@@ -621,7 +621,6 @@ in {
             })
           '';
       }
-      playground
 
       # Color Schemes
       tokyonight-nvim

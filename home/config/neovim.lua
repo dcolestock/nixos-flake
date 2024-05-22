@@ -96,12 +96,12 @@ end
 --   once = false,
 -- })
 
-vim.api.nvim_create_autocmd('FileType', {
+vim.api.nvim_create_autocmd("FileType", {
   group = myCommandGroup,
   desc = "Set commentstring for devicetree files",
-  pattern = 'dts',
+  pattern = "dts",
   callback = function()
-    vim.opt_local.commentstring = '// %s'
+    vim.opt_local.commentstring = "// %s"
   end,
 })
 
@@ -235,8 +235,8 @@ vim.keymap.set("n", "<C-L>", "<C-W><C-L>")
 --
 
 vim.keymap.set("n", "<space>e", vim.diagnostic.open_float, { desc = "Open Float" })
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "[Diag] Next" })
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "[Diag] Prev" })
+-- vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "[Diag] Next" }) -- default in nvim 0.10
+-- vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "[Diag] Prev" }) -- default in nvim 0.10
 vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, { desc = "Set Loc List" })
 
 vim.keymap.set("n", "<space>lf", function()
@@ -267,7 +267,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = ev.buf, desc = "Declaration" })
     vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = ev.buf, desc = "Definition" })
     vim.keymap.set("n", "<space>D", vim.lsp.buf.type_definition, { buffer = ev.buf, desc = "Type Definition" })
-    vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = ev.buf, desc = "Hover" })
+    -- vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = ev.buf, desc = "Hover" }) -- default in nvim 0.10
     vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { buffer = ev.buf, desc = "Implementation" })
     vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, { buffer = ev.buf, desc = "Signature Help" })
     -- vim.keymap.set("n", "<space>wa", vim.lsp.buf.add_workspace_folder, { buffer = ev.buf, desc = "Add Workspace Folder" })
@@ -283,6 +283,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
     vim.keymap.set("n", "<Leader>lF", function()
       vim.lsp.buf.format({ async = true })
     end, { desc = "[LSP] Format" })
+
+    if vim.lsp.inlay_hint then
+      vim.lsp.inlay_hint(ev.buf, true)
+    end
   end,
 })
 
@@ -442,4 +446,4 @@ vim.api.nvim_create_autocmd("FileType", {
     extmark_render_box(code_ranges, "Comment")
     extmark_render_box(header_ranges, "Identifier")
   end
-})]]--
+})]]
