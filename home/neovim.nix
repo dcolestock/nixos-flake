@@ -91,7 +91,6 @@ in {
     # mini.basics # How much can I remove thanks to this?
     # mini.bufremove
     # mini.clue # Adjust Window Size
-    # mini.comment
     # mini.cursorword
     # mini.indentscope # Keep animation?
     # mini.surround # Learn these hotkeys and usage
@@ -127,6 +126,7 @@ in {
 
     # Exclude
     # mini.trailspace - Only highlights, list-charter + autoremove should be enough #TODO: autoremove on save
+    # mini.comment - no longer needed as built in in neovim 0.10
 
     plugins = with pkgs.vimPlugins; [
       {

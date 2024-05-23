@@ -284,9 +284,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
       vim.lsp.buf.format({ async = true })
     end, { desc = "[LSP] Format" })
 
-    if vim.lsp.inlay_hint then
-      vim.lsp.inlay_hint(ev.buf, true)
-    end
+    -- if vim.lsp.inlay_hint then
+    --   vim.lsp.inlay_hint(ev.buf, true)
+    -- end
   end,
 })
 

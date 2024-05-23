@@ -8,14 +8,17 @@
 
     agenix.url = "github:ryantm/agenix";
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+    stylix.url = "github:danth/stylix";
   };
 
   outputs = inputs @ {
     nixpkgs,
     home-manager,
+    stylix,
     agenix,
     ...
   }: let
+    # a = builtins.trace inputs;
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
   in {
@@ -28,6 +31,7 @@
 
         ./configuration.nix
         agenix.nixosModules.default
+        stylix.nixosModules.stylix
 
         home-manager.nixosModules.home-manager
         {
@@ -36,6 +40,7 @@
             useUserPackages = true;
             users.dan = import ./home;
             extraSpecialArgs = {};
+            backupFileExtension = ".bak";
           };
         }
       ];
