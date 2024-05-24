@@ -18,9 +18,9 @@
       font-antialiasing = "rgba";
       font-hinting = "slight";
       text-scaling-factor = 1.0;
-      # monospace-font-name = "JetBrainsMono Nerd Font 12";
-      # font-name = "Cantarell 12";
-      # document-font-name = "Cantarell 12";
+      monospace-font-name = "JetBrainsMonoNL Nerd Font 12";
+      font-name = "Cantarell 12";
+      document-font-name = "Cantarell 12";
       enable-hot-corners = false;
       clock-format = "12h";
     };

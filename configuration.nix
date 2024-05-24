@@ -187,31 +187,6 @@
     };
   };
 
-  stylix = {
-    image = builtins.fetchurl {
-      url = "https://w.wallhaven.cc/full/d6/wallhaven-d6mg33.png";
-      sha256 = "01vhwfx2qsvxgcrhbyx5d0c6c0ahjp50qy147638m7zfinhk70vx";
-    };
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/rose-pine.yaml";
-    cursor.package = pkgs.bibata-cursors;
-    cursor.name = "Bibata-Modern-Ice";
-
-    fonts = {
-      monospace = {
-        package = pkgs.nerdfonts.override {fonts = ["JetBrainsMono"];};
-        name = "JetBrainsMonoNL Nerd Font";
-      };
-      sansSerif = {
-        package = pkgs.dejavu_fonts;
-        name = "DejaVu Sans";
-      };
-      serif = {
-        package = pkgs.dejavu_fonts;
-        name = "DejaVu Serif";
-      };
-    };
-  };
-
   security.sudo.extraConfig = ''
     Defaults timestamp_timeout=30, pwfeedback
   '';
