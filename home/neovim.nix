@@ -12,17 +12,14 @@
       sha256 = "116az9khn8qarnhc2skn2ghvssbbvhhh8yfs2k0vl8gfw8gswzvp";
     };
   };
-  conform-nvimtest = pkgs.vimUtils.buildVimPlugin {
-    pname = "conform.nvim";
-    version = "unstable-2024-04-24";
+  vim-dadbod-snowflake = pkgs.vimUtils.buildVimPlugin {
+    name = "vim-dadbod";
     src = pkgs.fetchFromGitHub {
-      owner = "stevearc";
-      repo = "conform.nvim";
-      rev = "4660e534bf7678ee0f85879aa75fdcb6855612c2";
-      sha256 = "1plg37985ij4q3nklni8rpk453s43gihjiy88sagkgay8wimczfx";
-      fetchSubmodules = true;
+      owner = "ctdunc";
+      repo = "vim-dadbod-snowflake";
+      rev = "77f6b5eb1c8f488d23390b899045c7c661467cf5";
+      sha256 = "sha256-MeTdfJ7Ks6UvuEQLXeg59YmjfeEcAfjiweCMEeUPOrc=";
     };
-    meta.homepage = "https://github.com/stevearc/conform.nvim/";
   };
 in {
   programs.neovim = {
@@ -381,7 +378,7 @@ in {
       }
 
       {
-        plugin = conform-nvimtest;
+        plugin = conform-nvim;
         type = "lua";
         config =
           /*
@@ -621,6 +618,11 @@ in {
             })
           '';
       }
+
+      # SQL
+      vim-dadbod-snowflake
+      vim-dadbod-ui
+      vim-dadbod-completion
 
       # Color Schemes
       tokyonight-nvim
