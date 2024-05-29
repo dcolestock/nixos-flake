@@ -15,10 +15,10 @@
   vim-dadbod-snowflake = pkgs.vimUtils.buildVimPlugin {
     name = "vim-dadbod";
     src = pkgs.fetchFromGitHub {
-      owner = "ctdunc";
+      owner = "dcolestock";
       repo = "vim-dadbod-snowflake";
-      rev = "77f6b5eb1c8f488d23390b899045c7c661467cf5";
-      sha256 = "sha256-MeTdfJ7Ks6UvuEQLXeg59YmjfeEcAfjiweCMEeUPOrc=";
+      rev = "fa67663c50526ed7bc95782e5ae004f59c1d2dce";
+      sha256 = "sha256-HXkou93tvB3Jhrl3msTaktK15yITFOu3SI0iH/QQL3E=";
     };
   };
 in {
