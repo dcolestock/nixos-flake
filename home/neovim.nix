@@ -12,15 +12,6 @@
       sha256 = "116az9khn8qarnhc2skn2ghvssbbvhhh8yfs2k0vl8gfw8gswzvp";
     };
   };
-  vim-dadbod-snowflake = pkgs.vimUtils.buildVimPlugin {
-    name = "vim-dadbod";
-    src = pkgs.fetchFromGitHub {
-      owner = "dcolestock";
-      repo = "vim-dadbod-snowflake";
-      rev = "fa67663c50526ed7bc95782e5ae004f59c1d2dce";
-      sha256 = "sha256-HXkou93tvB3Jhrl3msTaktK15yITFOu3SI0iH/QQL3E=";
-    };
-  };
 in {
   programs.neovim = {
     enable = true;
@@ -618,11 +609,6 @@ in {
             })
           '';
       }
-
-      # SQL
-      vim-dadbod-snowflake
-      vim-dadbod-ui
-      vim-dadbod-completion
 
       # Color Schemes
       tokyonight-nvim
