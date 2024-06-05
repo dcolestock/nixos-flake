@@ -17,17 +17,36 @@ export PROMPT_COMMAND=promptFunc
 ### sudo ###
 # Allows sudo to use user alias and functions
 # https://unix.stackexchange.com/a/438712
-function sudo {
+sudo() {
   local firstArg=$1
-  if [ "$(type -t "$firstArg")" = function ]; then
-    shift && command sudo bash -c "$(declare -f "$firstArg");$firstArg $*"
-  elif [ "$(type -t "$firstArg")" = alias ]; then
-    alias sudo='\sudo '
-    eval "sudo $*"
-    unalias sudo
+  local firstArgType=$(type -t "$firstArg")
+  shift
+  if [ "$firstArgType" = function ]; then
+    command sudo bash -c "$(declare -f "$firstArg");$firstArg $*"
+  elif [ "$firstArgType" = alias ]; then
+    resolved_cmd="$(alias_expand "$@")"
+    command sudo eval "$resolved_cmd $*"
   else
-    command sudo "$@"
+    command sudo "$firstArg" "$@"
   fi
+}
+
+alias_expand() {
+    local newcmd cmd
+    cmd="$1"
+    if newcmd=$(alias "$cmd" 2> /dev/null); then
+        newcmd=$(echo "$newcmd" | sed 's/^alias .*='\''//;s/'\''$//')
+        shift
+        set -- $newcmd "$@"
+        if [ "$cmd" == "$1" ]; then
+            echo "$@"
+        else
+            alias_expand "$@"
+        fi
+    else
+        echo "$@"
+        return 1
+    fi
 }
 
 ### cd ###
@@ -97,7 +116,6 @@ function run() {
   shift
   nix run nixpkgs#$program -- "$@"
 }
-
 
 ### FZF ###
 if command -v fzf-share >/dev/null; then

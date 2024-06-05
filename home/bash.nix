@@ -48,6 +48,7 @@
       ll = "exa -l --group-directories-first";
       la = "exa --group-directories-first -a -a";
       lla = "ll -a -a";
+      laa = "lla";
       lt = "ll -s=modified";
 
       tmux = "direnv exec / tmux -2 new -As0 -c ~";
