@@ -33,11 +33,7 @@ function sudo {
 ### cd ###
 # ls after each cd
 function cd() {
-  DIR="$*";
-  if [ $# -lt 1 ]; then
-    DIR=$HOME;
-  fi;
-  builtin cd "${DIR}" && ls
+  builtin cd "$@" && ls
 }
 
 ### rm ###
