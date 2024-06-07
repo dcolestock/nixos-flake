@@ -56,7 +56,7 @@
     # pulsar
     wireshark
     # kicad
-    nyxt
+    # nyxt
     libsForQt5.krfb
     wl-clipboard
     wl-clipboard-x11
