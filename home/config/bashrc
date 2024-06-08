@@ -90,12 +90,14 @@ function which() {
 
 function venv() {
   if [ -f venv/bin/activate ]; then
+    echo "Activating $(realpath venv)"
     source venv/bin/activate
-    exit
-  fi
-  if [ -f .venv/bin/activate ]; then
+  elif [ -f .venv/bin/activate ]; then
+    echo "Activating $(realpath .venv)"
     source .venv/bin/activate
-    exit
+  else
+    echo "Activation failed: No venv found"
+    return 1
   fi
 }
 
