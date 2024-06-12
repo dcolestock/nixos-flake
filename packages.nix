@@ -1,6 +1,7 @@
 {
   pkgs,
   inputs,
+  pkgs-pin,
   ...
 }: {
   # nixpkgs.overlays = [inputs.neovim-nightly-overlay.overlay];
@@ -23,7 +24,7 @@
     # mcfly
     procs
     tldr
-    nodePackages.pyright
+    pyright
     nodePackages.sql-formatter
     pre-commit
 
@@ -50,7 +51,7 @@
     google-chrome
     chromium
     firefox
-    obsidian
+    pkgs-pin.obsidian
     heroic
     mpv
     # pulsar

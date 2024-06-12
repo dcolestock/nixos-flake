@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-54aa.url = "github:nixos/nixpkgs/54aac082a4d9bb5bbc5c4e899603abfb76a3f6d6";
+    nixpkgs-pin.url = "github:nixos/nixpkgs/e8057b67ebf307f01bdcc8fba94d94f75039d1f6";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -13,14 +13,14 @@
 
   outputs = inputs @ {
     nixpkgs,
-    nixpkgs-54aa,
+    nixpkgs-pin,
     home-manager,
     agenix,
     ...
   }: let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
-    pkgs-54aa = import nixpkgs-54aa {
+    pkgs-pin = import nixpkgs-pin {
       inherit system;
       config.allowUnfree = true;
     };
@@ -29,7 +29,7 @@
       inherit system;
       specialArgs = {
         inherit inputs;
-        inherit pkgs-54aa;
+        inherit pkgs-pin;
       };
       modules = [
         # make `nix run nixpkgs#nixpkgs` use the same nixpkgs as the one used by this flake.
@@ -45,7 +45,7 @@
             useUserPackages = true;
             users.dan = import ./home;
             extraSpecialArgs = {
-              inherit pkgs-54aa;
+              inherit pkgs-pin;
             };
           };
         }
@@ -59,7 +59,10 @@
 
         ./home/work.nix
       ];
-      extraSpecialArgs = {inherit inputs;};
+      extraSpecialArgs = {
+        inherit inputs;
+        inherit pkgs-pin;
+      };
     };
     formatter.${system} = pkgs.alejandra;
   };
