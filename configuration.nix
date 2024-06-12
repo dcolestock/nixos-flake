@@ -97,9 +97,16 @@
   # services.xserver.desktopManager.gnome.enable = true;
   # services.gnome.gnome-remote-desktop.enable = true;
 
-  # Enable the Plasma 5 Desktop Environment
+  # Enable the Plasma 6 Desktop Environment
   services.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
+  services.xserver.displayManager.defaultSession = "plasma";
+  services.xserver.displayManager.sddm.wayland.enable = true;
+
+  environment.plasma6.excludePackages = with pkgs.kdePackages; [
+    plasma-browser-integration
+    konsole
+  ];
 
   # Configure keymap in X11
   services.xserver.xkb = {
