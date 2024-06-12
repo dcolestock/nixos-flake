@@ -63,6 +63,9 @@
     neovide
     newsflash
     syncthing
+    virt-manager
+    virt-viewer
+    qemu
 
     # Games
     endless-sky
