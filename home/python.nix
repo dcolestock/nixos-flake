@@ -15,6 +15,8 @@
         sortedcontainers
         jsondiff
         # datascroller
+        openpyxl
+        xlsxwriter
 
         # Utilities
         more-itertools

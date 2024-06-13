@@ -13,6 +13,7 @@
     };
   };
 in {
+  imports = [./neovim-node-packages.nix];
   programs.neovim = {
     enable = true;
     viAlias = true;
@@ -41,9 +42,7 @@ in {
 
     extraPackages = with pkgs; [
       ### Language Servers ###
-      # nodePackages.bash-language-server
-      # nodePackages.sql-formatter
-      nodePackages.fixjson
+      jq
       stylua
       ruff
       alejandra
@@ -63,9 +62,6 @@ in {
       # alejandra
       marksman
       # yamllint
-      # nodePackages.diagnostic-languageserver - Causes error when doing lsp format on .nix files
-      # nodePackages.markdownlint-cli
-      # nodePackages.jsonlint
 
       lazygit
 
@@ -223,19 +219,19 @@ in {
                 end
 
                 vim.cmd([[function! SlimeOverride_EscapeText_python(text)
-                                                                lua UnhideSlimeAndClear()
-                                                                if slime#config#resolve("python_ipython") && len(split(a:text,"\n")) > 1
-                                                                  return ["%cpaste -q\n", slime#config#resolve("dispatch_ipython_pause"), a:text, "--\n"]
-                                                                else
-                                                                  let empty_lines_pat = '\(^\|\n\)\zs\(\s*\n\+\)\+'
-                                                                  let no_empty_lines = substitute(a:text, empty_lines_pat, "", "g")
-                                                                  let dedent_pat = '\(^\|\n\)\zs'.matchstr(no_empty_lines, '^\s*')
-                                                                  let dedented_lines = substitute(no_empty_lines, dedent_pat, "", "g")
-                                                                  let except_pat = '\(elif\|else\|except\|finally\)\@!'
-                                                                  let add_eol_pat = '\n\s[^\n]\+\n\zs\ze\('.except_pat.'\S\|$\)'
-                                                                  return substitute(dedented_lines, add_eol_pat, "\n", "g")
-                                                                end
-                                                              endfunction]])
+                            lua UnhideSlimeAndClear()
+                            if slime#config#resolve("python_ipython") && len(split(a:text,"\n")) > 1
+                              return ["%cpaste -q\n", slime#config#resolve("dispatch_ipython_pause"), a:text, "--\n"]
+                            else
+                              let empty_lines_pat = '\(^\|\n\)\zs\(\s*\n\+\)\+'
+                              let no_empty_lines = substitute(a:text, empty_lines_pat, "", "g")
+                              let dedent_pat = '\(^\|\n\)\zs'.matchstr(no_empty_lines, '^\s*')
+                              let dedented_lines = substitute(no_empty_lines, dedent_pat, "", "g")
+                              let except_pat = '\(elif\|else\|except\|finally\)\@!'
+                              let add_eol_pat = '\n\s[^\n]\+\n\zs\ze\('.except_pat.'\S\|$\)'
+                              return substitute(dedented_lines, add_eol_pat, "\n", "g")
+                            end
+                          endfunction]])
 
                 function Send_Ctrl_C()
                   local target_pane = vim.fn.shellescape(vim.g.slime_default_config["target_pane"])
@@ -382,7 +378,7 @@ in {
                 python = { "isort", "ruff_format", "ruff_fix" },
                 nix = { "alejandra" },
                 sql = { "sqlcustom" },
-                json = { "fixjson" },
+                json = { "jq" },
                 sh = { "shfmt" },
                 ["*"] = { "injected", "codespell" },
                 ["_"] = { "trim_whitespace" },

@@ -52,7 +52,10 @@
       ];
     };
     homeConfigurations."dcolest" = home-manager.lib.homeManagerConfiguration {
-      inherit pkgs;
+      pkgs = import nixpkgs-pin {
+        inherit system;
+        config.allowUnfree = true;
+      };
       modules = [
         # make `nix run nixpkgs#nixpkgs` use the same nixpkgs as the one used by this flake.
         {nix.registry.nixpkgs.flake = nixpkgs;}
