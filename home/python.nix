@@ -17,6 +17,7 @@
         # datascroller
         openpyxl
         xlsxwriter
+        demjson3
 
         # Utilities
         more-itertools

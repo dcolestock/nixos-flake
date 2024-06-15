@@ -18,6 +18,8 @@
       sql-formatter
       markdownlint-cli
       jsonlint
+      prettier
+      pkgs.prettierd
       # diagnostic-languageserver # Causes error when doing lsp format on .nix files
     ];
   };

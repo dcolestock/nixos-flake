@@ -376,6 +376,7 @@ in {
               formatters_by_ft = {
                 lua = { "stylua" },
                 python = { "isort", "ruff_format", "ruff_fix" },
+                javascript = { { "prettierd", "prettier" } },
                 nix = { "alejandra" },
                 sql = { "sqlcustom" },
                 json = { "jq" },
