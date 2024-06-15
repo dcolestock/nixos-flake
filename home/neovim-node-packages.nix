@@ -5,7 +5,7 @@
   ...
 }: {
   options = {
-    programs.neovim.includeNodePackages = lib.mkEnableOption {
+    programs.neovim.includeNodePackages = lib.mkOption {
       type = lib.types.bool;
       default = true;
       example = false;
