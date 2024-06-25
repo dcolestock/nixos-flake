@@ -79,17 +79,14 @@
 
   # Video Card Drivers
   services.xserver.videoDrivers = ["amdgpu"];
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
-    driSupport = true;
-    # For 32 bit applications
-    driSupport32Bit = true;
+    enable32Bit = true;
     extraPackages = with pkgs; [
       libGL
       amdvlk
       driversi686Linux.amdvlk # For 32 bit applications
     ];
-    setLdLibraryPath = true;
   };
 
   # Enable the GNOME Desktop Environment.
