@@ -18,6 +18,7 @@
         openpyxl
         xlsxwriter
         demjson3
+        python-sat
 
         # Utilities
         more-itertools
