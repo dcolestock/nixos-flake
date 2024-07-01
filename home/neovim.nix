@@ -733,4 +733,5 @@ in {
       }
     '';
   };
+  home.sessionPath = ["$HOME/.local/bin"]; # fix for mason to work
 }

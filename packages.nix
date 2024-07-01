@@ -51,12 +51,12 @@
     google-chrome
     chromium
     firefox
-    pkgs-pin.obsidian
+    obsidian
     heroic
     mpv
     # pulsar
     wireshark
-    # kicad
+    kicad
     # nyxt
     libsForQt5.krfb
     wl-clipboard
