@@ -4,6 +4,7 @@
     ./sharedprograms.nix
     ./bash.nix
     ./dconf.nix
+    ./distrobox.nix
     ./tmux.nix
     ./starship.nix
     ./neovim.nix
