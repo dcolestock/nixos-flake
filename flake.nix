@@ -3,69 +3,64 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-pin.url = "github:nixos/nixpkgs/e8057b67ebf307f01bdcc8fba94d94f75039d1f6";
+    # nixpkgs-pin.url = "github:nixos/nixpkgs/e8057b67ebf307f01bdcc8fba94d94f75039d1f6";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     agenix.url = "github:ryantm/agenix";
-    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+    # neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+    vim-slime-cells = {
+      url = "github:klafyvel/vim-slime-cells";
+      flake = false;
+    };
+    # sersorrel-discord.url = "github.com/sersorrel/sys";
   };
 
-  outputs = inputs @ {
-    nixpkgs,
-    nixpkgs-pin,
-    home-manager,
-    agenix,
-    ...
-  }: let
+  outputs = inputs: let
     system = "x86_64-linux";
-    pkgs = nixpkgs.legacyPackages.${system};
-    pkgs-pin = import nixpkgs-pin {
+    pkgs = import inputs.nixpkgs {
       inherit system;
       config.allowUnfree = true;
     };
+    # pkgs-pin = import inputs.nixpkgs-pin {
+    #   inherit system;
+    #   config.allowUnfree = true;
+    # };
+    specialArgs = {
+      inherit inputs;
+      # inherit pkgs-pin;
+    };
   in {
-    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+    nixosConfigurations.nixos = inputs.nixpkgs.lib.nixosSystem {
       inherit system;
-      specialArgs = {
-        inherit inputs;
-        inherit pkgs-pin;
-      };
+      inherit specialArgs;
       modules = [
         # make `nix run nixpkgs#nixpkgs` use the same nixpkgs as the one used by this flake.
-        {nix.registry.nixpkgs.flake = nixpkgs;}
+        {nix.registry.nixpkgs.flake = inputs.nixpkgs;}
 
         ./configuration.nix
-        agenix.nixosModules.default
+        inputs.agenix.nixosModules.default
 
-        home-manager.nixosModules.home-manager
+        inputs.home-manager.nixosModules.home-manager
         {
           home-manager = {
             useGlobalPkgs = true;
             useUserPackages = true;
             users.dan = import ./home;
-            extraSpecialArgs = {
-              inherit pkgs-pin;
-            };
+            extraSpecialArgs = specialArgs;
           };
         }
       ];
     };
-    homeConfigurations."dcolest" = home-manager.lib.homeManagerConfiguration {
-      pkgs = import nixpkgs-pin {
-        inherit system;
-        config.allowUnfree = true;
-      };
+    homeConfigurations."dcolest" = inputs.home-manager.lib.homeManagerConfiguration {
+      inherit pkgs;
       modules = [
         # make `nix run nixpkgs#nixpkgs` use the same nixpkgs as the one used by this flake.
-        {nix.registry.nixpkgs.flake = nixpkgs;}
+        {nix.registry.nixpkgs.flake = inputs.nixpkgs;}
 
         ./home/work.nix
       ];
-      extraSpecialArgs = {
-        inherit inputs;
-        inherit pkgs-pin;
-      };
+      extraSpecialArgs = specialArgs;
     };
     formatter.${system} = pkgs.alejandra;
   };

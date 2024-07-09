@@ -1,16 +1,12 @@
 {
   pkgs,
   config,
+  inputs,
   ...
 }: let
   vim-slime-cells = pkgs.vimUtils.buildVimPlugin {
     name = "vim-slime-cells";
-    src = pkgs.fetchFromGitHub {
-      owner = "klafyvel";
-      repo = "vim-slime-cells";
-      rev = "2252bc83fc0174c8e67bcf9a519edf2d328b8bc9";
-      sha256 = "116az9khn8qarnhc2skn2ghvssbbvhhh8yfs2k0vl8gfw8gswzvp";
-    };
+    src = inputs.vim-slime-cells;
   };
 in {
   imports = [./neovim-node-packages.nix];
