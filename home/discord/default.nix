@@ -1,6 +1,6 @@
 {pkgs, ...}: let
   krisp-patcher = pkgs.writers.writePython3Bin "krisp-patcher" {
-    libraries = with pkgs.python3Packages; [capstone pyelftools];
+    libraries = with pkgs.python311Packages; [capstone pyelftools];
     flakeIgnore = [
       "E501" # line too long (82 > 79 characters)
       "F403" # ‘from module import *’ used; unable to detect undefined names
