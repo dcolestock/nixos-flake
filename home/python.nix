@@ -25,6 +25,7 @@
         tqdm
         icecream
         rich
+        dotenv
 
         # Network
         # beautifulsoup4
