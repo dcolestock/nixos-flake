@@ -156,6 +156,10 @@ end
 vim.keymap.set("n", ",v", "<Cmd>edit $MYVIMRC<CR>", { desc = "edit config file" })
 vim.keymap.set("n", ",,", "<C-^>", { desc = "Swap to Recent Buffer" })
 
+vim.keymap.set("i", "<C-M>", "<ESC>yy`]a=<C-R>=<C-R>0<CR><CR>", { desc = "calculate line" })
+vim.keymap.set("n", "<leader>=", "yy`]a=<C-R>=<C-R>0<CR><ESC>", { desc = "calculate line" })
+vim.keymap.set("v", "<leader>=", "y`]a=<C-R>=<C-R>0<CR><ESC>", { desc = "calculate selection" })
+
 -- Only yank the line if it's not empty
 local function smart_dd()
   if vim.api.nvim_get_current_line():match("^%s*$") then
