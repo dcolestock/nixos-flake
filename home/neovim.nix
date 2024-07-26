@@ -671,6 +671,7 @@ in {
                 previewer = false,
               }))
             end, { desc = "Fuzzy Search Current Buffer" })
+            vim.keymap.set("n", "<Leader>ft", "<Cmd>Telescope<CR>", { desc = "Telescope" })
             vim.keymap.set("n", "<Leader>ff", "<Cmd>Telescope find_files<CR>", { desc = "Find File" })
             vim.keymap.set("n", "<Leader>fr", "<Cmd>Telescope oldfiles<CR>", { desc = "Open Recent File" })
             vim.keymap.set("n", "<Leader>fg", "<Cmd>Telescope live_grep<CR>", { desc = "Live Grep" })
@@ -679,6 +680,8 @@ in {
             vim.keymap.set("n", "<Leader>fh", "<Cmd>Telescope help_tags<CR>", { desc = "Help" })
             vim.keymap.set("n", "<Leader>fs", "<Cmd>Telescope grep_string<CR>", { desc = "Current Word" })
             vim.keymap.set("n", "<Leader>fd", "<Cmd>Telescope diagnostics<CR>", { desc = "Diagnostics" })
+            vim.keymap.set("n", "<Leader>fb", "<Cmd>Telescope buffers<CR>", { desc = "Buffers" })
+            vim.keymap.set("n", "<Leader>fk", "<Cmd>Telescope keymaps<CR>", { desc = "Keymaps" })
             vim.keymap.set(
               "n",
               "<Leader>fc",
