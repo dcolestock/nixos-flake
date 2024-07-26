@@ -307,7 +307,8 @@ vim.keymap.set(
   ",o",
   "I•<Esc>ml\"lyy:keeppatterns s/[^_]//g<CR>:keeppatterns s/_/<C-r>l\\r/g<CR>J'lV<Esc>f_r#jf_r#jf_r#jf_r#jf_r#v'<:keeppatterns s/•//<CR>gv:s/#/"
 )
-vim.keymap.set("v", ",a", ":source<CR>")
+vim.keymap.set("v", ",a", ":source<CR>", { desc = "Source Vimscript" })
+vim.keymap.set("v", ",o", ":lua<CR>", { desc = "Source Lua" })
 
 vim.keymap.set("n", "<Leader>c", "<Cmd>bdelete<CR>", { desc = "Close Buffer" })
 vim.keymap.set("n", "<Leader>C", "<Cmd>bdelete!<CR>", { desc = "Force Close Buffer" })
