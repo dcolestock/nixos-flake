@@ -8,6 +8,9 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     agenix.url = "github:ryantm/agenix";
+    agenix.inputs.nixpkgs.follows = "nixpkgs";
+    agenix.inputs.home-manager.follows = "home-manager";
+
     # neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
     vim-slime-cells = {
       url = "github:klafyvel/vim-slime-cells";
