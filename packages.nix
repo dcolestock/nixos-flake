@@ -55,8 +55,8 @@
     heroic
     mpv
     # pulsar
-    wireshark
-    kicad
+    # wireshark
+    # kicad
     # nyxt
     libsForQt5.krfb
     wl-clipboard
@@ -69,7 +69,7 @@
     qemu
 
     # Games
-    endless-sky
+    # endless-sky
     bsdgames
 
     # Gnome specific
