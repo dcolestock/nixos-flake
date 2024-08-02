@@ -90,15 +90,15 @@
   };
 
   # Enable the GNOME Desktop Environment.
-  # services.xserver.displayManager.gdm.enable = true;
-  # services.xserver.desktopManager.gnome.enable = true;
+  # services.displayManager.displayManager.gdm.enable = true;
+  # services.displayManager.desktopManager.gnome.enable = true;
   # services.gnome.gnome-remote-desktop.enable = true;
 
   # Enable the Plasma 6 Desktop Environment
   services.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma6.enable = true;
-  services.xserver.displayManager.defaultSession = "plasma";
-  services.xserver.displayManager.sddm.wayland.enable = true;
+  services.desktopManager.plasma6.enable = true;
+  services.displayManager.defaultSession = "plasma";
+  services.displayManager.sddm.wayland.enable = true;
 
   environment.plasma6.excludePackages = with pkgs.kdePackages; [
     plasma-browser-integration
