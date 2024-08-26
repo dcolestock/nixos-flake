@@ -39,6 +39,7 @@ vim.opt.listchars = { tab = "├─", trail = "·", nbsp = "⎵" }
 vim.o.showmode = true
 vim.o.laststatus = 3
 vim.wo.signcolumn = "yes"
+vim.opt.clipboard = 'unnamed,unnamedplus'
 
 -- ------------- --
 -- Autocommands  --
@@ -52,20 +53,20 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
-if vim.version.cmp(vim.version(), { 0, 10, 0 }) >= 0 then
-  local osc52 = require("vim.ui.clipboard.osc52")
-  vim.g.clipboard = {
-    name = "OSC 52",
-    copy = {
-      ["+"] = osc52.copy("+"),
-      ["*"] = osc52.copy("*"),
-    },
-    paste = {
-      ["+"] = osc52.paste("+"),
-      ["*"] = osc52.paste("*"),
-    },
-  }
-end
+-- if vim.version.cmp(vim.version(), { 0, 10, 0 }) >= 0 then
+--   local osc52 = require("vim.ui.clipboard.osc52")
+--   vim.g.clipboard = {
+--     name = "OSC 52",
+--     copy = {
+--       ["+"] = osc52.copy("+"),
+--       ["*"] = osc52.copy("*"),
+--     },
+--     paste = {
+--       ["+"] = osc52.paste("+"),
+--       ["*"] = osc52.paste("*"),
+--     },
+--   }
+-- end
 
 -- vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 --   desc = "mkdir if folder doesn't exist",
