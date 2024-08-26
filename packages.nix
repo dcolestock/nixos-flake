@@ -29,7 +29,7 @@
     pre-commit
 
     # General Command Line Applications
-    taskwarrior
+    taskwarrior3
     rclone
     tmux
     poppler_utils # PDF Tools
