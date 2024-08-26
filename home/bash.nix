@@ -31,7 +31,7 @@
       # du = "du -had1|sort -h";
       diff = "delta";
       cat = "bat";
-      du = "dust";
+      du = "dust --limit-filesystem";
       df = "duf";
       ps = "procs";
       fd = "fd --mount";
