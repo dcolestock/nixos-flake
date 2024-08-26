@@ -51,6 +51,7 @@
     google-chrome
     chromium
     firefox
+    librewolf
     obsidian
     heroic
     mpv
