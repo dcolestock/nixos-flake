@@ -1,0 +1,3 @@
+{}: {
+  services.vaultwarden.enable = true;
+}
