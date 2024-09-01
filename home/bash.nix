@@ -56,6 +56,7 @@
       pbcopy = "xclip -selection clipboard";
       pbpaste = "xclip -selection clipboard -o";
       sudoedit = "command sudo -E nvim";
+      nvim = "nvim -w ~/.nvimkeystrokes";
       myvim = "NVIM_APPNAME=myvim nvim";
       weather = "curl -sS wttr.in|head -n -2";
 
