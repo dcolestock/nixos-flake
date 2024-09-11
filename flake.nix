@@ -64,6 +64,7 @@
             useUserPackages = true;
             users.dan = import ./home;
             extraSpecialArgs = specialArgs;
+            backupFileExtension = ".bak";
           };
         }
       ];

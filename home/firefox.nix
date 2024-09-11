@@ -9,6 +9,21 @@
       default = {
         id = 0;
         isDefault = true;
+        extensions = with inputs.firefox-addons.packages."x86_64-linux"; [
+          # privacy
+          ublock-origin
+          canvasblocker
+          istilldontcareaboutcookies
+
+          # passwords
+          bitwarden
+          keepassxc-browser
+
+          # usability
+          vimium
+          darkreader
+          # bypass-paywalls-clean
+        ];
         search = {
           default = "DuckDuckGo";
           force = true;
@@ -89,21 +104,6 @@
             "DuckDuckGo".metaData.hidden = false;
           };
         };
-        extensions = with inputs.firefox-addons.packages."x86_64-linux"; [
-          # privacy
-          ublock-origin
-          canvasblocker
-          istilldontcareaboutcookies
-
-          # passwords
-          bitwarden
-          keepassxc-browser
-
-          # usability
-          vimium
-          darkreader
-          # bypass-paywalls-clean
-        ];
       };
     };
     policies = {

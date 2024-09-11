@@ -36,28 +36,6 @@
       };
     };
   };
-  programs.librewolf = {
-    enable = true;
-    policies = {
-      DisablePocket = true;
-      DisplayBookmarksToolbar = true;
-      DontCheckDefaultBrowser = true;
-      OfferToSaveLogins = false;
-      NoDefaultBookmarks = true;
-      PasswordManagerEnable = false;
-      DNSOverHTTPS = {
-        Enabled = true;
-      };
-    };
-    # Enable WebGL, cookies and history
-    settings = {
-      "webgl.disabled" = false;
-      "privacy.resistFingerprinting" = false;
-      "privacy.clearOnShutdown.history" = false;
-      "privacy.clearOnShutdown.cookies" = false;
-      "network.cookie.lifetimePolicy" = 0;
-    };
-  };
 
   programs.kitty = {
     enable = true;

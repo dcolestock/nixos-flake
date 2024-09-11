@@ -47,6 +47,44 @@
         "type": "github"
       }
     },
+    "firefox-addons": {
+      "inputs": {
+        "flake-utils": "flake-utils",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "dir": "pkgs/firefox-addons",
+        "lastModified": 1725467431,
+        "narHash": "sha256-eQLdO69XeRTLbUE00Zy2B1vOfclvo0+MPjMoyRQ2nbU=",
+        "owner": "rycee",
+        "repo": "nur-expressions",
+        "rev": "7386e62c38ffe9669431ec2addcb0f591b66a62f",
+        "type": "gitlab"
+      },
+      "original": {
+        "dir": "pkgs/firefox-addons",
+        "owner": "rycee",
+        "repo": "nur-expressions",
+        "type": "gitlab"
+      }
+    },
+    "flake-utils": {
+      "locked": {
+        "lastModified": 1629284811,
+        "narHash": "sha256-JHgasjPR0/J1J3DRm4KxM4zTyAj4IOJY8vIl75v/kPI=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "c5d161cc0af116a2e17f54316f0bf43f0819785c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -86,9 +124,27 @@
     "root": {
       "inputs": {
         "agenix": "agenix",
+        "firefox-addons": "firefox-addons",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
+        "sersorrel-discord": "sersorrel-discord",
         "vim-slime-cells": "vim-slime-cells"
+      }
+    },
+    "sersorrel-discord": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1725318877,
+        "narHash": "sha256-vOr9W5PFHBA+8sS5QwVmP/ZV1ePgXtGu9UdbMRyir5k=",
+        "owner": "sersorrel",
+        "repo": "sys",
+        "rev": "3cfa49b592b046d422f59de7f1eb6f449a78b706",
+        "type": "github"
+      },
+      "original": {
+        "owner": "sersorrel",
+        "repo": "sys",
+        "type": "github"
       }
     },
     "systems": {
