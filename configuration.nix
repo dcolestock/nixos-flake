@@ -117,6 +117,7 @@
   services.avahi.enable = true;
   services.avahi.nssmdns4 = true;
   services.printing.drivers = [pkgs.brlaser];
+  services.ollama.enable = true;
 
   hardware = {
     bluetooth = {
