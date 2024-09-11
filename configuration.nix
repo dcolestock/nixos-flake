@@ -6,7 +6,6 @@
     ./vimgolf.nix
     ./packages.nix
     ./tailscale.nix
-    ./vaultwarden.nix
   ];
   nix = {
     settings = {
