@@ -1,14 +1,16 @@
 {
   imports = [
     ./home.nix
-    ./sharedprograms.nix
+
     ./bash.nix
     ./dconf.nix
+    ./discord.nix
     ./distrobox.nix
-    ./tmux.nix
-    ./starship.nix
+    ./firefox.nix
     ./neovim.nix
     ./python.nix
-    ./discord
+    ./sharedprograms.nix
+    ./starship.nix
+    ./tmux.nix
   ];
 }

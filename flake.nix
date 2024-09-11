@@ -4,19 +4,32 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     # nixpkgs-pin.url = "github:nixos/nixpkgs/e8057b67ebf307f01bdcc8fba94d94f75039d1f6";
-    home-manager.url = "github:nix-community/home-manager";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
-    agenix.url = "github:ryantm/agenix";
-    agenix.inputs.nixpkgs.follows = "nixpkgs";
-    agenix.inputs.home-manager.follows = "home-manager";
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
+
+    firefox-addons = {
+      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
     vim-slime-cells = {
       url = "github:klafyvel/vim-slime-cells";
       flake = false;
     };
-    # sersorrel-discord.url = "github.com/sersorrel/sys";
+
+    sersorrel-discord = {
+      url = "github:sersorrel/sys";
+      flake = false;
+    };
   };
 
   outputs = inputs: let
