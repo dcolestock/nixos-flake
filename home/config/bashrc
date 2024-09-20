@@ -17,19 +17,19 @@ export PROMPT_COMMAND=promptFunc
 ### sudo ###
 # Allows sudo to use user alias and functions
 # https://unix.stackexchange.com/a/438712
-sudo() {
-  local firstArg=$1
-  local firstArgType=$(type -t "$firstArg")
-  shift
-  if [ "$firstArgType" = function ]; then
-    command sudo bash -c "$(declare -f "$firstArg");$firstArg $*"
-  elif [ "$firstArgType" = alias ]; then
-    resolved_cmd="$(alias_expand "$@")"
-    command sudo eval "$resolved_cmd $*"
-  else
-    command sudo "$firstArg" "$@"
-  fi
-}
+# sudo() {
+#   local firstArg=$1
+#   local firstArgType=$(type -t "$firstArg")
+#   shift
+#   if [ "$firstArgType" = function ]; then
+#     command sudo bash -c "$(declare -f "$firstArg");$firstArg $*"
+#   elif [ "$firstArgType" = alias ]; then
+#     resolved_cmd="$(alias_expand "$@")"
+#     command sudo -s eval "$resolved_cmd $*"
+#   else
+#     command sudo "$firstArg" "$@"
+#   fi
+# }
 
 alias_expand() {
     local newcmd cmd
