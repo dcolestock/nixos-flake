@@ -18,12 +18,7 @@
   boot.extraModulePackages = [];
 
   fileSystems."/" = {
-    device = "/dev/disk/by-uuid/15767f95-a858-4a48-ae20-7f9cab68bb0c";
-    fsType = "ext4";
-  };
-
-  fileSystems."/run/media/dan/751602a1-029e-47ae-8258-e9ac7322d407" = {
-    device = "/dev/mapper/vgubuntu-root";
+    device = "/dev/disk/by-uuid/8ebfdde0-e6c0-4ab7-a4d2-c891ae3fbf98";
     fsType = "ext4";
   };
 
