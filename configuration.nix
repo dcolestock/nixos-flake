@@ -2,10 +2,10 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    ./timers.nix
-    ./vimgolf.nix
+    # ./timers.nix
+    # ./vimgolf.nix
     ./packages.nix
-    ./tailscale.nix
+    # ./tailscale.nix
   ];
   nix = {
     settings = {
