@@ -1,16 +1,6 @@
-{
-  pkgs,
-  config,
-  ...
-}: {
+{pkgs, ...}: {
   environment.systemPackages = [pkgs.tailscale];
   services.tailscale.enable = true;
-
-  age.secrets.tailscale = {
-    file = ./secrets/tailscale.age;
-    owner = "root";
-    group = "root";
-  };
 
   # create a oneshot job to authenticate to Tailscale
   systemd.services.tailscale-autoconnect = {
@@ -36,7 +26,7 @@
       fi
 
       # otherwise authenticate with tailscale
-      ${tailscale}/bin/tailscale up -auth-key file:${config.age.secrets.tailscale.path}
+      # ${tailscale}/bin/tailscale up
     '';
   };
 }

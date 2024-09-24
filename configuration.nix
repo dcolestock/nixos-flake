@@ -5,7 +5,7 @@
     # ./timers.nix
     # ./vimgolf.nix
     ./packages.nix
-    # ./tailscale.nix
+    ./tailscale.nix
   ];
   nix = {
     settings = {
