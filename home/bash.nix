@@ -151,14 +151,10 @@
       runtimeInputs = [git nh pre-commit];
       text = ''
         cd /home/dan/Projects/dancolestock/nixos/
-        STASH_ID=$(git stash create --all)
-        if [ -n "$STASH_ID" ]; then
-          echo "Storing stash"
-          git stash store -m "Automated stash for update script" "$STASH_ID"
-          git reset --hard
-          git clean -fd
-        else
-          echo "No git changes found, no need to stash"
+        gitstatus=$(git status --porcelain)
+        if [[ -n "$gitstatus" ]] ; then
+          echo "Flake's git not clean.  Aborting."
+          exit 1
         fi
         echo "Updating flake..."
         nix flake update
@@ -172,10 +168,6 @@
           git commit -am "Flake update $(date '+%Y.%m.%d')"
           echo "Rebuilding..."
           nh os switch . || true
-        fi
-        if [ -n "$STASH_ID" ]; then
-          echo "Restoring stash"
-          git stash pop "$STASH_ID"
         fi
         echo "Done"
       '';

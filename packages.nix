@@ -64,7 +64,6 @@
     wl-clipboard-x11
     neovide
     newsflash
-    syncthing
     virt-manager
     virt-viewer
     qemu
