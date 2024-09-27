@@ -21,22 +21,6 @@ function cd() {
   builtin cd "$@" && ls
 }
 
-### rm ###
-# adds a '-r' flag only if there is a single argument and that argument
-# is a directory.
-# This is because I want the behavior of -I (interactive) to be the default,
-# but I also want to have the -r flag available when I need it without being
-# prompted for single files.
-# Loading rm as alias so sudo will expand the alias since it doesn't work with functions
-function _rm_func() {
-  if [ $# -eq 1 ] && [ -d "$1" ]; then
-    command rm --verbose --interactive=once --preserve-root=all --recursive "$1"
-  else
-    command rm --verbose --interactive=once --preserve-root=all "$@"
-  fi
-}
-alias rm='bash -c "$(declare -f _rm_fn); _rm_fn"'
-
 ### mkdir + cd ###
 mc() {
   command mkdir -p -- "$1" || builtin cd -P -- "$1"

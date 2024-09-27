@@ -24,6 +24,8 @@
       cp = "cp --interactive --verbose --recursive --reflink=auto";
       mv = "mv --interactive --verbose";
       ln = "ln --interactive --verbose";
+      rm = "rm --verbose --interactive=once --preserve-root=all";
+
       cpv = "rsync -ah --info=progress2";
 
       # Default to human readable figures
