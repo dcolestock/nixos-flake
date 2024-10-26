@@ -3,6 +3,7 @@
     ./home.nix
 
     ./bash.nix
+    ./fish.nix
     ./dconf.nix
     ./discord.nix
     ./distrobox.nix

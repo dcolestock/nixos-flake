@@ -10,6 +10,7 @@
   };
 in {
   imports = [./neovim-node-packages.nix];
+  nix.nixPath = ["nixpkgs=${inputs.nixpkgs}"]; # points nixd to the correct version of nixpkgs
   programs.neovim = {
     enable = true;
     viAlias = true;
@@ -350,7 +351,27 @@ in {
             -- Nix --
             -- lspconfig.nil_ls.setup({}) -- nix language server - no format
             -- lspconfig.rnix.setup({})
-            lspconfig.nixd.setup({})
+            lspconfig.nixd.setup({
+              cmd = { "nixd" },
+              settings = {
+                nixd = {
+                  nixpkgs = {
+                    expr = "import <nixpkgs> { }",
+                  },
+                  formatting = {
+                    command = { "alejandra" }, -- or nixfmt or nixpkgs-fmt
+                  },
+                  -- options = {
+                  --   nixos = {
+                  --       expr = '(builtins.getFlake "/PATH/TO/FLAKE").nixosConfigurations.CONFIGNAME.options',
+                  --   },
+                  --   home_manager = {
+                  --       expr = '(builtins.getFlake "/PATH/TO/FLAKE").homeConfigurations.CONFIGNAME.options',
+                  --   },
+                  -- },
+                },
+              },
+            })
 
             -- Markdown --
             lspconfig.marksman.setup({})

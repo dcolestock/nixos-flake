@@ -70,7 +70,7 @@
 
     # Games
     # endless-sky
-    bsdgames
+    # bsdgames
 
     # Gnome specific
     # gnome3.gnome-tweaks
