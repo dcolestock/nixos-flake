@@ -27,6 +27,7 @@
     pyright
     nodePackages.sql-formatter
     pre-commit
+    devenv
 
     # General Command Line Applications
     taskwarrior3
