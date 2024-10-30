@@ -49,8 +49,8 @@
         # marimo
 
         # Images
-        # pillow
-        # types-pillow
+        pillow
+        types-pillow
 
         # Math and Data
         # networkx
