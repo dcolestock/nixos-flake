@@ -8,10 +8,8 @@
     ./tailscale.nix
   ];
   nix.extraOptions = ''
-    extra-substituters = https://nixpkgs-python.cachix.org https://devenv.cachix.org
-    extra-trusted-public-keys = devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw= nixpkgs-python.cachix.org-1:hxjI7pFxTyuTHn2NkvWCrAUcNZLNS3ZAvfYNuYifcEU=
+    trusted-users = root dan
   '';
-  # trusted-users = root dan
   nix = {
     settings = {
       experimental-features = ["nix-command" "flakes"];
@@ -19,14 +17,10 @@
       substituters = [
         "https://cache.thalheim.io"
         "https://nix-community.cachix.org"
-        # "https://nixpkgs-python.cachix.org"
-        # "https://devenv.cachix.org"
       ];
       trusted-public-keys = [
         "cache.thalheim.io-1:R7msbosLEZKrxk/lKxf9BTjOOH7Ax3H0Qj0/6wiHOgc="
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-        # "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
-        # "nixpkgs-python.cachix.org-1:hxjI7pFxTyuTHn2NkvWCrAUcNZLNS3ZAvfYNuYifcEU="
       ];
     };
     optimise.automatic = true;
