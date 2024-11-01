@@ -2,8 +2,8 @@
   description = "Nix configuration";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    # nixpkgs-pin.url = "github:nixos/nixpkgs/e8057b67ebf307f01bdcc8fba94d94f75039d1f6";
+    nixpkgs.url = "github:nixos/nixpkgs/5633bcff0c6162b9e4b5f1264264611e950c8ec7";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -38,13 +38,13 @@
       inherit system;
       config.allowUnfree = true;
     };
-    # pkgs-pin = import inputs.nixpkgs-pin {
-    #   inherit system;
-    #   config.allowUnfree = true;
-    # };
+    pkgs-unstable = import inputs.nixpkgs-unstable {
+      inherit system;
+      config.allowUnfree = true;
+    };
     specialArgs = {
       inherit inputs;
-      # inherit pkgs-pin;
+      inherit pkgs-unstable;
     };
   in {
     nixosConfigurations.nixos = inputs.nixpkgs.lib.nixosSystem {
