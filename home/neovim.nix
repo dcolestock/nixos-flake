@@ -18,24 +18,16 @@ in {
     withPython3 = true;
     # package = pkgs.neovim-nightly;
     extraPython3Packages = pyPkgs:
-      with pyPkgs;
-        [
-          pynvim
-          # jupyter_client
+      with pyPkgs; [
+        pynvim
+        # jupyter_client
 
-          python-lsp-server
-          pylsp-mypy
-          pyls-isort
-          # python-lsp-black
-          pylsp-rope
-          python-lsp-ruff
-          # black
-          # isort
-          # mypy
-          # flake8
-          # ruff-lsp
-        ]
-        ++ python-lsp-server.optional-dependencies.all;
+        python-lsp-server
+        rope
+        toml
+        whatthepatch
+        ruff-lsp
+      ];
 
     extraPackages = with pkgs; [
       ### Language Servers ###
@@ -306,10 +298,13 @@ in {
             local capabilities = require("cmp_nvim_lsp").default_capabilities()
             local lspconfig = require("lspconfig")
             -- Bash --
-            lspconfig.bashls.setup({})
+            lspconfig.bashls.setup({
+              capabilities = capabilities,
+            })
 
             -- Lua --
             lspconfig.lua_ls.setup({
+              capabilities = capabilities,
               settings = {
                 Lua = {
                   runtime = {
@@ -336,22 +331,52 @@ in {
             -- lspconfig.sqls.setup{}
             -- Python --
             lspconfig.pylsp.setup({
+              capabilities = capabilities,
               settings = {
                 pylsp = {
                   plugins = {
                     rope_autoimport = {
                       enabled = true,
                     },
+                    jedi_completion = {
+                      enabled = true,
+                    },
+                    pydocstyle = {
+                      enabled = false,
+                    },
+                    flake8 = {
+                      enabled = false,
+                    },
+                    mccabe = {
+                      enabled = false,
+                    },
+                    pycodestyle = {
+                      enabled = false,
+                    },
+                    pyflakes = {
+                      enabled = false,
+                    },
                   },
                 },
               },
-              -- capabilities = capabilities,
+            })
+
+            -- ruff config is in local folders such as ~/.config/ruff
+            lspconfig.ruff_lsp.setup({
+              capabilities = capabilities,
+              init_options = {
+                settings = {
+                  -- Any extra CLI arguments for `ruff` go here.
+                  args = {},
+                },
+              },
             })
 
             -- Nix --
             -- lspconfig.nil_ls.setup({}) -- nix language server - no format
             -- lspconfig.rnix.setup({})
             lspconfig.nixd.setup({
+              capabilities = capabilities,
               cmd = { "nixd" },
               settings = {
                 nixd = {
@@ -374,7 +399,9 @@ in {
             })
 
             -- Markdown --
-            lspconfig.marksman.setup({})
+            lspconfig.marksman.setup({
+              capabilities = capabilities,
+            })
 
             -- Diagnostic --
             -- lspconfig.diagnosticls.setup{}
@@ -392,7 +419,7 @@ in {
             require("conform").setup({
               formatters_by_ft = {
                 lua = { "stylua" },
-                python = { "isort", "ruff_format", "ruff_fix" },
+                python = { "ruff_fix", "ruff_format" },
                 javascript = { { "prettierd", "prettier" } },
                 nix = { "alejandra" },
                 sql = { "sqlcustom" },

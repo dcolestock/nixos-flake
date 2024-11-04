@@ -54,7 +54,65 @@
     };
     ruff = {
       enable = true;
-      settings = {};
+      settings = {
+        line-length = 100;
+        indent-width = 4;
+        target-version = "py312";
+        exclude = [
+          ".bzr"
+          ".direnv"
+          ".eggs"
+          ".git"
+          ".git-rewrite"
+          ".hg"
+          ".ipynb_checkpoints"
+          ".mypy_cache"
+          ".nox"
+          ".pants.d"
+          ".pyenv"
+          ".pytest_cache"
+          ".pytype"
+          ".ruff_cache"
+          ".svn"
+          ".tox"
+          ".venv"
+          ".vscode"
+          "__pypackages__"
+          "_build"
+          "buck-out"
+          "build"
+          "dist"
+          "node_modules"
+          "site-packages"
+          "venv"
+        ];
+        per-file-ignores = {"__init__.py" = ["F401"];};
+        lint = {
+          preview = true;
+          select = ["ALL"];
+          ignore = [
+            "ANN" # Annotations
+            "CPY" # Copyright
+            "D1" # pydocstyle (missing docstring)
+            "ERA" # eradicate (commented-out code)
+            "T20" # flake8-print (print statements)
+          ];
+          fixable = ["ALL"];
+          unfixable = [];
+          dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$";
+          pydocstyle = {
+            convention = "google";
+          };
+        };
+        format = {
+          quote-style = "double";
+          indent-style = "space";
+          skip-magic-trailing-comma = false;
+          line-ending = "auto";
+          docstring-code-format = false;
+          docstring-code-line-length = "dynamic";
+        };
+      };
     };
     direnv = {
       enable = true;
