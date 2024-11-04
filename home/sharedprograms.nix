@@ -86,8 +86,8 @@
           "site-packages"
           "venv"
         ];
-        per-file-ignores = {"__init__.py" = ["F401"];};
         lint = {
+          per-file-ignores = {"__init__.py" = ["F401"];};
           preview = true;
           select = ["ALL"];
           ignore = [
