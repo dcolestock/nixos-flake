@@ -5,6 +5,7 @@
     # ./timers.nix
     # ./vimgolf.nix
     ./packages.nix
+    ./qmk.nix
     ./tailscale.nix
   ];
   nix.extraOptions = ''
