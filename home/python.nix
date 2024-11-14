@@ -6,6 +6,7 @@
       qtconsole
       ipykernel
       jupyter
+      intelhex
 
       # Math and Data
       pandas
