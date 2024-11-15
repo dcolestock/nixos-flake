@@ -9,7 +9,7 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 -- Backups --
-vim.o.directory = "$XDG_STATE_HOME/nvim/backup//"
+vim.o.backupdir = vim.fn.expand("~/.local/state/nvim/backup//")
 vim.o.backup = true
 vim.o.swapfile = true
 vim.o.undofile = true

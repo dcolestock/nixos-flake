@@ -6,6 +6,7 @@
       qtconsole
       ipykernel
       jupyter
+      tkinter
       intelhex
 
       # Math and Data
