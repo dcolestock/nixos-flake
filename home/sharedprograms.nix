@@ -95,6 +95,7 @@
             "CPY" # Copyright
             "D1" # pydocstyle (missing docstring)
             "ERA" # eradicate (commented-out code)
+            "S" # flake8-bandit (security testing)
             "T20" # flake8-print (print statements)
           ];
           fixable = ["ALL"];
