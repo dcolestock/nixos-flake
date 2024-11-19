@@ -93,7 +93,8 @@
           ignore = [
             "ANN" # Annotations
             "CPY" # Copyright
-            "D1" # pydocstyle (missing docstring)
+            "D" # pydocstyle (missing docstring)
+            "DOC" # pydoclint (more docstring)
             "ERA" # eradicate (commented-out code)
             "S" # flake8-bandit (security testing)
             "T20" # flake8-print (print statements)
