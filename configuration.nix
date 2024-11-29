@@ -234,7 +234,10 @@
   # Enable the OpenSSH daemon.
   services.openssh = {
     enable = true;
-    ports = [33221];
+    ports = [
+      631 # Printer
+      33221 # SSH
+    ];
     settings = {
       PasswordAuthentication = false;
       KbdInteractiveAuthentication = false;
