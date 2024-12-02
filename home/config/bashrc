@@ -64,6 +64,74 @@ use flake" >.envrc
   direnv allow
 }
 
+function pythoninit() {
+if [ -e ".envrc" ] || [ -e ".gitignore" ] || [ -e "devenv.nix" ] || [ -e "devenv.yaml" ]; then
+echo "Error: Devenv files already exist. Stopping execution."
+exit 1
+fi
+cat > ".envrc" <<'FILE_CONTENT'
+source_url "https://raw.githubusercontent.com/cachix/devenv/82c0147677e510b247d8b9165c54f73d32dfd899/direnvrc" "sha256-7u4iDd1nZpxL4tCzmPG0dQgC5V+/44Ba+tHkPob1v2k="
+
+use devenv
+FILE_CONTENT
+
+cat > ".gitignore" <<'FILE_CONTENT'
+# Devenv
+.devenv*
+devenv.local.nix
+
+# direnv
+.direnv
+
+# pre-commit
+.pre-commit-config.yaml
+
+# Python
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Rope project settings
+.ropeproject
+FILE_CONTENT
+
+cat > "devenv.nix" <<'FILE_CONTENT'
+{pkgs, ...}: {
+  env.GREET = "devenv";
+
+  packages = with pkgs; [
+  ];
+
+  languages.python = {
+    enable = true;
+    version = "3.12";
+    venv = {
+      enable = true;
+      requirements = ''
+        ipython
+        icecream
+      '';
+    };
+  };
+}
+FILE_CONTENT
+
+cat > "devenv.yaml" <<'FILE_CONTENT'
+# yaml-language-server: $schema=https://devenv.sh/devenv.schema.json
+inputs:
+  nixpkgs:
+    url: github:cachix/devenv-nixpkgs/rolling
+  nixpkgs-python:
+    url: github:cachix/nixpkgs-python
+    inputs:
+      nixpkgs:
+        follows: nixpkgs
+
+allowUnfree: true
+FILE_CONTENT
+}
+
 ### Nix Run ###
 function run() {
   program="$1"
