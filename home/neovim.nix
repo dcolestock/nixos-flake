@@ -362,7 +362,7 @@ in {
             })
 
             -- ruff config is in local folders such as ~/.config/ruff
-            lspconfig.ruff_lsp.setup({
+            lspconfig.ruff.setup({
               capabilities = capabilities,
               init_options = {
                 settings = {
