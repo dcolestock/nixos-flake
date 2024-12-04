@@ -76,7 +76,8 @@
     # nyxt
     libsForQt5.krfb
     wl-clipboard
-    wl-clipboard-x11
+    # wl-clipboard-x11
+    xclip
     neovide
     newsflash
     virt-manager
