@@ -8,6 +8,10 @@
     name = "vim-slime-cells";
     src = inputs.vim-slime-cells;
   };
+  smear-cursor-nvim = pkgs.vimUtils.buildVimPlugin {
+    name = "smear-cursor-nvim";
+    src = inputs.smear-cursor-nvim;
+  };
 in {
   imports = [./neovim-node-packages.nix];
   nix.nixPath = ["nixpkgs=${inputs.nixpkgs}"]; # points nixd to the correct version of nixpkgs
@@ -765,6 +769,18 @@ in {
           ''
             require("alpha").setup(require("alpha.themes.startify").config)
             vim.keymap.set("n", "<Leader>;", "<Cmd>Alpha<CR>", { desc = "Dashboard" })
+          '';
+      }
+
+      {
+        plugin = smear-cursor-nvim;
+        type = "lua";
+        config =
+          /*
+          lua
+          */
+          ''
+            require('smear_cursor').enabled = true
           '';
       }
     ];

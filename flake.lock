@@ -145,6 +145,7 @@
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "sersorrel-discord": "sersorrel-discord",
+        "smear-cursor-nvim": "smear-cursor-nvim",
         "vim-slime-cells": "vim-slime-cells"
       }
     },
@@ -161,6 +162,22 @@
       "original": {
         "owner": "sersorrel",
         "repo": "sys",
+        "type": "github"
+      }
+    },
+    "smear-cursor-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1733266627,
+        "narHash": "sha256-kMZjtFkV79JwbxXhQyi3GBYeN425IpE+oAzTo1dYWrc=",
+        "owner": "sphamba",
+        "repo": "smear-cursor.nvim",
+        "rev": "29a2c0e2f9ab95a97275f9c1adf39f3e77080282",
+        "type": "github"
+      },
+      "original": {
+        "owner": "sphamba",
+        "repo": "smear-cursor.nvim",
         "type": "github"
       }
     },

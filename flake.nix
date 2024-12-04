@@ -26,6 +26,13 @@
       flake = false;
     };
 
+    smear-cursor-nvim = {
+      type = "github";
+      owner = "sphamba";
+      repo = "smear-cursor.nvim";
+      flake = false;
+    };
+
     sersorrel-discord = {
       url = "github:sersorrel/sys";
       flake = false;
