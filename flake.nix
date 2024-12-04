@@ -20,21 +20,20 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Discord Krisp Patcher
+    sersorrel-discord = {
+      url = "github:sersorrel/sys";
+      flake = false;
+    };
+
+    # Neovim
     # neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
     vim-slime-cells = {
       url = "github:klafyvel/vim-slime-cells";
       flake = false;
     };
-
     smear-cursor-nvim = {
-      type = "github";
-      owner = "sphamba";
-      repo = "smear-cursor.nvim";
-      flake = false;
-    };
-
-    sersorrel-discord = {
-      url = "github:sersorrel/sys";
+      url = "github:sphamba/smear-cursor.nvim";
       flake = false;
     };
   };
