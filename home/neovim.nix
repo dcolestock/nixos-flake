@@ -780,7 +780,9 @@ in {
           lua
           */
           ''
-            require('smear_cursor').enabled = true
+            if not vim.g.neovide then
+              require("smear_cursor").enabled = true
+            end
           '';
       }
     ];
