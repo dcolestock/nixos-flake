@@ -44,17 +44,37 @@ vim.opt.listchars = { tab = "├─", trail = "·", nbsp = "⎵" }
 vim.o.showmode = true
 vim.o.laststatus = 3
 vim.wo.signcolumn = "yes"
-vim.opt.clipboard = 'unnamed,unnamedplus'
+vim.opt.clipboard = "unnamed,unnamedplus"
 
 -- ------------- --
 -- Autocommands  --
 -- ------------- --
 vim.api.nvim_create_autocmd("TextYankPost", {
   desc = "Highlight selection on yank",
-  group = vim.api.nvim_create_augroup("highlight_yank", {}),
+  group = vim.api.nvim_create_augroup("highlight_yank", { clear = true }),
   pattern = "*",
   callback = function()
     vim.highlight.on_yank({ higroup = "IncSearch", timeout = 150 })
+  end,
+})
+
+vim.api.nvim_create_autocmd("TermOpen", {
+  desc = "Formatting for Term windows",
+  group = vim.api.nvim_create_augroup("custom-term-open", { clear = true }),
+  callback = function()
+    vim.opt.list = false
+    vim.opt.wrap = false
+    vim.opt.number = false
+    vim.opt.relativenumber = false
+    vim.opt.signcolumn = false
+    vim.opt.foldcolumn = false
+
+    local opts = { noremap = true }
+    vim.api.nvim_buf_set_keymap(0, "t", "<C-h>", [[<C-\><C-n><C-W>h]], opts)
+    vim.api.nvim_buf_set_keymap(0, "t", "<C-j>", [[<C-\><C-n><C-W>j]], opts)
+    vim.api.nvim_buf_set_keymap(0, "t", "<C-k>", [[<C-\><C-n><C-W>k]], opts)
+    vim.api.nvim_buf_set_keymap(0, "t", "<C-l>", [[<C-\><C-n><C-W>l]], opts)
+    vim.api.nvim_buf_set_keymap(0, "t", "<Esc>", [[<C-\><C-n>]], opts)
   end,
 })
 
@@ -103,8 +123,8 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 -- })
 
 vim.api.nvim_create_autocmd("FileType", {
-  group = myCommandGroup,
   desc = "Set commentstring for devicetree files",
+  group = vim.api.nvim_create_augroup("devicetree-comment-strings", { clear = true }),
   pattern = "dts",
   callback = function()
     vim.opt_local.commentstring = "// %s"
@@ -114,47 +134,47 @@ vim.api.nvim_create_autocmd("FileType", {
 -- ------------- --
 --  Treesitter   --
 -- ------------- --
-local nix_embedded_lua = vim.treesitter.query.parse(
-  "nix",
-  [[
-  (binding_set
-    (binding
-      attrpath: (attrpath) @_typename (#eq? @_typename "type")
-      expression: (_
-                    (string_fragment) @_typevalue (#eq? @_typevalue "lua")))
-    (binding
-      attrpath: (attrpath) @_configname (#eq? @_configname "config")
-      expression: (_
-                    (string_fragment) @lua)
-      )
-    )
-  ]]
-)
-
-local python_embedded_sql = vim.treesitter.query.parse(
-  "python",
-  [[
-  (assignment
-    left: (identifier) @_varname
-    (#match? @_varname "query$")
-    right: (string (string_content) @sql)
-    (#match? @sql "^[\n \t\s]*([sS](elect|ELECT)|[iI](nsert|NSERT)|[uU](pdate|PDATE)|[cC](reate|REATE)|[dD](elete|ELETE)|[aA](lter|LTER)|[dD](rop|ROP))[\n \t\s]+")
-  )
-  (call
-    function: [
-      (attribute attribute: (identifier) @_funcname)
-      (identifier) @_funcname]
-    (#match? @_funcname "^(runquery|read_sql|execute)$")
-    arguments: (argument_list . (string (string_content) @sql))
-  )
-]]
-)
-
-local get_root = function(bufnr)
-  local parser = vim.treesitter.get_parser(bufnr, "nix", {})
-  local tree = parser:parse()[1]
-  return tree:root()
-end
+-- local nix_embedded_lua = vim.treesitter.query.parse(
+--   "nix",
+--   [[
+--   (binding_set
+--     (binding
+--       attrpath: (attrpath) @_typename (#eq? @_typename "type")
+--       expression: (_
+--                     (string_fragment) @_typevalue (#eq? @_typevalue "lua")))
+--     (binding
+--       attrpath: (attrpath) @_configname (#eq? @_configname "config")
+--       expression: (_
+--                     (string_fragment) @lua)
+--       )
+--     )
+--   ]]
+-- )
+--
+-- local python_embedded_sql = vim.treesitter.query.parse(
+--   "python",
+--   [[
+--   (assignment
+--     left: (identifier) @_varname
+--     (#match? @_varname "query$")
+--     right: (string (string_content) @sql)
+--     (#match? @sql "^[\n \t\s]*([sS](elect|ELECT)|[iI](nsert|NSERT)|[uU](pdate|PDATE)|[cC](reate|REATE)|[dD](elete|ELETE)|[aA](lter|LTER)|[dD](rop|ROP))[\n \t\s]+")
+--   )
+--   (call
+--     function: [
+--       (attribute attribute: (identifier) @_funcname)
+--       (identifier) @_funcname]
+--     (#match? @_funcname "^(runquery|read_sql|execute)$")
+--     arguments: (argument_list . (string (string_content) @sql))
+--   )
+-- ]]
+-- )
+--
+-- local get_root = function(bufnr)
+--   local parser = vim.treesitter.get_parser(bufnr, "nix", {})
+--   local tree = parser:parse()[1]
+--   return tree:root()
+-- end
 
 -- ------------- --
 --    Keymaps    --
@@ -165,6 +185,13 @@ vim.keymap.set("n", ",,", "<C-^>", { desc = "Swap to Recent Buffer" })
 vim.keymap.set("i", "<F9>", "<ESC>yy`]a=<C-R>=<C-R>0<CR><CR>", { desc = "calculate line" })
 vim.keymap.set("n", "<leader>=", "yy`]a=<C-R>=<C-R>0<CR><ESC>", { desc = "calculate line" })
 vim.keymap.set("v", "<leader>=", "y`]a=<C-R>=<C-R>0<CR><ESC>", { desc = "calculate selection" })
+
+vim.keymap.set("n", "<leader>st", function()
+  vim.cmd.vnew()
+  vim.cmd.term()
+  vim.cmd.wincmd("J")
+  vim.api.nvim_win_set_height(0, 15)
+end, { desc = "small terminal" })
 
 -- Only yank the line if it's not empty
 local function smart_dd()
