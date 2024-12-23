@@ -8,10 +8,6 @@
     name = "vim-slime-cells";
     src = inputs.vim-slime-cells;
   };
-  smear-cursor-nvim = pkgs.vimUtils.buildVimPlugin {
-    name = "smear-cursor-nvim";
-    src = inputs.smear-cursor-nvim;
-  };
 in {
   imports = [./neovim-node-packages.nix];
   nix.nixPath = ["nixpkgs=${inputs.nixpkgs}"]; # points nixd to the correct version of nixpkgs
@@ -772,20 +768,7 @@ in {
           '';
       }
 
-      {
-        plugin = smear-cursor-nvim;
-        type = "lua";
-        config =
-          /*
-          lua
-          */
-          ''
-            if not vim.g.neovide then
-              require("smear_cursor").enabled = true
-            end
-          '';
-      }
-
+      # Git
       {
         plugin = gitsigns-nvim;
         type = "lua";

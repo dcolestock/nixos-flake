@@ -32,10 +32,6 @@
       url = "github:klafyvel/vim-slime-cells";
       flake = false;
     };
-    smear-cursor-nvim = {
-      url = "github:sphamba/smear-cursor.nvim";
-      flake = false;
-    };
   };
 
   outputs = inputs: let
