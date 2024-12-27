@@ -16,7 +16,7 @@ in {
     viAlias = true;
     vimAlias = true;
     withPython3 = true;
-    package = pkgs.neovim-nightly;
+    package = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
     extraPython3Packages = pyPkgs:
       with pyPkgs; [
         pynvim

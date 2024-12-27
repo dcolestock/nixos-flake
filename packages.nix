@@ -4,19 +4,19 @@
   pkgs-unstable,
   ...
 }: {
-  nixpkgs.overlays = [
-    # (self: super: {
-    #   python311 = super.python311.override {
-    #     x11Support = true;
-    #   };
-    # })
-    # (self: super: {
-    #   python312 = super.python312.override {
-    #     x11Support = true;
-    #   };
-    # })
-    inputs.neovim-nightly-overlay.overlay
-  ];
+  # nixpkgs.overlays = [
+  # (self: super: {
+  #   python311 = super.python311.override {
+  #     x11Support = true;
+  #   };
+  # })
+  # (self: super: {
+  #   python312 = super.python312.override {
+  #     x11Support = true;
+  #   };
+  # })
+  # inputs.neovim-nightly-overlay.overlay
+  # ];
 
   environment.systemPackages = with pkgs-unstable; [
     # General Command Line Tools
