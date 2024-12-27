@@ -27,7 +27,7 @@
     };
 
     # Neovim
-    # neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
     vim-slime-cells = {
       url = "github:klafyvel/vim-slime-cells";
       flake = false;

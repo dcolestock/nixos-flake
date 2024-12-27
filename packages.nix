@@ -4,7 +4,6 @@
   pkgs-unstable,
   ...
 }: {
-  # nixpkgs.overlays = [inputs.neovim-nightly-overlay.overlay];
   nixpkgs.overlays = [
     # (self: super: {
     #   python311 = super.python311.override {
@@ -16,7 +15,7 @@
     #     x11Support = true;
     #   };
     # })
-    # inputs.neovim-nightly-overlay.overlay
+    inputs.neovim-nightly-overlay.overlay
   ];
 
   environment.systemPackages = with pkgs-unstable; [
