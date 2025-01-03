@@ -19,10 +19,12 @@
       substituters = [
         "https://cache.thalheim.io"
         "https://nix-community.cachix.org"
+        "https://neovim-nightly.cachix.org"
       ];
       trusted-public-keys = [
         "cache.thalheim.io-1:R7msbosLEZKrxk/lKxf9BTjOOH7Ax3H0Qj0/6wiHOgc="
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+        "neovim-nightly.cachix.org-1:feIoInHRevVEplgdZvQDjhp11kYASYCE2NGY9hNrwxY="
       ];
     };
     optimise.automatic = true;
