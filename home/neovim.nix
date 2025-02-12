@@ -116,7 +116,18 @@ in {
             require("mini.bracketed").setup()
             require("mini.cursorword").setup()
             require("mini.indentscope").setup()
+            require("mini.icons").setup()
             require("mini.surround").setup()
+
+            require("mini.diff").setup({
+              view = {
+                style = "sign",
+              },
+            })
+
+            local notify = require("mini.notify")
+            notify.setup()
+            vim.notify = notify.make_notify()
 
             local miniclue = require("mini.clue")
             miniclue.setup({
@@ -657,8 +668,6 @@ in {
       gruvbox
       onedark-nvim
       papercolor-theme
-
-      nvim-web-devicons
 
       {
         plugin = lualine-nvim;
