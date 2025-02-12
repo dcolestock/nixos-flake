@@ -18,6 +18,7 @@
     eza.enable = true;
     fzf.enable = true;
     jq.enable = true;
+    jujutsu.enable = true;
     less.enable = true;
     ripgrep.enable = true;
     zellij.enable = true;
