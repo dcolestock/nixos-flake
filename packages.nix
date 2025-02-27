@@ -36,11 +36,9 @@
     # mcfly
     procs
     tldr
-    pyright
     nodePackages.sql-formatter
     pre-commit
     devenv
-    ruff-lsp
 
     # General Command Line Applications
     taskwarrior3

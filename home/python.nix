@@ -33,13 +33,13 @@
       # lxml
 
       # LSP
-      python-lsp-server
-      rope
-      toml
-      whatthepatch
+      # python-lsp-server
+      # rope
+      # toml
+      # whatthepatch
 
-      ruff-lsp
-      sqlparse
+      # ruff-lsp
+      # sqlparse
 
       # optumdb
       # pyodbc

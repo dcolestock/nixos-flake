@@ -22,11 +22,9 @@ in {
         pynvim
         # jupyter_client
 
-        python-lsp-server
-        rope
-        toml
-        whatthepatch
-        ruff-lsp
+        # rope
+        # toml
+        # whatthepatch
       ];
 
     extraPackages = with pkgs; [
@@ -51,6 +49,9 @@ in {
       # alejandra
       marksman
       # yamllint
+      #basedpyright
+      pylyzer
+      ruff
 
       lazygit
 
@@ -341,36 +342,7 @@ in {
 
             -- lspconfig.sqls.setup{}
             -- Python --
-            lspconfig.pylsp.setup({
-              capabilities = capabilities,
-              settings = {
-                pylsp = {
-                  plugins = {
-                    rope_autoimport = {
-                      enabled = true,
-                    },
-                    jedi_completion = {
-                      enabled = true,
-                    },
-                    pydocstyle = {
-                      enabled = false,
-                    },
-                    flake8 = {
-                      enabled = false,
-                    },
-                    mccabe = {
-                      enabled = false,
-                    },
-                    pycodestyle = {
-                      enabled = false,
-                    },
-                    pyflakes = {
-                      enabled = false,
-                    },
-                  },
-                },
-              },
-            })
+            lspconfig.pylyzer.setup({})
 
             -- ruff config is in local folders such as ~/.config/ruff
             lspconfig.ruff.setup({
@@ -431,18 +403,18 @@ in {
               formatters_by_ft = {
                 lua = { "stylua" },
                 python = { "ruff_fix", "ruff_format" },
-                javascript = { { "prettierd", "prettier" } },
+                javascript = { "prettierd", "prettier", stop_after_first = true },
                 nix = { "alejandra" },
-                sql = { "sqlcustom" },
+                -- sql = { "sqlcustom" },
                 json = { "jq" },
                 sh = { "shfmt" },
                 ["*"] = { "injected", "codespell" },
                 ["_"] = { "trim_whitespace" },
               },
               formatters = {
-                sqlcustom = {
-                  command = "sqlparser",
-                },
+                -- sqlcustom = {
+                --   command = "sqlparser",
+                -- },
                 stylua = {
                   prepend_args = { "--indent-type", "Spaces", "--indent-width", "2" },
                 },
@@ -459,9 +431,9 @@ in {
               --   return { timeout_ms = 500, lsp_fallback = true }
               -- end,
             })
-            require("conform").formatters.sql_formatter = {
-              prepend_args = { "--config", vim.fn.expand("~/.config/nvim/sql_formatter.json") },
-            }
+            -- require("conform").formatters.sql_formatter = {
+            --   prepend_args = { "--config", vim.fn.expand("~/.config/nvim/sql_formatter.json") },
+            -- }
             vim.api.nvim_create_user_command("FormatDisable", function(args)
               if args.bang then
                 -- FormatDisable! will disable formatting just for this buffer
@@ -574,7 +546,7 @@ in {
       # Language support
       vim-nix
 
-      null-ls-nvim
+      # null-ls-nvim
       # vim-markdown
 
       {
