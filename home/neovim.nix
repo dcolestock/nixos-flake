@@ -691,8 +691,16 @@ in {
           lua
           */
           ''
-            require("telescope").setup()
+            require("telescope").setup({
+              extensions = {
+                file_browser = {
+                  theme = "ivy",
+                  hijack_netrw = true,
+                },
+              },
+            })
             require("telescope").load_extension("fzf")
+            require("telescope").load_extension("ui-select")
             vim.keymap.set("n", "<Leader>f", "<Nop>", { desc = "Telescope" })
             vim.keymap.set("n", "<Leader>fF", function()
               require("telescope.builtin").current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
@@ -721,6 +729,7 @@ in {
       }
 
       telescope-fzf-native-nvim
+      telescope-ui-select-nvim
 
       {
         plugin = telescope-file-browser-nvim;
