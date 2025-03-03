@@ -8,6 +8,11 @@
     name = "vim-slime-cells";
     src = inputs.vim-slime-cells;
   };
+  nvim-fundo = pkgs.vimUtils.buildVimPlugin {
+    name = "fundo";
+    dependencies = [pkgs.vimPlugins.promise-async];
+    src = inputs.nvim-fundo;
+  };
 in {
   imports = [./neovim-node-packages.nix];
   nix.nixPath = ["nixpkgs=${inputs.nixpkgs}"]; # points nixd to the correct version of nixpkgs
@@ -290,10 +295,35 @@ in {
           lua
           */
           ''
-            require("nvim-lastplace").setup({})
+            require("nvim-lastplace").setup()
           '';
       }
-      auto-save-nvim
+
+      {
+        plugin = auto-save-nvim;
+        type = "lua";
+        config =
+          /*
+          lua
+          */
+          ''
+            require("auto-save").setup()
+          '';
+      }
+
+      # Preserve undo history even with external edits
+      {
+        plugin = nvim-fundo;
+        type = "lua";
+        config =
+          /*
+          lua
+          */
+          ''
+            require("fundo").setup()
+            vim.o.undofile = true
+          '';
+      }
 
       plenary-nvim
       nvim-snippy
@@ -342,7 +372,7 @@ in {
 
             -- lspconfig.sqls.setup{}
             -- Python --
-            lspconfig.pylyzer.setup({})
+            lspconfig.pylyzer.setup()
 
             -- ruff config is in local folders such as ~/.config/ruff
             lspconfig.ruff.setup({
@@ -356,8 +386,8 @@ in {
             })
 
             -- Nix --
-            -- lspconfig.nil_ls.setup({}) -- nix language server - no format
-            -- lspconfig.rnix.setup({})
+            -- lspconfig.nil_ls.setup() -- nix language server - no format
+            -- lspconfig.rnix.setup()
             lspconfig.nixd.setup({
               capabilities = capabilities,
               cmd = { "nixd" },
@@ -665,7 +695,7 @@ in {
           lua
           */
           ''
-            require("bufferline").setup({})
+            require("bufferline").setup()
             vim.keymap.set("n", "<Leader>b", "<Cmd>BufferLineCycleNext<CR>", { desc = "Buffer Next" })
             vim.keymap.set("n", "<Leader>B", "<Cmd>BufferLineCyclePrev<CR>", { desc = "Buffer Prev" })
           '';

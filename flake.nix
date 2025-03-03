@@ -23,6 +23,10 @@
       url = "github:klafyvel/vim-slime-cells";
       flake = false;
     };
+    nvim-fundo = {
+      url = "github:kevinhwang91/nvim-fundo";
+      flake = false;
+    };
   };
 
   outputs = inputs: let
