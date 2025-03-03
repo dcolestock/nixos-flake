@@ -133,7 +133,10 @@
           "type": "text",
           "style": "plain",
           "foreground": "#ffffff",
-          "template": "<#69FF94>❯</>"
+          "foreground_templates": [
+            "{{ if eq .Shell \"bash\" }}green{{ end }}",
+            "{{ if eq .Shell \"fist\" }}blue{{ end }}" ],
+          "template": "❯"
         }
       ],
       "newline": true

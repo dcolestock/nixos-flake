@@ -61,5 +61,8 @@
       laa = "lla";
       lt = "ls -l -s=modified";
     };
+    functions = {
+      fish_greeting = "";
+    };
   };
 }
