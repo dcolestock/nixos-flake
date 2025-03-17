@@ -135,7 +135,7 @@
           "foreground": "#ffffff",
           "foreground_templates": [
             "{{ if eq .Shell \"bash\" }}green{{ end }}",
-            "{{ if eq .Shell \"fist\" }}blue{{ end }}" ],
+            "{{ if eq .Shell \"fish\" }}blue{{ end }}" ],
           "template": "❯"
         }
       ],

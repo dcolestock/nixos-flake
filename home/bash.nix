@@ -118,7 +118,7 @@
       text = ''
         cd /home/dan/Projects/dancolestock/nixos/
         gitstatus=$(git status --porcelain)
-        if [[ -n "$gitstatus" ]] ; then
+        if [[ -n "$gitstatus" ]]; then
           echo "Flake's git not clean.  Aborting."
           exit 1
         fi
@@ -132,7 +132,7 @@
       text = ''
         cd /home/dan/Projects/dancolestock/nixos/
         gitstatus=$(git status --porcelain)
-        if [[ -n "$gitstatus" ]] ; then
+        if [[ -n "$gitstatus" ]]; then
           echo "Flake's git not clean.  Aborting."
           exit 1
         fi
@@ -154,7 +154,7 @@
       text = ''
         cd /home/dan/Projects/dancolestock/nixos/
         gitstatus=$(git status --porcelain)
-        if [[ -n "$gitstatus" ]] ; then
+        if [[ -n "$gitstatus" ]]; then
           echo "Flake's git not clean.  Aborting."
           exit 1
         fi
@@ -162,7 +162,7 @@
         nix flake update
         echo "Checking new git status..."
         gitstatus=$(git status --porcelain)
-        if [[ -z "$gitstatus" ]] ; then
+        if [[ -z "$gitstatus" ]]; then
           echo "Flake already up to date."
         else
           echo "Committing changes..."

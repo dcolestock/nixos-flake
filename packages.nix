@@ -80,6 +80,7 @@
     virt-manager
     virt-viewer
     qemu
+    gnucash
 
     # Games
     # endless-sky

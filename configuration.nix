@@ -34,6 +34,8 @@
     # channel.enable = false; # Remove channels entirely at some point, but this errors currently
   };
 
+  environment.pathsToLink = ["/share/bash-completion"];
+
   documentation.doc.enable = true;
   documentation.info.enable = true;
   documentation.dev.enable = true;
@@ -42,7 +44,7 @@
   boot.loader.systemd-boot = {
     enable = true;
     editor = false;
-    configurationLimit = 18;
+    configurationLimit = 12;
     # consoleMode = "max";
   };
   system.nixos.label = "";

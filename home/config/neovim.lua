@@ -28,6 +28,8 @@ vim.o.timeoutlen = 300
 vim.o.updatetime = 250
 vim.o.completeopt = "menuone,noselect"
 vim.o.conceallevel = 2
+vim.o.spell = true
+vim.o.spelllang = "en_us"
 
 -- Mouse --
 vim.o.mouse = "a"
@@ -192,6 +194,9 @@ vim.keymap.set("n", "<leader>st", function()
   vim.cmd.wincmd("J")
   vim.api.nvim_win_set_height(0, 15)
 end, { desc = "small terminal" })
+
+-- Disable annoying command line thing.
+vim.keymap.set('n', 'q:', ':q<CR>')
 
 -- Only yank the line if it's not empty
 local function smart_dd()

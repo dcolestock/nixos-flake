@@ -39,7 +39,7 @@ in {
       ruff
       alejandra
       codespell
-      # sqlfluff
+      sqruff
       # sqls
       shfmt
 
@@ -116,14 +116,14 @@ in {
           lua
           */
           ''
-            require("mini.ai").setup()
-            require("mini.animate").setup()
-            require("mini.basics").setup()
-            require("mini.bracketed").setup()
-            require("mini.cursorword").setup()
-            require("mini.indentscope").setup()
-            require("mini.icons").setup()
-            require("mini.surround").setup()
+            require("mini.ai").setup({})
+            require("mini.animate").setup({})
+            require("mini.basics").setup({})
+            require("mini.bracketed").setup({})
+            require("mini.cursorword").setup({})
+            require("mini.indentscope").setup({})
+            require("mini.icons").setup({})
+            require("mini.surround").setup({})
 
             require("mini.diff").setup({
               view = {
@@ -132,7 +132,7 @@ in {
             })
 
             local notify = require("mini.notify")
-            notify.setup()
+            notify.setup({})
             vim.notify = notify.make_notify()
 
             local miniclue = require("mini.clue")
@@ -275,7 +275,7 @@ in {
       #       pattern = 'python',
       #       callback = function()
       #         vim.cmd.packadd('vimplugin-jupyter-kernel-nvim')
-      #         require('jupyter-kernel.nvim').setup()
+      #         require('jupyter-kernel.nvim').setup({})
       #         vim.keymap.set('n', ',a', '<Cmd>JupyterAttach<CR>', { desc = "[Jupyter] Attach" })
       #         vim.keymap.set('n', ',i', '<Cmd>JupyterInspect<CR>', { desc = "[Jupyter] Inspect" })
       #         vim.keymap.set('v', ',r', '<Cmd>JupyterExecute<CR>', { desc = "[Jupyter] Run" })
@@ -295,7 +295,7 @@ in {
           lua
           */
           ''
-            require("nvim-lastplace").setup()
+            require("nvim-lastplace").setup({})
           '';
       }
 
@@ -307,7 +307,7 @@ in {
           lua
           */
           ''
-            require("auto-save").setup()
+            require("auto-save").setup({})
           '';
       }
 
@@ -320,7 +320,7 @@ in {
           lua
           */
           ''
-            require("fundo").setup()
+            require("fundo").setup({})
             vim.o.undofile = true
           '';
       }
@@ -372,7 +372,7 @@ in {
 
             -- lspconfig.sqls.setup{}
             -- Python --
-            lspconfig.pylyzer.setup()
+            lspconfig.pylyzer.setup({})
 
             -- ruff config is in local folders such as ~/.config/ruff
             lspconfig.ruff.setup({
@@ -386,8 +386,8 @@ in {
             })
 
             -- Nix --
-            -- lspconfig.nil_ls.setup() -- nix language server - no format
-            -- lspconfig.rnix.setup()
+            -- lspconfig.nil_ls.setup({}) -- nix language server - no format
+            -- lspconfig.rnix.setup({})
             lspconfig.nixd.setup({
               capabilities = capabilities,
               cmd = { "nixd" },
@@ -435,16 +435,13 @@ in {
                 python = { "ruff_fix", "ruff_format" },
                 javascript = { "prettierd", "prettier", stop_after_first = true },
                 nix = { "alejandra" },
-                -- sql = { "sqlcustom" },
+                sql = { "sqruff" },
                 json = { "jq" },
                 sh = { "shfmt" },
                 ["*"] = { "injected", "codespell" },
                 ["_"] = { "trim_whitespace" },
               },
               formatters = {
-                -- sqlcustom = {
-                --   command = "sqlparser",
-                -- },
                 stylua = {
                   prepend_args = { "--indent-type", "Spaces", "--indent-width", "2" },
                 },
@@ -695,7 +692,7 @@ in {
           lua
           */
           ''
-            require("bufferline").setup()
+            require("bufferline").setup({})
             vim.keymap.set("n", "<Leader>b", "<Cmd>BufferLineCycleNext<CR>", { desc = "Buffer Next" })
             vim.keymap.set("n", "<Leader>B", "<Cmd>BufferLineCyclePrev<CR>", { desc = "Buffer Prev" })
           '';
@@ -912,7 +909,7 @@ in {
           lua
           */
           ''
-            require("neogit").setup()
+            require("neogit").setup({})
           '';
       }
     ];
