@@ -11,6 +11,7 @@
     procs
     tldr
     poetry
+    grc
   ];
 
   programs = {
