@@ -89,9 +89,7 @@
       MANPAGER = "sh -c 'col -bx | bat -l man --style=plain --paging always'";
       MANROFFOPT = "-c";
     };
-    bashrcExtra = ''
-      ${builtins.readFile ./config/bashrc}
-    '';
+    bashrcExtra = builtins.readFile ./config/bashrc;
   };
   programs.readline = {
     enable = true;
@@ -178,9 +176,7 @@
     (writeShellApplication {
       name = "fzf-preview";
       runtimeInputs = [tree file bat catimg];
-      text = ''
-        ${builtins.readFile ./scripts/fzf-preview.sh}
-      '';
+      text = builtins.readFile ./scripts/fzf-preview.sh;
     })
 
     (writeShellApplication {
