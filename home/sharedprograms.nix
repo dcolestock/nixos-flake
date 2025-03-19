@@ -22,7 +22,6 @@
     jujutsu.enable = true;
     less.enable = true;
     ripgrep.enable = true;
-    # zellij.enable = true;
 
     # oh-my-posh - starship alternative
     # taskwarrior, taskwarrior-sync
@@ -34,8 +33,13 @@
     # skim - command fuzzy finder
     # atuin - bash ctrl+r alternative.  Mcfly?
     # smartcd - autojump, zoxide, pazi, z-lua?
-    # zellij - tmux alternative
 
+    zellij = {
+      enable = true;
+      enableBashIntegration = false;
+      enableFishIntegration = false;
+      enableZshIntegration = false;
+    };
     gh = {
       enable = true;
       settings.git_protocol = "ssh";
