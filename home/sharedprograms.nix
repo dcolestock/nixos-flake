@@ -21,7 +21,7 @@
     jujutsu.enable = true;
     less.enable = true;
     ripgrep.enable = true;
-    zellij.enable = true;
+    # zellij.enable = true;
 
     # oh-my-posh - starship alternative
     # taskwarrior, taskwarrior-sync
