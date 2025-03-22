@@ -231,5 +231,44 @@
         btconnect Flip
       '';
     })
+
+    (writeShellApplication {
+      name = "remind";
+      runtimeInputs = [libnotify];
+      text = ''
+        # Check if at least two arguments are provided
+        if [ $# -lt 2 ]; then
+          echo "Usage: $0 <time><s/m> <message>"
+          echo "Example: $0 5m 'Take a break!' or $0 30s 'Check the oven!'"
+          exit 1
+        fi
+
+        # Extract the delay and message
+        TIME_INPUT=$1
+        shift
+        MESSAGE="$*"
+
+        # Check if the input ends with 's' or 'm'
+        if [[ $TIME_INPUT =~ ^([0-9]+)([sm])$ ]]; then
+          TIME_VALUE=''${BASH_REMATCH[1]}
+          TIME_UNIT=''${BASH_REMATCH[2]}
+
+          # Convert to seconds
+          if [ "$TIME_UNIT" == "m" ]; then
+            DELAY_SECONDS=$((TIME_VALUE * 60))
+          else
+            DELAY_SECONDS=$TIME_VALUE
+          fi
+        else
+          echo "Invalid time format. Use a number followed by 's' (seconds) or 'm' (minutes)."
+          exit 1
+        fi
+
+        # Schedule the notification
+        (sleep "$DELAY_SECONDS" && notify-send -t 0 "Reminder" "$MESSAGE") &
+
+        echo "Reminder set for $TIME_INPUT."
+      '';
+    })
   ];
 }
