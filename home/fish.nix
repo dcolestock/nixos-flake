@@ -29,21 +29,6 @@
       "..." = "cd ../..";
       l = "ls";
 
-      open = "xdg-open";
-      ping = "ping -c 5";
-      mkdir = "mkdir -pv";
-      wget = "wget -c";
-      chmod = "chmod -c --preserve-root";
-      chown = "chown -c --preserve-root";
-      chgrp = "chgrp -c --preserve-root";
-
-      cp = "cp --interactive --verbose --recursive --reflink=auto";
-      mv = "mv --interactive --verbose";
-      ln = "ln --interactive --verbose";
-      rm = "rm --verbose --interactive=once --preserve-root=all";
-
-      cpv = "rsync -ah --info=progress2";
-
       diff = "delta";
       # cat = "bat";
       du = "dust --limit-filesystem";
@@ -65,9 +50,9 @@
       nvim = "nvim -w ~/.nvimkeystrokes";
       myvim = "NVIM_APPNAME=myvim nvim";
 
-      gs = "git status";
       gd = "git diff";
       gc = "git commit";
+      gp = "git add -p";
     };
     shellAliases = {
       path = "printf '%s\n' $PATH";
@@ -81,6 +66,22 @@
       lla = "ls -l -a";
       laa = "lla";
       lt = "ls -l -s=modified";
+
+      open = "xdg-open";
+      ping = "ping -c 5";
+      mkdir = "mkdir -pv";
+      wget = "wget -c";
+      chmod = "chmod -c --preserve-root";
+      chown = "chown -c --preserve-root";
+      chgrp = "chgrp -c --preserve-root";
+
+      cp = "cp --interactive --verbose --recursive --reflink=auto";
+      mv = "mv --interactive --verbose";
+      ln = "ln --interactive --verbose";
+      rm = "rm --verbose --interactive=once --preserve-root=all";
+
+      cpv = "rsync -ah --info=progress2";
+      gs = "git status && git diff --stat";
     };
     functions = {
       fish_greeting = {

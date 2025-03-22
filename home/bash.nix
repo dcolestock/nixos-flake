@@ -62,9 +62,10 @@
       myvim = "NVIM_APPNAME=myvim nvim";
       weather = "curl -sS wttr.in|head -n -2";
 
-      gs = "git status";
+      gs = "git status && git diff --stat";
       gd = "git diff";
       gc = "git commit";
+      gp = "git add -p";
     };
     sessionVariables = {
       LD_LIBRARY_PATH = "/run/opengl-driver/lib";
