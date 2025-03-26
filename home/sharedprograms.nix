@@ -12,6 +12,8 @@
     tldr
     poetry
     grc
+    cargo
+    rustc
   ];
 
   programs = {
