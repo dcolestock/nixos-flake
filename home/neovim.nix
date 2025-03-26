@@ -14,7 +14,6 @@
     src = inputs.nvim-fundo;
   };
 in {
-  imports = [./neovim-node-packages.nix];
   nix.nixPath = ["nixpkgs=${inputs.nixpkgs}"]; # points nixd to the correct version of nixpkgs
   programs.neovim = {
     enable = true;
@@ -57,6 +56,13 @@ in {
       #basedpyright
       pylyzer
       ruff
+
+      bash-language-server
+      sql-formatter
+      markdownlint-cli
+      nodePackages.jsonlint
+      nodePackages.prettier
+      prettierd
 
       lazygit
 

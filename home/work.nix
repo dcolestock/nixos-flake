@@ -8,7 +8,6 @@
     ./python.nix
   ];
   # nixpkgs.overlays = [inputs.neovim-nightly-overlay.overlay];
-  programs.neovim.includeNodePackages = false;
 
   home.username = "dcolest";
   home.homeDirectory = "/home/dcolest";
