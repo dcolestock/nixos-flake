@@ -25,7 +25,7 @@
           # bypass-paywalls-clean
         ];
         search = {
-          default = "DuckDuckGo";
+          default = "ddg";
           force = true;
           engines = {
             "Github Nix" = {
@@ -97,11 +97,11 @@
               icon = "''${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
               definedAliases = ["@n"];
             };
-            "Bing".metaData.hidden = true;
-            "Google".metaData.hidden = true;
-            "Amazon.com".metaData.hidden = true;
-            "eBay".metaData.hidden = true;
-            "DuckDuckGo".metaData.hidden = false;
+            "bing".metaData.hidden = true;
+            "google".metaData.hidden = true;
+            "amazondotcom-us".metaData.hidden = true;
+            "ebay".metaData.hidden = true;
+            "ddg".metaData.hidden = false;
           };
         };
       };
