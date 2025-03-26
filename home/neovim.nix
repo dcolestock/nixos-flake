@@ -64,6 +64,7 @@ in {
       nodePackages.prettier
       prettierd
       rust-analyzer
+      rustfmt
 
       lazygit
 
@@ -459,6 +460,7 @@ in {
                 lua = { "stylua" },
                 python = { "ruff_fix", "ruff_format" },
                 javascript = { "prettierd", "prettier", stop_after_first = true },
+                rust = { "rustfmt", lsp_format = "fallback" },
                 nix = { "alejandra" },
                 sql = { "sqruff" },
                 json = { "jq" },
