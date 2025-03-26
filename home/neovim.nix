@@ -53,8 +53,8 @@ in {
       # alejandra
       marksman
       # yamllint
-      #basedpyright
-      pylyzer
+      basedpyright
+      # pylyzer
       ruff
 
       bash-language-server
@@ -378,7 +378,21 @@ in {
 
             -- lspconfig.sqls.setup{}
             -- Python --
-            lspconfig.pylyzer.setup({})
+            lspconfig.basedpyright.setup({
+              capabilities = capabilities,
+              settings = {
+                basedpyright = {
+                  -- Using Ruff's import organizer
+                  disableOrganizeImports = true,
+                },
+                python = {
+                  analysis = {
+                    -- Ignore all files for analysis to exclusively use Ruff for linting
+                    ignore = { "*" },
+                  },
+                },
+              },
+            })
 
             -- ruff config is in local folders such as ~/.config/ruff
             lspconfig.ruff.setup({
