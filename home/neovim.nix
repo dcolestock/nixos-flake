@@ -63,6 +63,7 @@ in {
       nodePackages.jsonlint
       nodePackages.prettier
       prettierd
+      rust-analyzer
 
       lazygit
 
@@ -438,6 +439,10 @@ in {
 
             -- Diagnostic --
             -- lspconfig.diagnosticls.setup{}
+
+            lspconfig.rust_analyzer.setup({
+              capabilities = capabilities,
+            })
           '';
       }
 
