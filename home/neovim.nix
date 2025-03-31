@@ -63,7 +63,7 @@ in {
       nodePackages.jsonlint
       nodePackages.prettier
       prettierd
-      rust-analyzer
+      # rust-analyzer -- Needs to be part of the cargo toolchain
       rustfmt
 
       lazygit
@@ -386,6 +386,7 @@ in {
                 basedpyright = {
                   -- Using Ruff's import organizer
                   disableOrganizeImports = true,
+                  typeCheckingMode = "off",
                 },
                 python = {
                   analysis = {
@@ -444,6 +445,11 @@ in {
             lspconfig.rust_analyzer.setup({
               capabilities = capabilities,
             })
+            vim.diagnostic.config({ virtual_lines = true })
+            vim.keymap.set("n", "gK", function()
+              local new_config = not vim.diagnostic.config().virtual_lines
+              vim.diagnostic.config({ virtual_lines = new_config })
+            end, { desc = "Toggle diagnostic virtual_lines" })
           '';
       }
 

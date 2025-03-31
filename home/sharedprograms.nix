@@ -12,8 +12,8 @@
     tldr
     poetry
     grc
-    cargo
-    rustc
+    # cargo
+    # rustc
   ];
 
   programs = {
@@ -104,8 +104,11 @@
             "D" # pydocstyle (missing docstring)
             "DOC" # pydoclint (more docstring)
             "ERA" # eradicate (commented-out code)
+            "PLR2004" # Magic value comparison
             "S" # flake8-bandit (security testing)
+            "SIM108" # use ternary operators
             "T20" # flake8-print (print statements)
+            "TD" # Todo warnings.  Still have basic warning, but no missing author or missing issue warnings
           ];
           fixable = ["ALL"];
           unfixable = [];
