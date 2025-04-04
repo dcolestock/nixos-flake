@@ -235,7 +235,7 @@
 
     (writeShellApplication {
       name = "remind";
-      runtimeInputs = [libnotify];
+      runtimeInputs = [notify-desktop];
       text = ''
         # Check if at least two arguments are provided
         if [ $# -lt 2 ]; then
@@ -266,7 +266,8 @@
         fi
 
         # Schedule the notification
-        (sleep "$DELAY_SECONDS" && notify-send -t 0 "Reminder" "$MESSAGE") &
+        (sleep "$DELAY_SECONDS" && notify-desktop -t 0 "Reminder" "$MESSAGE") > /dev/null 2>&1 &
+        disown
 
         echo "Reminder set for $TIME_INPUT."
       '';
