@@ -181,6 +181,10 @@ vim.api.nvim_create_autocmd("FileType", {
 -- ------------- --
 --    Keymaps    --
 -- ------------- --
+vim.keymap.set("i", ";;", "<ESC>A;", { desc = "add line ending ;" })
+vim.keymap.set("n", ";;", "A;<ESC>", { desc = "add line ending ;" })
+vim.keymap.set("n", "<leader>v", "<C-v>", { desc = "Block visual" }) -- When ctrl+v isn't available
+
 vim.keymap.set("n", ",v", "<Cmd>edit $MYVIMRC<CR>", { desc = "edit config file" })
 vim.keymap.set("n", ",,", "<C-^>", { desc = "Swap to Recent Buffer" })
 
@@ -196,7 +200,7 @@ vim.keymap.set("n", "<leader>st", function()
 end, { desc = "small terminal" })
 
 -- Disable annoying command line thing.
-vim.keymap.set('n', 'q:', ':q<CR>')
+vim.keymap.set("n", "q:", ":q<CR>")
 
 -- Only yank the line if it's not empty
 local function smart_dd()

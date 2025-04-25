@@ -129,8 +129,9 @@ in {
             require("mini.basics").setup({})
             require("mini.bracketed").setup({})
             require("mini.cursorword").setup({})
-            require("mini.indentscope").setup({})
             require("mini.icons").setup({})
+            require("mini.indentscope").setup({})
+            require("mini.pairs").setup({})
             require("mini.surround").setup({})
 
             require("mini.diff").setup({
@@ -447,13 +448,11 @@ in {
             })
             local diag_config1 = {
               virtual_text = {
-                enabled = true,
                 severity = {
                   max = vim.diagnostic.severity.WARN,
                 },
               },
               virtual_lines = {
-                enabled = true,
                 severity = {
                   min = vim.diagnostic.severity.ERROR,
                 },
