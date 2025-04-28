@@ -75,7 +75,15 @@
     wl-clipboard
     # wl-clipboard-x11
     xclip
-    neovide
+    (pkgs.symlinkJoin {
+      name = "neovide-wrapped";
+      paths = [pkgs.neovide];
+      buildInputs = [pkgs.makeWrapper];
+      postBuild = ''
+        wrapProgram $out/bin/neovide \
+          --prefix LD_LIBRARY_PATH : ${pkgs.xorg.libX11}/lib
+      '';
+    })
     newsflash
     virt-manager
     virt-viewer
