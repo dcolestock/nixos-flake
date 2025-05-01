@@ -13,6 +13,10 @@
     dependencies = [pkgs.vimPlugins.promise-async];
     src = inputs.nvim-fundo;
   };
+  showkeys = pkgs.vimUtils.buildVimPlugin {
+    name = "showkeys";
+    src = inputs.showkeys;
+  };
 in {
   nix.nixPath = ["nixpkgs=${inputs.nixpkgs}"]; # points nixd to the correct version of nixpkgs
   programs.neovim = {
@@ -965,6 +969,26 @@ in {
           */
           ''
             require("neogit").setup({})
+          '';
+      }
+
+      {
+        plugin = showkeys;
+        type = "lua";
+        config =
+          /*
+          lua
+          */
+          ''
+            require("showkeys").setup({
+              maxkeys = 7,
+              show_count = true,
+            })
+            vim.api.nvim_create_autocmd("VimEnter", {
+              callback = function()
+                vim.cmd("ShowkeysToggle")
+              end,
+            })
           '';
       }
     ];

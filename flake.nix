@@ -30,6 +30,10 @@
       url = "github:kevinhwang91/nvim-fundo";
       flake = false;
     };
+    showkeys = {
+      url = "github:nvzone/showkeys";
+      flake = false;
+    };
   };
 
   outputs = inputs: let
