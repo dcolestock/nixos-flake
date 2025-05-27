@@ -17,6 +17,10 @@
     name = "showkeys";
     src = inputs.showkeys;
   };
+  mini = pkgs.vimUtils.buildVimPlugin {
+    name = "mini.nvim";
+    src = inputs.mini;
+  };
 in {
   nix.nixPath = ["nixpkgs=${inputs.nixpkgs}"]; # points nixd to the correct version of nixpkgs
   programs.neovim = {
@@ -121,7 +125,7 @@ in {
 
     plugins = with pkgs.vimPlugins; [
       {
-        plugin = mini-nvim;
+        plugin = mini;
         type = "lua";
         config =
           /*

@@ -34,6 +34,10 @@
       url = "github:nvzone/showkeys";
       flake = false;
     };
+    mini = {
+      url = "github:echasnovski/mini.nvim";
+      flake = false;
+    };
   };
 
   outputs = inputs: let

@@ -245,6 +245,22 @@
         "type": "github"
       }
     },
+    "mini": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1747912003,
+        "narHash": "sha256-TaFVefMxLbyaG4XlpYc8KLRs2H5cuiAMLFSNlLty2dU=",
+        "owner": "echasnovski",
+        "repo": "mini.nvim",
+        "rev": "4357160712c8e2c80318d46a827bf972fca24d61",
+        "type": "github"
+      },
+      "original": {
+        "owner": "echasnovski",
+        "repo": "mini.nvim",
+        "type": "github"
+      }
+    },
     "neovim-nightly-overlay": {
       "inputs": {
         "flake-compat": "flake-compat",
@@ -386,6 +402,7 @@
         "agenix": "agenix",
         "firefox-addons": "firefox-addons",
         "home-manager": "home-manager_2",
+        "mini": "mini",
         "neovim-nightly-overlay": "neovim-nightly-overlay",
         "nixpkgs": "nixpkgs_4",
         "nixpkgs-unstable": "nixpkgs-unstable",
