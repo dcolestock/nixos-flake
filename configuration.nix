@@ -4,6 +4,7 @@
     ./hardware-configuration.nix
     # ./timers.nix
     # ./vimgolf.nix
+    ./bluetooth.nix
     ./packages.nix
     ./qmk.nix
     ./ydootool.nix
