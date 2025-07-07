@@ -30,7 +30,7 @@
       # Network
       # beautifulsoup4
       # requests
-      # lxml
+      lxml
 
       # LSP
       # python-lsp-server
