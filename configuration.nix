@@ -7,7 +7,6 @@
     ./bluetooth.nix
     ./packages.nix
     ./qmk.nix
-    ./ydootool.nix
     ./tailscale.nix
   ];
   nix.extraOptions = ''
