@@ -79,7 +79,7 @@
 
   virtualisation.docker.enable = true;
   virtualisation.podman.enable = true;
-  # virtualisation.waydroid.enable = true;
+  virtualisation.waydroid.enable = true;
   virtualisation.libvirtd = {
     enable = true;
     qemu.runAsRoot = true;
