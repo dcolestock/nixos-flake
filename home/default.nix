@@ -1,7 +1,7 @@
 {
   imports = [
     ./home.nix
-    ./fish.nix
+    # ./fish.nix
     ./bash.nix
     ./dconf.nix
     ./discord.nix
