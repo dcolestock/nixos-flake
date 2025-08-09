@@ -58,6 +58,8 @@
       map shift+cmd+d no_op
       map kitty_mod+q no_op
       map cmd+w       no_op
+      cursor_trail 3
+      cursor_trail_decay 0.1 0.4
     '';
   };
   xdg.configFile."kitty/keymap.py".source = ./scripts/kitty_keymap.py;
