@@ -8,6 +8,7 @@
       jupyter
       tkinter
       intelhex
+      uv
 
       # Math and Data
       pandas
