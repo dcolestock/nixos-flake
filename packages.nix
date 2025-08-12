@@ -47,6 +47,7 @@
     poppler_utils # PDF Tools
     # pipe-viewer
     recapp
+    gemini-cli
 
     # Toolchains
     openjdk17
