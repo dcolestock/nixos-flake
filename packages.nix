@@ -90,6 +90,7 @@
     virt-viewer
     qemu
     # gnucash
+    gparted
 
     # Games
     # endless-sky
