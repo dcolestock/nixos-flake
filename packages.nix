@@ -1,7 +1,7 @@
 {
   pkgs,
   inputs,
-  pkgs-unstable,
+  # pkgs-unstable,
   ...
 }: {
   # nixpkgs.overlays = [
@@ -18,7 +18,7 @@
   # inputs.neovim-nightly-overlay.overlay
   # ];
 
-  environment.systemPackages = with pkgs-unstable; [
+  environment.systemPackages = with pkgs; [
     # General Command Line Tools
     eza
     bat
