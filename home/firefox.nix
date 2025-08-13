@@ -9,21 +9,23 @@
       default = {
         id = 0;
         isDefault = true;
-        extensions = with inputs.firefox-addons.packages."x86_64-linux"; [
-          # privacy
-          ublock-origin
-          canvasblocker
-          istilldontcareaboutcookies
+        extensions = {
+          packages = with inputs.firefox-addons.packages."x86_64-linux"; [
+            # privacy
+            ublock-origin
+            canvasblocker
+            istilldontcareaboutcookies
 
-          # passwords
-          bitwarden
-          keepassxc-browser
+            # passwords
+            bitwarden
+            keepassxc-browser
 
-          # usability
-          vimium
-          darkreader
-          # bypass-paywalls-clean
-        ];
+            # usability
+            vimium
+            darkreader
+            # bypass-paywalls-clean
+          ];
+        };
         search = {
           default = "ddg";
           force = true;
