@@ -57,6 +57,7 @@
     # libsForQt5.qtwayland
     # qt5.qtwayland
     # qt6.qtwayland
+    cabextract # tool for fixing sins of solar empire 2
 
     # GUI Applications
     keepassxc
@@ -120,8 +121,12 @@
     noisetorch.enable = true;
     steam = {
       enable = true;
+      protontricks.enable = true;
       remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
       dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+      extraCompatPackages = with pkgs; [
+        proton-ge-bin
+      ];
     };
     neovim = {
       enable = true;
