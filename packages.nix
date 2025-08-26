@@ -73,7 +73,7 @@
     # wireshark
     # kicad
     # nyxt
-    libsForQt5.krfb
+    kdePackages.krfb
     wl-clipboard
     # wl-clipboard-x11
     xclip
