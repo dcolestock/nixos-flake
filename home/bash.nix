@@ -89,6 +89,16 @@
 
       MANPAGER = "sh -c 'col -bx | bat -l man --style=plain --paging always'";
       MANROFFOPT = "-c";
+
+      # Telemetry
+      DO_NOT_TRACK = 1;
+      DETSYS_IDS_TELEMETRY = "disabled";
+      AZURE_CORE_COLLECT_TELEMETRY = 0;
+      SAM_CLI_TELEMETRY = 0;
+      GATSBY_TELEMETRY_DISABLED = 1;
+      HOMEBREW_NO_ANALYTICS = 1;
+      STNOUPGRADE = 1;
+      DOTNET_CLI_TELEMETRY_OPTOUT = 1;
     };
     bashrcExtra = builtins.readFile ./config/bashrc;
   };
@@ -266,7 +276,7 @@
         fi
 
         # Schedule the notification
-        (sleep "$DELAY_SECONDS" && notify-desktop -t 0 "Reminder" "$MESSAGE") > /dev/null 2>&1 &
+        (sleep "$DELAY_SECONDS" && notify-desktop -t 0 "Reminder" "$MESSAGE") >/dev/null 2>&1 &
         disown
 
         echo "Reminder set for $TIME_INPUT."
