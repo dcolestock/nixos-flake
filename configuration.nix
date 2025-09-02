@@ -240,7 +240,6 @@
   services.openssh = {
     enable = true;
     ports = [
-      631 # Printer
       33221 # SSH
     ];
     settings = {
