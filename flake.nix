@@ -42,6 +42,8 @@
 
   outputs = inputs: let
     system = "x86_64-linux";
+    username_home = "dan";
+    username_work = "dcoles1";
     pkgs = import inputs.nixpkgs {
       inherit system;
       config.allowUnfree = true;
@@ -53,6 +55,7 @@
     specialArgs = {
       inherit inputs;
       # inherit pkgs-unstable;
+      username = username_home;
     };
   in {
     nixosConfigurations.nixos = inputs.nixpkgs.lib.nixosSystem {
@@ -64,28 +67,26 @@
 
         ./configuration.nix
         inputs.agenix.nixosModules.default
-
         inputs.home-manager.nixosModules.home-manager
         {
           home-manager = {
             useGlobalPkgs = true;
             useUserPackages = true;
-            users.dan = import ./home;
+            users.${username_home} = import ./home;
             extraSpecialArgs = specialArgs;
             backupFileExtension = ".bak";
           };
         }
       ];
     };
-    homeConfigurations."dcolest" = inputs.home-manager.lib.homeManagerConfiguration {
+    homeConfigurations."${username_work}" = inputs.home-manager.lib.homeManagerConfiguration {
       inherit pkgs;
       modules = [
         # make `nix run nixpkgs#nixpkgs` use the same nixpkgs as the one used by this flake.
         {nix.registry.nixpkgs.flake = inputs.nixpkgs;}
-
         ./home/work.nix
       ];
-      extraSpecialArgs = specialArgs;
+      extraSpecialArgs = specialArgs // {username = username_work;};
     };
     formatter.${system} = pkgs.alejandra;
   };

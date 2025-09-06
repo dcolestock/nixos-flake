@@ -1,4 +1,4 @@
-{...}: {
+{username, ...}: {
   imports = [
     ./bash.nix
     ./sharedprograms.nix
@@ -9,8 +9,8 @@
   ];
   # nixpkgs.overlays = [inputs.neovim-nightly-overlay.overlay];
 
-  home.username = "dcolest";
-  home.homeDirectory = "/home/dcolest";
+  home.username = username;
+  home.homeDirectory = "/home/${username}";
 
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
