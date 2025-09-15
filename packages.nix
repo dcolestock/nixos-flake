@@ -77,6 +77,7 @@
     wl-clipboard
     # wl-clipboard-x11
     xclip
+    xdotool
     (pkgs.symlinkJoin {
       name = "neovide-wrapped";
       paths = [pkgs.neovide];

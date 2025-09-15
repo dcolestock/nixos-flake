@@ -9,6 +9,7 @@
       tkinter
       intelhex
       uv
+      matplotlib
 
       # Math and Data
       pandas
