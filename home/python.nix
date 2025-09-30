@@ -10,6 +10,7 @@
       intelhex
       uv
       matplotlib
+      python-dotenv
 
       # Math and Data
       pandas
@@ -67,5 +68,5 @@
       # pytesseract
     ];
 in {
-  home.packages = [(pkgs.python311.withPackages my-python-packages)];
+  home.packages = [(pkgs.python312.withPackages my-python-packages)];
 }
