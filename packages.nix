@@ -31,7 +31,7 @@
     unzip
     jq
     delta
-    du-dust
+    dust
     duf
     # mcfly
     procs
@@ -44,7 +44,7 @@
     taskwarrior3
     rclone
     tmux
-    poppler_utils # PDF Tools
+    # poppler-utils # PDF Tools
     # pipe-viewer
     recapp
     gemini-cli

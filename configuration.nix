@@ -6,7 +6,7 @@
     # ./vimgolf.nix
     ./bluetooth.nix
     ./packages.nix
-    ./qmk.nix
+    # ./qmk.nix
     ./tailscale.nix
   ];
   nix.extraOptions = ''
@@ -95,8 +95,8 @@
     enable32Bit = true;
     extraPackages = with pkgs; [
       libGL
-      amdvlk
-      driversi686Linux.amdvlk # For 32 bit applications
+      # amdvlk
+      # driversi686Linux.amdvlk # For 32 bit applications
     ];
   };
 

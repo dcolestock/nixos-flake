@@ -6,7 +6,7 @@
     curl
     unzip
     delta
-    du-dust
+    dust
     duf
     procs
     tldr
@@ -42,14 +42,17 @@
       enableFishIntegration = false;
       enableZshIntegration = false;
     };
+    delta = {
+      enable = true;
+      enableGitIntegration = true;
+    };
     gh = {
       enable = true;
       settings.git_protocol = "ssh";
     };
     git = {
       enable = true;
-      delta.enable = true;
-      extraConfig = {
+      settings = {
         core.editor = "nvim";
         init.defaultBranch = "main";
         merge.conflictStyle = "diff3";

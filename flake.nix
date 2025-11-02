@@ -41,15 +41,12 @@
   };
 
   outputs = inputs: let
-    system = "x86_64-linux";
     username_home = "dan";
     username_work = "dcoles1";
     pkgs = import inputs.nixpkgs {
-      inherit system;
       config.allowUnfree = true;
     };
     # pkgs-unstable = import inputs.nixpkgs-unstable {
-    #   inherit system;
     #   config.allowUnfree = true;
     # };
     specialArgs = {
@@ -59,7 +56,6 @@
     };
   in {
     nixosConfigurations.nixos = inputs.nixpkgs.lib.nixosSystem {
-      inherit system;
       inherit specialArgs;
       modules = [
         # make `nix run nixpkgs#nixpkgs` use the same nixpkgs as the one used by this flake.
@@ -88,6 +84,6 @@
       ];
       extraSpecialArgs = specialArgs // {username = username_work;};
     };
-    formatter.${system} = pkgs.alejandra;
+    formatter = pkgs.alejandra;
   };
 }
