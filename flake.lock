@@ -257,6 +257,22 @@
         "type": "github"
       }
     },
+    "recover-vim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1439537091,
+        "narHash": "sha256-umh7gZ3UdKHO8UQCSME1GNaJq5PEAktwctDyJVCNX58=",
+        "owner": "chrisbra",
+        "repo": "Recover.vim",
+        "rev": "efa491f6121f65e025f42d79a93081abb8db69d4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "chrisbra",
+        "repo": "Recover.vim",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "agenix": "agenix",
@@ -266,6 +282,7 @@
         "neovim-nightly-overlay": "neovim-nightly-overlay",
         "nixpkgs": "nixpkgs_4",
         "nvim-fundo": "nvim-fundo",
+        "recover-vim": "recover-vim",
         "sersorrel-discord": "sersorrel-discord",
         "showkeys": "showkeys",
         "vim-slime-cells": "vim-slime-cells"

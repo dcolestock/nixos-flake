@@ -13,6 +13,10 @@
     dependencies = [pkgs.vimPlugins.promise-async];
     src = inputs.nvim-fundo;
   };
+  recover-vim = pkgs.vimUtils.buildVimPlugin {
+    name = "recover";
+    src = inputs.recover-vim;
+  };
   showkeys = pkgs.vimUtils.buildVimPlugin {
     name = "showkeys";
     src = inputs.showkeys;
@@ -995,6 +999,7 @@ in {
             })
           '';
       }
+      recover-vim
     ];
 
     extraLuaConfig = builtins.readFile ./config/neovim.lua;
