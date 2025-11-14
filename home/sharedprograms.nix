@@ -12,6 +12,7 @@
     tldr
     poetry
     grc
+    lazyjj
     # cargo
     # rustc
   ];
@@ -22,6 +23,7 @@
     fzf.enable = true;
     jq.enable = true;
     jujutsu.enable = true;
+    lazygit.enable = true;
     less.enable = true;
     ripgrep.enable = true;
 
@@ -29,7 +31,6 @@
     # taskwarrior, taskwarrior-sync
     # command-not-found
     # firefox
-    # lazygit
     # carapace - command argument completer
     # nix-index
     # skim - command fuzzy finder
