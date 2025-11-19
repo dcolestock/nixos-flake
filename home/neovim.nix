@@ -72,7 +72,7 @@ in {
       bash-language-server
       sql-formatter
       markdownlint-cli
-      nodePackages.jsonlint
+      # nodePackages.jsonlint
       nodePackages.prettier
       prettierd
       # rust-analyzer -- Needs to be part of the cargo toolchain

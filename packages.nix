@@ -1,5 +1,6 @@
 {
   pkgs,
+  pkgs-master,
   inputs,
   # pkgs-unstable,
   ...
@@ -47,7 +48,7 @@
     # poppler-utils # PDF Tools
     # pipe-viewer
     recapp
-    gemini-cli
+    pkgs-master.gemini-cli
 
     # Toolchains
     openjdk17

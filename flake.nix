@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-master.url = "github:nixos/nixpkgs/master";
     # nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     home-manager = {
@@ -45,9 +46,15 @@
   };
 
   outputs = inputs: let
+    system = "x86_64-linux";
     username_home = "dan";
     username_work = "dcoles1";
     pkgs = import inputs.nixpkgs {
+      inherit system;
+      config.allowUnfree = true;
+    };
+    pkgs-master = import inputs.nixpkgs-master {
+      inherit system;
       config.allowUnfree = true;
     };
     # pkgs-unstable = import inputs.nixpkgs-unstable {
@@ -55,6 +62,7 @@
     # };
     specialArgs = {
       inherit inputs;
+      inherit pkgs-master;
       # inherit pkgs-unstable;
       username = username_home;
     };
