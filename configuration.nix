@@ -34,6 +34,17 @@
     # channel.enable = false; # Remove channels entirely at some point, but this errors currently
   };
 
+  programs.nix-ld.enable = true;
+  # optionally pin known paths so pre-commit Python envs resolve libs:
+  programs.nix-ld.libraries = with pkgs; [
+    stdenv.cc.cc
+    zlib
+    openssl
+    libffi
+    # optional extras if Python packages complain:
+    python312
+  ];
+
   environment.pathsToLink = ["/share/bash-completion"];
 
   documentation.doc.enable = true;
