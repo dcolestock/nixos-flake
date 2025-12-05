@@ -8,6 +8,7 @@
     ./packages.nix
     # ./qmk.nix
     ./tailscale.nix
+    ./kdefix.nix
   ];
   nix.extraOptions = ''
     trusted-users = root dan
