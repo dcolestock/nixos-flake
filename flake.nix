@@ -21,6 +21,8 @@
       flake = false;
     };
 
+    deferred-apps.url = "github:WitteShadovv/deferred-apps/e6899eaffec705603e8efeb5d72ac1607b525b14";
+
     # Neovim
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
     vim-slime-cells = {
@@ -85,6 +87,19 @@
             backupFileExtension = ".bak";
           };
         }
+        inputs.deferred-apps.nixosModules.default
+        ({pkgs, ...}: {
+          programs.deferredApps = {
+            enable = true;
+            packages = with pkgs; [
+              gnucash
+              kicad
+              superTux
+              superTuxKart
+              extremetuxracer
+            ];
+          };
+        })
       ];
     };
     homeConfigurations."${username_work}" = inputs.home-manager.lib.homeManagerConfiguration {

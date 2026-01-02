@@ -43,9 +43,28 @@
         "type": "github"
       }
     },
-    "firefox-addons": {
+    "deferred-apps": {
       "inputs": {
         "nixpkgs": "nixpkgs_2"
+      },
+      "locked": {
+        "lastModified": 1766929169,
+        "narHash": "sha256-NtORF4+30hogfSkm6bZh3xsOObkVeoJ2dSEa+zvPgiA=",
+        "owner": "WitteShadovv",
+        "repo": "deferred-apps",
+        "rev": "e6899eaffec705603e8efeb5d72ac1607b525b14",
+        "type": "github"
+      },
+      "original": {
+        "owner": "WitteShadovv",
+        "repo": "deferred-apps",
+        "rev": "e6899eaffec705603e8efeb5d72ac1607b525b14",
+        "type": "github"
+      }
+    },
+    "firefox-addons": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_3"
       },
       "locked": {
         "dir": "pkgs/firefox-addons",
@@ -145,7 +164,7 @@
       "inputs": {
         "flake-parts": "flake-parts",
         "neovim-src": "neovim-src",
-        "nixpkgs": "nixpkgs_3"
+        "nixpkgs": "nixpkgs_4"
       },
       "locked": {
         "lastModified": 1766880341,
@@ -211,6 +230,22 @@
     },
     "nixpkgs_2": {
       "locked": {
+        "lastModified": 1766651565,
+        "narHash": "sha256-QEhk0eXgyIqTpJ/ehZKg9IKS7EtlWxF3N7DXy42zPfU=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "3e2499d5539c16d0d173ba53552a4ff8547f4539",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_3": {
+      "locked": {
         "lastModified": 1744536153,
         "narHash": "sha256-awS2zRgF4uTwrOKwwiJcByDzDOdo3Q1rPZbiHQg/N38=",
         "owner": "nixos",
@@ -225,7 +260,7 @@
         "type": "github"
       }
     },
-    "nixpkgs_3": {
+    "nixpkgs_4": {
       "locked": {
         "lastModified": 1766840161,
         "narHash": "sha256-Ss/LHpJJsng8vz1Pe33RSGIWUOcqM1fjrehjUkdrWio=",
@@ -241,7 +276,7 @@
         "type": "github"
       }
     },
-    "nixpkgs_4": {
+    "nixpkgs_5": {
       "locked": {
         "lastModified": 1766651565,
         "narHash": "sha256-QEhk0eXgyIqTpJ/ehZKg9IKS7EtlWxF3N7DXy42zPfU=",
@@ -292,11 +327,12 @@
     "root": {
       "inputs": {
         "agenix": "agenix",
+        "deferred-apps": "deferred-apps",
         "firefox-addons": "firefox-addons",
         "home-manager": "home-manager_2",
         "mini": "mini",
         "neovim-nightly-overlay": "neovim-nightly-overlay",
-        "nixpkgs": "nixpkgs_4",
+        "nixpkgs": "nixpkgs_5",
         "nixpkgs-master": "nixpkgs-master",
         "nvim-fundo": "nvim-fundo",
         "recover-vim": "recover-vim",
