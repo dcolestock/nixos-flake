@@ -68,7 +68,7 @@
   };
   xdg.configFile."kitty/keymap.py".source = ./scripts/kitty_keymap.py;
   home.packages = with pkgs; [
-    atlauncher
+    # atlauncher
     (prismlauncher.override {
       # Add binary required by some mod
       additionalPrograms = [ffmpeg];
