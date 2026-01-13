@@ -138,7 +138,7 @@
     };
     git.enable = true;
     wireshark.enable = true;
-    adb.enable = true;
+    # adb.enable = true;
     kdeconnect.enable = true;
     fish.enable = true;
     # zsh.enable = true;
