@@ -212,7 +212,19 @@
   users.users.dan = {
     isNormalUser = true;
     description = "dan";
-    extraGroups = ["networkmanager" "wheel" "adbusers" "wireshark" "docker" "libvirtd" "kvm" "qemu-libvirtd" "uucp" "dialout"];
+    extraGroups = [
+      "adbusers"
+      "cdrom"
+      "dialout"
+      "docker"
+      "kvm"
+      "libvirtd"
+      "networkmanager"
+      "qemu-libvirtd"
+      "uucp"
+      "wheel"
+      "wireshark"
+    ];
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHvItECWiUFIPuGd7uQJcVp/sQJ0RnYh39y8sOQYNMUJ JuiceSSH"
       "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDN1n0+tmadg/GJ/igJf31nsluyHMcn2J6zaycloqipAeU+fa5b4V9rXUWntkGrJNP8CWloMx788ssGI1CYAmr/wbB95xJVrHckwx1O1/YE6D/bqLfdI02t9EqNVQS/3Dm1b63YxtupPR9yHFVCBIBoSz7C2lnCdPqYnXnB+75P1vVUvvBPvKcVSofETEbMByjMVLhPBa2Wry7zLb67JKZitH5MQidxqnQqU2w9g3/C28jW/hG3rRTXdJ+D7M2Iv/hZCuqQhZRhaAiU8t4Vk3iYNUn8de5oNCAI9KgWnNRQZ5xh+ypdph3yWteXLu7p4UZFtgUUvV0ExvEPAGtljlhF surfaceputty"

@@ -60,6 +60,12 @@
     # qt6.qtwayland
     cabextract # tool for fixing sins of solar empire 2
 
+    # Video
+    vlc
+    libdvdread
+    libdvdnav
+    libdvdcss
+
     # GUI Applications
     keepassxc
     libreoffice
