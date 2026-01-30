@@ -1,6 +1,9 @@
 {pkgs, ...}: {
   programs.bash = {
     enable = true;
+    initExtra = ''
+      unset BASH_COMPLETION_VERSINFO
+    '';
     historySize = -1;
     historyFileSize = -1;
     shellAliases = {

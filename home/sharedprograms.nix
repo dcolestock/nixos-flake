@@ -15,7 +15,14 @@
     lazyjj
     # cargo
     # rustc
+    # mochi
+    rustup
   ];
+
+  home.sessionPath = ["$HOME/.cargo/bin"];
+  # programs.bash.sessionVariables = {
+  #   PATH = "$HOME/.cargo/bin:$PATH";
+  # };
 
   programs = {
     bat.enable = true;
