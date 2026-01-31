@@ -42,6 +42,11 @@
     zlib
     openssl
     libffi
+
+    libdvdread
+    libdvdnav
+    libdvdcss
+
     # optional extras if Python packages complain:
     python312
   ];

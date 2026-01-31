@@ -62,6 +62,9 @@
 
     # Video
     vlc
+    makemkv
+    handbrake
+
     libdvdread
     libdvdnav
     libdvdcss
