@@ -63,7 +63,7 @@
     # Video
     vlc
     makemkv
-    # handbrake
+    handbrake
 
     libdvdread
     libdvdnav
@@ -71,7 +71,7 @@
 
     # GUI Applications
     keepassxc
-    libreoffice
+    # libreoffice
     google-chrome
     chromium
     firefox
