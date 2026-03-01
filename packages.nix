@@ -63,7 +63,7 @@
     # Video
     vlc
     makemkv
-    handbrake
+    # handbrake
 
     libdvdread
     libdvdnav
@@ -103,6 +103,7 @@
     qemu
     # gnucash
     gparted
+    activitywatch
 
     # Games
     # endless-sky
