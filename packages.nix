@@ -103,7 +103,7 @@
     qemu
     # gnucash
     gparted
-    activitywatch
+    # activitywatch
 
     # Games
     # endless-sky
