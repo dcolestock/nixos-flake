@@ -919,7 +919,7 @@ in {
       recover-vim
     ];
 
-    extraLuaConfig = builtins.readFile ./config/neovim.lua;
+    initLua = builtins.readFile ./config/neovim.lua;
   };
   xdg.configFile = with config.lib.file; {
     "nvim/queries".source = mkOutOfStoreSymlink ./nvimqueries;

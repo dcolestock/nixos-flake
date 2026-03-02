@@ -94,8 +94,8 @@
             packages = with pkgs; [
               gnucash
               kicad
-              superTux
-              superTuxKart
+              supertux
+              supertuxkart
               extremetuxracer
             ];
           };
