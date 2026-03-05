@@ -11,7 +11,7 @@ set -o noclobber
 shopt -s checkwinsize
 
 # Turn on recursive globbing (enables ** to recurse all directories)
-shopt -s globstar 2> /dev/null
+shopt -s globstar 2>/dev/null
 
 # Save multi-line commands as one command
 shopt -s cmdhist
@@ -23,11 +23,11 @@ HISTCONTROL="erasedups:ignoreboth"
 export HISTIGNORE="&:[ \t]*:?:??:exit:exa:pwd:history*:clear:tmux*:zellij*:fish:bash:vim:nvim"
 
 # Prepend cd to directory names automatically
-shopt -s autocd 2> /dev/null
+shopt -s autocd 2>/dev/null
 # Correct spelling errors during tab-completion
-shopt -s dirspell 2> /dev/null
+shopt -s dirspell 2>/dev/null
 # Correct spelling errors in arguments supplied to cd
-shopt -s cdspell 2> /dev/null
+shopt -s cdspell 2>/dev/null
 
 # Unlimited history
 HISTFILESIZE=-1
@@ -35,7 +35,6 @@ HISTSIZE=-1
 shopt -s histappend
 shopt -s extglob
 shopt -s checkjobs
-
 
 ### ============================================================================
 ###  Bail early if non-interactive
@@ -57,7 +56,6 @@ bind '"\e[B": history-search-forward'
 bind '"\e[C": forward-char'
 bind '"\e[D": backward-char'
 
-
 # Perform file completion in a case insensitive fashion
 bind "set completion-ignore-case on"
 
@@ -69,7 +67,6 @@ bind "set show-all-if-ambiguous on"
 
 # Immediately add a trailing slash when autocompleting symlinks to directories
 bind "set mark-symlinked-directories on"
-
 
 ### Disable Bell ###
 # set bell-style none
@@ -137,17 +134,17 @@ use flake" >.envrc
 }
 
 function pythoninit() {
-if [ -e ".envrc" ] || [ -e ".gitignore" ] || [ -e "devenv.nix" ] || [ -e "devenv.yaml" ]; then
-echo "Error: Devenv files already exist. Stopping execution."
-exit 1
-fi
-cat > ".envrc" <<'FILE_CONTENT'
+  if [ -e ".envrc" ] || [ -e ".gitignore" ] || [ -e "devenv.nix" ] || [ -e "devenv.yaml" ]; then
+    echo "Error: Devenv files already exist. Stopping execution."
+    exit 1
+  fi
+  cat >".envrc" <<'FILE_CONTENT'
 source_url "https://raw.githubusercontent.com/cachix/devenv/82c0147677e510b247d8b9165c54f73d32dfd899/direnvrc" "sha256-7u4iDd1nZpxL4tCzmPG0dQgC5V+/44Ba+tHkPob1v2k="
 
 use devenv
 FILE_CONTENT
 
-cat > ".gitignore" <<'FILE_CONTENT'
+  cat >".gitignore" <<'FILE_CONTENT'
 # Devenv
 .devenv*
 devenv.local.nix
@@ -168,7 +165,7 @@ __pycache__/
 .ropeproject
 FILE_CONTENT
 
-cat > "devenv.nix" <<'FILE_CONTENT'
+  cat >"devenv.nix" <<'FILE_CONTENT'
 {pkgs, ...}: {
   env.GREET = "devenv";
 
@@ -189,7 +186,7 @@ cat > "devenv.nix" <<'FILE_CONTENT'
 }
 FILE_CONTENT
 
-cat > "devenv.yaml" <<'FILE_CONTENT'
+  cat >"devenv.yaml" <<'FILE_CONTENT'
 # yaml-language-server: $schema=https://devenv.sh/devenv.schema.json
 inputs:
   nixpkgs:
@@ -219,14 +216,14 @@ fi
 
 function configedit() {
   local path
-  path=$(realpath $1)
-  (cd ~/nixos && nvim -- $path)
+  path=$(realpath "$1")
+  (cd ~/nixos && nvim -- "$path")
 }
 
 function configeditline() {
   local path
-  path=$(realpath $2)
-  (cd ~/nixos && nvim +$1 -- $path)
+  path=$(realpath "$2")
+  (cd ~/nixos && nvim +"$1" -- "$path")
 }
 
 # ALT-E - Edit NixOS Configuration Files
@@ -239,16 +236,17 @@ if [[ $- =~ i ]]; then
     file=$(eval "$cmd" | FZF_DEFAULT_OPTS="$opts" $(__fzfcmd)) && printf 'configedit %q' "$file"
   }
 
-  bind -m emacs-standard '"\ee": "\C-e\C-u`__fzf_nixedit__`\e\C-e\er\C-m"'
+  bind -m emacs-standard '"\ee": "\C-e\C-u`__fzf_nixedit__`\e\C-e\C-\e(\C-m"'
   bind -m vi-command '"\ee": "\C-z\ee\C-z"'
   bind -m vi-insert '"\ee": "\C-z\ee\C-z"'
 
   function __fzf_nixedit_ripgrep__() {
-    local rg_prefix opts line file
+    local cmd rg_prefix opts line file
+    cmd=":"
     rg_prefix="rg --column --line-number --no-heading --color=always --smart-case"
     opts="--height ${FZF_TMUX_HEIGHT:-40%} --bind=ctrl-z:ignore --reverse ${FZF_DEFAULT_OPTS-} ${FZF_CTRL_T_OPTS-} +m "
     opts+="--bind 'start:reload:$rg_prefix \"\" ~/nixos/' "
-    opts+="--bind 'change:reload:$rg_prefix {q} ~/nixos/|| true' "
+    opts+="--bind 'change:reload:$rg_prefix {q} ~/nixos/ || true' "
     opts+="--color 'hl:-1:underline,hl+:-1:underline:reverse' "
     opts+="--delimiter : "
     opts+="--preview 'bat --color=always {1} --highlight-line {2}' "
@@ -258,7 +256,7 @@ if [[ $- =~ i ]]; then
     read -r line file < <(eval "$cmd" | FZF_DEFAULT_OPTS="$opts" $(__fzfcmd) | awk '{split($0,a,":"); print a[2] " " a[1]}') && printf 'configeditline %q %q' "$line" "$file"
   }
 
-  bind -m emacs-standard '"\eo": "\C-e\C-u`__fzf_nixedit_ripgrep__`\e\C-e\er\C-m"'
+  bind -m emacs-standard '"\eo": "\C-e\C-u`__fzf_nixedit_ripgrep__`\e\C-e\C-\e(\C-m"'
   bind -m vi-command '"\eo": "\C-z\eo\C-z"'
   bind -m vi-insert '"\eo": "\C-z\eo\C-z"'
 fi
