@@ -71,7 +71,7 @@
 
     # GUI Applications
     keepassxc
-    # libreoffice
+    libreoffice
     google-chrome
     chromium
     firefox
