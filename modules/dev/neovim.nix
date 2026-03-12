@@ -236,6 +236,13 @@
               formatting = { format = lspkind.cmp_format({ mode = "symbol_text", maxwidth = 50, show_labelDetails = true }) },
               sources = cmp.config.sources({ { name = "nvim_lsp" }, { name = "luasnip" } }, { { name = "buffer" }, { name = "path" }, { name = "treesitter" } }),
             })
+            cmp.setup.filetype("gitcommit", {
+              sources = cmp.config.sources({
+                { name = "git" }, -- You can specify the `git` source if [you were installed it](https://github.com/petertriho/cmp-git).
+              }, {
+                { name = "buffer" },
+              } }),
+            })
             cmp.setup.cmdline({ "/", "?" }, { mapping = cmp.mapping.preset.cmdline(), sources = { { name = "buffer" } } })
           '';
         }
@@ -348,7 +355,12 @@
     };
     xdg.configFile = {
       "nvim/queries".source = config.lib.file.mkOutOfStoreSymlink ../assets/nvimqueries;
-      "nvim/sql_formatter.json".text = "{ \"language\": \"sqlite\", \"keywordCase\": \"upper\" }";
+      "nvim/sql_formatter.json".text = ''
+        {
+          "language": "sqlite",
+          "keywordCase": "upper"
+        }
+      '';
     };
     home.sessionPath = ["$HOME/.local/bin"];
   };

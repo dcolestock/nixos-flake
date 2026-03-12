@@ -70,8 +70,7 @@
                   <width>1440</width>
                   <height>900</height>
                   <rate>59.887</rate>
-                </mode>
-              </monitor>
+                </mode></monitor>
             </logicalmonitor>
           </configuration>
         </monitors>
