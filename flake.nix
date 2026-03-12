@@ -45,72 +45,12 @@
       url = "github:echasnovski/mini.nvim";
       flake = false;
     };
+
+    flake-parts.url = "github:hercules-ci/flake-parts";
+    import-tree.url = "github:vic/import-tree";
   };
 
-  outputs = inputs: let
-    system = "x86_64-linux";
-    username_home = "dan";
-    username_work = "dcoles1";
-    pkgs = import inputs.nixpkgs {
-      inherit system;
-      config.allowUnfree = true;
-    };
-    pkgs-master = import inputs.nixpkgs-master {
-      inherit system;
-      config.allowUnfree = true;
-    };
-    # pkgs-unstable = import inputs.nixpkgs-unstable {
-    #   config.allowUnfree = true;
-    # };
-    specialArgs = {
-      inherit inputs;
-      inherit pkgs-master;
-      # inherit pkgs-unstable;
-      username = username_home;
-    };
-  in {
-    nixosConfigurations.nixos = inputs.nixpkgs.lib.nixosSystem {
-      inherit specialArgs;
-      modules = [
-        # make `nix run nixpkgs#nixpkgs` use the same nixpkgs as the one used by this flake.
-        {nix.registry.nixpkgs.flake = inputs.nixpkgs;}
-
-        ./configuration.nix
-        inputs.agenix.nixosModules.default
-        inputs.home-manager.nixosModules.home-manager
-        {
-          home-manager = {
-            useGlobalPkgs = true;
-            useUserPackages = true;
-            users.${username_home} = import ./home;
-            extraSpecialArgs = specialArgs;
-            backupFileExtension = ".bak";
-          };
-        }
-        inputs.deferred-apps.nixosModules.default
-        ({pkgs, ...}: {
-          programs.deferredApps = {
-            enable = true;
-            packages = with pkgs; [
-              gnucash
-              kicad
-              supertux
-              supertuxkart
-              extremetuxracer
-            ];
-          };
-        })
-      ];
-    };
-    homeConfigurations."${username_work}" = inputs.home-manager.lib.homeManagerConfiguration {
-      inherit pkgs;
-      modules = [
-        # make `nix run nixpkgs#nixpkgs` use the same nixpkgs as the one used by this flake.
-        {nix.registry.nixpkgs.flake = inputs.nixpkgs;}
-        ./home/work.nix
-      ];
-      extraSpecialArgs = specialArgs // {username = username_work;};
-    };
-    formatter = pkgs.alejandra;
-  };
+  outputs = inputs:
+    inputs.flake-parts.lib.mkFlake {inherit inputs;}
+    (inputs.import-tree ./modules);
 }

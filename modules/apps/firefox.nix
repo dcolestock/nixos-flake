@@ -1,31 +1,11 @@
-{
-  pkgs,
-  inputs,
-  ...
-}: {
-  programs.firefox = {
-    enable = true;
-    profiles = {
-      default = {
+{inputs, ...}: {
+  flake.modules.homeManager.firefox = {pkgs, ...}: {
+    programs.firefox = {
+      enable = true;
+      profiles.default = {
         id = 0;
         isDefault = true;
-        extensions = {
-          packages = with inputs.firefox-addons.packages."x86_64-linux"; [
-            # privacy
-            ublock-origin
-            canvasblocker
-            istilldontcareaboutcookies
-
-            # passwords
-            bitwarden
-            keepassxc-browser
-
-            # usability
-            vimium
-            darkreader
-            # bypass-paywalls-clean
-          ];
-        };
+        extensions.packages = with inputs.firefox-addons.packages."x86_64-linux"; [ublock-origin canvasblocker istilldontcareaboutcookies bitwarden keepassxc-browser vimium darkreader];
         search = {
           default = "ddg";
           force = true;
@@ -96,7 +76,7 @@
                   ];
                 }
               ];
-              icon = "''${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+              icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
               definedAliases = ["@n"];
             };
             "bing".metaData.hidden = true;
@@ -107,23 +87,20 @@
           };
         };
       };
-    };
-    policies = {
-      # https://mozilla.github.io/policy-templates/
-      DisablePocket = true;
-      DisableFirefoxStudies = true;
-      DisableTelemetry = true;
-      DisplayBookmarksToolbar = true;
-      DontCheckDefaultBrowser = true;
-      OfferToSaveLogins = false;
-      NoDefaultBookmarks = true;
-      PasswordManagerEnable = false;
-      DNSOverHTTPS = {
-        Enabled = true;
-      };
-      UserMessaging = {
-        SkipOnboarding = true;
-        ExtensionRecommendations = false;
+      policies = {
+        DisablePocket = true;
+        DisableFirefoxStudies = true;
+        DisableTelemetry = true;
+        DisplayBookmarksToolbar = true;
+        DontCheckDefaultBrowser = true;
+        OfferToSaveLogins = false;
+        NoDefaultBookmarks = true;
+        PasswordManagerEnable = false;
+        DNSOverHTTPS.Enabled = true;
+        UserMessaging = {
+          SkipOnboarding = true;
+          ExtensionRecommendations = false;
+        };
       };
     };
   };
