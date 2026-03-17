@@ -1,4 +1,4 @@
-{lib, ...}: {
+{...}: {
   flake.modules.nixos.plasma = {
     pkgs,
     lib,

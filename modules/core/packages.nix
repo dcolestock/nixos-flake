@@ -1,4 +1,4 @@
-{inputs, ...}: {
+{...}: {
   flake.modules.nixos.packages = {
     pkgs,
     pkgs-master,
@@ -61,7 +61,6 @@
       pavucontrol
       inotify-tools
       solaar
-      inputs.agenix.packages."${pkgs.system}".default
       (pkgs.symlinkJoin {
         name = "neovide-wrapped";
         paths = [pkgs.neovide];
