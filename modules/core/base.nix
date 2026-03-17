@@ -4,13 +4,27 @@
       settings = {
         experimental-features = ["nix-command" "flakes"];
         bash-prompt-prefix = "(nix:$name)\\040";
-        substituters = ["https://cache.thalheim.io" "https://nix-community.cachix.org" "https://neovim-nightly.cachix.org" "https://cache.nixos.org/"];
-        trusted-public-keys = ["cache.thalheim.io-1:R7msbosLEZKrxk/lKxf9BTjOOH7Ax3H0Qj0/6wiHOgc=" "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=" "neovim-nightly.cachix.org-1:feIoInHRevVEplgdZvQDjhp11kYASYCE2NGY9hNrwxY=" "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="];
+        substituters = [
+          "https://cache.thalheim.io"
+          "https://nix-community.cachix.org"
+          "https://neovim-nightly.cachix.org"
+          "https://cache.nixos.org/"
+        ];
+        trusted-public-keys = [
+          "cache.thalheim.io-1:R7msbosLEZKrxk/lKxf9BTjOOH7Ax3H0Qj0/6wiHOgc="
+          "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+          "neovim-nightly.cachix.org-1:feIoInHRevVEplgdZvQDjhp11kYASYCE2NGY9hNrwxY="
+          "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+        ];
         trusted-users = ["root" "dan"];
       };
       optimise.automatic = true;
       gc.automatic = true;
       gc.dates = "weekly";
+      channel.enable = false;
+      # lint-absolute-path-literals = "warn";
+      # lint-short-path-literals = "warn";
+      # lint-url-literals = "warn";
     };
     programs.nix-ld.enable = true;
     programs.nix-ld.libraries = with pkgs; [stdenv.cc.cc zlib openssl libffi libdvdread libdvdnav libdvdcss python312];
@@ -109,8 +123,26 @@
     users.users.dan = {
       isNormalUser = true;
       description = "dan";
-      extraGroups = ["adbusers" "cdrom" "dialout" "docker" "kvm" "libvirtd" "networkmanager" "qemu-libvirtd" "uucp" "wheel" "wireshark"];
-      openssh.authorizedKeys.keys = ["ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHvItECWiUFIPuGd7uQJcVp/sQJ0RnYh39y8sOQYNMUJ JuiceSSH" "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDN1n0+tmadg/GJ/igJf31nsluyHMcn2J6zaycloqipAeU+fa5b4V9rXUWntkGrJNP8CWloMx788ssGI1CYAmr/wbB95xJVrHckwx1O1/YE6D/bqLfdI02t9EqNVQS/3Dm1b63YxtupPR9yHFVCBIBoSz7C2lnCdPqYnXnB+75P1vVUvvBPvKcVSofETEbMByjMVLhPBa2Wry7zLb67JKZitH5MQidxqnQqU2w9g3/C28jW/hG3rRTXdJ+D7M2Iv/hZCuqQhZRhaAiU8t4Vk3iYNUn8de5oNCAI9KgWnNRQZ5xh+ypdph3yWteXLu7p4UZFtgUUvV0ExvEPAGtljlhF surfaceputty" "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCtZLxPRpKCYsiAT/RxZpyOZKWMAGNti2p9mi8QoiCzB2k7huONflsZQgi+Np9754d65NIQN6wGZUwmrRD1dRFxykACFYnWH+q8GvnltGFwKVqAn0JLvHI3+UJGa04Xm/+v5fxjZ9wbEBZ7+mjZ22VJ9Z6xPEG/VQnAl3fMaVUsGjNLmM3TNAV4j/FoJVGi3sqX0GCt1CuIAs4BtPalfPOSnsHdLag4vR316pUM+HnFIwZ4P2sjCC8iY+y2+xIZU38lXM0vTT+fjq7Iqg7MsPR54WTPL3NTG0Re8C7s0S45hef3JVk9jhlWjqJLkjYmNy+0x4dbxar24EYXy0IOJo6Pj/7z9qhdaEgYIHcy1rA4Xe1d34cDrQWK/IRswLu3B/a7jOgkYybruhM0/uZoF2ijAwMk1FGtJf8pZwwCXL8C8b1yWS63TIU/HMcBp8hFPRefB3CacjM0AQub1TfPRF3IQwqha1GlOzHTobHWeLNH4cJliw7ruXTry5XOMYvGJ2yP/4D1WTY7QZ0QDQ6IP+F4kXW9E/vTDM/neqgTrzGgTcfgwjIn+D7s0rg4rDkQZMbhMLBaANiCJdJVIMMFhWNV2NMqMqmbNzdVE/pIosLpwAj+ZOCWqYYFLWjHGhCMxJHS6h4sgzzf4IhYlqhaWHld7d6jGhhGXYwwYDlOcoaVrQ== SurfaceWindowsTerminal" "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0LJdWfOIGs7qDDdUbVX46Gr6qWhan2FsR07PGOHNj04TrwENT+MMKkJmkG2ol51RoHnCbXAdW3+e5yHwgzoMDyKW4hqp34dDpvS+u+rAX4YwMrSWPkBRO1UvL88TNi9al47K8mtQI9/yhR96N76K9GbEC8T1oxVlKYaZyb/9nKwmthyA2x3wpI3DggseFQ7TwPGxHPDuI8oO7KvL2y1USFHUP4oETMbEHm+BKLjotV9nh6ibrSFjhosE09BVyA/0t5tx5K8qrrTWNmZJYdULMwtjeJtzOhFb4Yc2W3/aaxZmEwMFdPGGnTf5Yf7qDVMZ48VhyycsdzjFXN8CASCpf SamsungRDP" "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDAyBFhfJ59CyjEDU0INkew8VTCmoD3RNGTNGITtI8QqMbsFVX2RITaivyiX2uR0PgQgesV+EkjFs0u4IBrEjN8ZXmL4DdbCTG7Y7ESZcaYlytxTqKXqpaCz5m2f28MHBCrTTH8H+sfJOv2XAjszaUJ15KWiaPNpcM4tvCosFk1J2c+ccSoTDS45SMa+N7h8UyKw4uJk34hmEvhNlmu3+fUQfDM9bUcPlnvsD8/1Iak7UClB/HRpTinAs+T1sO5F+/pN3qs48zlocCRUiTp2Fr1zbbQw66FdPPL2J6l2OG+01wwNsGBRmi14hhdx+MgyolpEy/dx1KwBRPaVh8pAo4R Samsungconnectbot"];
+      extraGroups = [
+        "adbusers"
+        "cdrom"
+        "dialout"
+        "docker"
+        "kvm"
+        "libvirtd"
+        "networkmanager"
+        "qemu-libvirtd"
+        "uucp"
+        "wheel"
+        "wireshark"
+      ];
+      openssh.authorizedKeys.keys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHvItECWiUFIPuGd7uQJcVp/sQJ0RnYh39y8sOQYNMUJ JuiceSSH"
+        "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDN1n0+tmadg/GJ/igJf31nsluyHMcn2J6zaycloqipAeU+fa5b4V9rXUWntkGrJNP8CWloMx788ssGI1CYAmr/wbB95xJVrHckwx1O1/YE6D/bqLfdI02t9EqNVQS/3Dm1b63YxtupPR9yHFVCBIBoSz7C2lnCdPqYnXnB+75P1vVUvvBPvKcVSofETEbMByjMVLhPBa2Wry7zLb67JKZitH5MQidxqnQqU2w9g3/C28jW/hG3rRTXdJ+D7M2Iv/hZCuqQhZRhaAiU8t4Vk3iYNUn8de5oNCAI9KgWnNRQZ5xh+ypdph3yWteXLu7p4UZFtgUUvV0ExvEPAGtljlhF surfaceputty"
+        "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCtZLxPRpKCYsiAT/RxZpyOZKWMAGNti2p9mi8QoiCzB2k7huONflsZQgi+Np9754d65NIQN6wGZUwmrRD1dRFxykACFYnWH+q8GvnltGFwKVqAn0JLvHI3+UJGa04Xm/+v5fxjZ9wbEBZ7+mjZ22VJ9Z6xPEG/VQnAl3fMaVUsGjNLmM3TNAV4j/FoJVGi3sqX0GCt1CuIAs4BtPalfPOSnsHdLag4vR316pUM+HnFIwZ4P2sjCC8iY+y2+xIZU38lXM0vTT+fjq7Iqg7MsPR54WTPL3NTG0Re8C7s0S45hef3JVk9jhlWjqJLkjYmNy+0x4dbxar24EYXy0IOJo6Pj/7z9qhdaEgYIHcy1rA4Xe1d34cDrQWK/IRswLu3B/a7jOgkYybruhM0/uZoF2ijAwMk1FGtJf8pZwwCXL8C8b1yWS63TIU/HMcBp8hFPRefB3CacjM0AQub1TfPRF3IQwqha1GlOzHTobHWeLNH4cJliw7ruXTry5XOMYvGJ2yP/4D1WTY7QZ0QDQ6IP+F4kXW9E/vTDM/neqgTrzGgTcfgwjIn+D7s0rg4rDkQZMbhMLBaANiCJdJVIMMFhWNV2NMqMqmbNzdVE/pIosLpwAj+ZOCWqYYFLWjHGhCMxJHS6h4sgzzf4IhYlqhaWHld7d6jGhhGXYwwYDlOcoaVrQ== SurfaceWindowsTerminal"
+        "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0LJdWfOIGs7qDDdUbVX46Gr6qWhan2FsR07PGOHNj04TrwENT+MMKkJmkG2ol51RoHnCbXAdW3+e5yHwgzoMDyKW4hqp34dDpvS+u+rAX4YwMrSWPkBRO1UvL88TNi9al47K8mtQI9/yhR96N76K9GbEC8T1oxVlKYaZyb/9nKwmthyA2x3wpI3DggseFQ7TwPGxHPDuI8oO7KvL2y1USFHUP4oETMbEHm+BKLjotV9nh6ibrSFjhosE09BVyA/0t5tx5K8qrrTWNmZJYdULMwtjeJtzOhFb4Yc2W3/aaxZmEwMFdPGGnTf5Yf7qDVMZ48VhyycsdzjFXN8CASCpf SamsungRDP"
+        "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDAyBFhfJ59CyjEDU0INkew8VTCmoD3RNGTNGITtI8QqMbsFVX2RITaivyiX2uR0PgQgesV+EkjFs0u4IBrEjN8ZXmL4DdbCTG7Y7ESZcaYlytxTqKXqpaCz5m2f28MHBCrTTH8H+sfJOv2XAjszaUJ15KWiaPNpcM4tvCosFk1J2c+ccSoTDS45SMa+N7h8UyKw4uJk34hmEvhNlmu3+fUQfDM9bUcPlnvsD8/1Iak7UClB/HRpTinAs+T1sO5F+/pN3qs48zlocCRUiTp2Fr1zbbQw66FdPPL2J6l2OG+01wwNsGBRmi14hhdx+MgyolpEy/dx1KwBRPaVh8pAo4R Samsungconnectbot"
+      ];
     };
     nixpkgs.config.allowUnfree = true;
     fonts.packages = with pkgs; [nerd-fonts.jetbrains-mono];
