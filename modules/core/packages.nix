@@ -27,7 +27,7 @@
       rclone
       tmux
       recapp
-      pkgs-master.gemini-cli
+      gemini-cli
       openjdk17
       libgccjit
       poetry
@@ -44,7 +44,7 @@
       chromium
       firefox
       obsidian
-      heroic
+      pkgs-master.heroic
       mpv
       kdePackages.krfb
       wl-clipboard
