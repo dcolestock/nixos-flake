@@ -21,6 +21,7 @@ in {
         config.flake.modules.nixos.tailscale
         config.flake.modules.nixos.plasma
 
+        inputs.nix-index-database.nixosModules.default
         inputs.home-manager.nixosModules.home-manager
         {
           home-manager = {

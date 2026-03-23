@@ -28,6 +28,8 @@
     };
     programs.nix-ld.enable = true;
     programs.nix-ld.libraries = with pkgs; [stdenv.cc.cc zlib openssl libffi libdvdread libdvdnav libdvdcss python312];
+    programs.nix-index-database.comma.enable = true;
+
     environment.pathsToLink = ["/share/bash-completion"];
     documentation = {
       doc.enable = true;
