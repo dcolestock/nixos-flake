@@ -61,6 +61,7 @@
       pavucontrol
       inotify-tools
       solaar
+      discord
       (pkgs.symlinkJoin {
         name = "neovide-wrapped";
         paths = [pkgs.neovide];
@@ -93,7 +94,22 @@
   };
 
   flake.modules.homeManager.packages = {pkgs, ...}: {
-    home.packages = with pkgs; [fd tree wget curl unzip delta dust duf procs tldr poetry grc lazyjj rustup];
+    home.packages = with pkgs; [
+      fd
+      tree
+      wget
+      curl
+      unzip
+      delta
+      dust
+      duf
+      procs
+      tldr
+      poetry
+      grc
+      lazyjj
+      rustup
+    ];
     home.sessionPath = ["$HOME/.cargo/bin"];
     programs = {
       bat.enable = true;

@@ -32,7 +32,6 @@ in {
                 config.flake.modules.homeManager.base
                 config.flake.modules.homeManager.bash
                 config.flake.modules.homeManager.plasma
-                config.flake.modules.homeManager.discord
                 config.flake.modules.homeManager.distrobox
                 config.flake.modules.homeManager.firefox
                 config.flake.modules.homeManager.neovim

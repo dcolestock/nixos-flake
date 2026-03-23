@@ -326,25 +326,8 @@
         "nixpkgs-master": "nixpkgs-master",
         "nvim-fundo": "nvim-fundo",
         "recover-vim": "recover-vim",
-        "sersorrel-discord": "sersorrel-discord",
         "showkeys": "showkeys",
         "vim-slime-cells": "vim-slime-cells"
-      }
-    },
-    "sersorrel-discord": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1755111834,
-        "narHash": "sha256-pCcLjh0Ne6w/xBqnnbZiTddJLRbUJToijAeGgMMi1hM=",
-        "owner": "sersorrel",
-        "repo": "sys",
-        "rev": "52ae036d683cf1066b0ec91091dabe365b4da11f",
-        "type": "github"
-      },
-      "original": {
-        "owner": "sersorrel",
-        "repo": "sys",
-        "type": "github"
       }
     },
     "showkeys": {

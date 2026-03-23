@@ -18,12 +18,6 @@
 
     firefox-addons.url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
 
-    # Discord Krisp Patcher
-    sersorrel-discord = {
-      url = "github:sersorrel/sys";
-      flake = false;
-    };
-
     deferred-apps.url = "github:WitteShadovv/deferred-apps/e6899eaffec705603e8efeb5d72ac1607b525b14";
 
     # Neovim
