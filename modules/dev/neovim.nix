@@ -73,7 +73,7 @@
         sql-formatter
         markdownlint-cli
         # nodePackages.jsonlint
-        nodePackages.prettier
+        # nodePackages.prettier
         prettierd
         # rust-analyzer -- Needs to be part of the cargo toolchain
         rustfmt

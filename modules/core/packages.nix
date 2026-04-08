@@ -20,7 +20,7 @@
       duf
       procs
       tldr
-      nodePackages.sql-formatter
+      # nodePackages.sql-formatter
       pre-commit
       devenv
       taskwarrior3
