@@ -196,7 +196,7 @@
       };
       Install.WantedBy = ["default.target"];
     };
-    services.activitywatch.enable = true;
+    # services.activitywatch.enable = true;
     programs.kitty = {
       enable = true;
       font = {
