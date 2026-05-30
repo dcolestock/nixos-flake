@@ -1,5 +1,11 @@
 {...}: {
-  flake.modules.homeManager.bash = {pkgs, ...}: {
+  flake.modules.homeManager.bash = {
+    pkgs,
+    config,
+    ...
+  }: let
+    flakePath = "${config.home.homeDirectory}/Projects/dancolestock/nixos";
+  in {
     programs.bash = {
       enable = true;
       initExtra = ''
@@ -78,6 +84,7 @@
         HOMEBREW_NO_ANALYTICS = 1;
         STNOUPGRADE = 1;
         DOTNET_CLI_TELEMETRY_OPTOUT = 1;
+        FLAKE = flakePath;
       };
       bashrcExtra = builtins.readFile ../assets/config/bashrc;
     };
@@ -95,40 +102,40 @@
         name = "switch";
         runtimeInputs = [git nh];
         text = ''
-          cd /home/dan/Projects/dancolestock/nixos/
+          cd ${flakePath}/
           gitstatus=$(git status --porcelain)
           if [[ -n "$gitstatus" ]]; then
             echo "Flake's git not clean.  Aborting."
             exit 1
           fi
-          nh os switch .
+          nh os switch
         '';
       })
       (writeShellApplication {
         name = "switch-trace";
         runtimeInputs = [git nh];
         text = ''
-          cd /home/dan/Projects/dancolestock/nixos/
+          cd ${flakePath}/
           gitstatus=$(git status --porcelain)
           if [[ -n "$gitstatus" ]]; then
             echo "Flake's git not clean.  Aborting."
             exit 1
           fi
-          nh os switch . -- --show-trace --option eval-cache false
+          nh os switch -- --show-trace --option eval-cache false
         '';
       })
       (writeShellApplication {
         name = "testnix";
         text = ''
-          cd /home/dan/Projects/dancolestock/nixos/
-          nh os test . -- --show-trace --option eval-cache false
+          cd ${flakePath}/
+          nh os test -- --show-trace --option eval-cache false
         '';
       })
       (writeShellApplication {
         name = "update";
         runtimeInputs = [git nh pre-commit];
         text = ''
-          cd /home/dan/Projects/dancolestock/nixos/
+          cd ${flakePath}/
           gitstatus=$(git status --porcelain)
           if [[ -n "$gitstatus" ]]; then
             echo "Flake's git not clean.  Aborting."
@@ -145,7 +152,7 @@
             pre-commit install
             git commit -am "Flake update $(date '+%Y.%m.%d')"
             echo "Rebuilding..."
-            nh os switch . || true
+            nh os switch || true
           fi
           echo "Done"
         '';

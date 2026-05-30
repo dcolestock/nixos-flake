@@ -1,5 +1,9 @@
 {...}: {
-  flake.modules.homeManager.tmux = {pkgs, ...}: {
+  flake.modules.homeManager.tmux = {
+    pkgs,
+    config,
+    ...
+  }: {
     programs.tmux = {
       enable = true;
       shortcut = "a";
@@ -26,7 +30,7 @@
       extraConfig = ''
         bind-key b copy-mode\; send-keys -X start-of-line\; send-keys -X search-backward "❯"\; send-keys -X top-line
         unbind r
-        bind r source-file /home/dan/.config/tmux/tmux.conf
+        bind r source-file ${config.xdg.configHome}/tmux/tmux.conf
         bind C-l send-keys 'C-l'
         bind C-c new-window -c "#{pane_current_path}"
         bind c new-window -c "#{pane_current_path}"

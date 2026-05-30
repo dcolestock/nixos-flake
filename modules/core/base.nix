@@ -190,7 +190,7 @@
       Unit.Description = "Run and sync rclone on login.";
       Service = {
         Type = "simple";
-        ExecStart = "${pkgs.rclone}/bin/rclone mount --vfs-cache-mode writes gdrive: /home/dan/gdrive";
+        ExecStart = "${pkgs.rclone}/bin/rclone mount --vfs-cache-mode writes gdrive: ${config.home.homeDirectory}/gdrive";
         StandardOutput = "journal";
         Environment = ["PATH=/run/wrappers/bin"];
       };

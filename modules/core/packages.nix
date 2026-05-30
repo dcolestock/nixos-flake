@@ -57,7 +57,6 @@
       gparted
       alejandra
       manix
-      nh
       pavucontrol
       inotify-tools
       solaar
@@ -72,6 +71,9 @@
       })
     ];
     programs = {
+      nh = {
+        enable = true;
+      };
       noisetorch.enable = true;
       steam = {
         enable = true;
