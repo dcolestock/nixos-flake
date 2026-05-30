@@ -66,7 +66,7 @@
         paths = [pkgs.neovide];
         buildInputs = [pkgs.makeWrapper];
         postBuild = ''
-          wrapProgram $out/bin/neovide --prefix LD_LIBRARY_PATH : ${pkgs.xorg.libX11}/lib
+          wrapProgram $out/bin/neovide --prefix LD_LIBRARY_PATH : ${pkgs.libx11}/lib
         '';
       })
     ];
@@ -87,6 +87,7 @@
         defaultEditor = true;
         viAlias = true;
         vimAlias = true;
+        withRuby = false;
       };
       git.enable = true;
       wireshark.enable = true;

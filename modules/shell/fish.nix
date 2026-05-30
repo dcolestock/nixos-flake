@@ -1,5 +1,11 @@
 {...}: {
-  flake.modules.homeManager.fish = {pkgs, ...}: {
+  flake.modules.homeManager.fish = {
+    pkgs,
+    config,
+    ...
+  }: let
+    flakePath = "${config.home.homeDirectory}/Projects/dancolestock/nixos";
+  in {
     programs.fish = {
       enable = true;
       plugins = with pkgs.fishPlugins; [
@@ -78,8 +84,8 @@
       functions = {
         fish_greeting.body = "";
         fish_user_key_bindings.body = ''
-          bind \eo __fzf_nixedit__
-          bind \eq __fzf_nixedit_ripgrep__
+          bind \eo __fzf_nixedit_ripgrep__
+          bind \ee __fzf_nixedit__
         '';
         mc.body = "mkdir -p $argv[1]; and cd $argv[1]";
         configedit.body = ''
@@ -88,7 +94,7 @@
             return 1
           end
           set -l paths (realpath $argv)
-          env -C ~/nixos $EDITOR -- $paths
+          env -C ${flakePath} $EDITOR -- $paths
         '';
         configeditline.body = ''
           if test (count $argv) -lt 2
@@ -96,10 +102,10 @@
             return 1
           end
           set -l path (realpath $argv[2])
-          env -C ~/nixos $EDITOR +$argv[1] -- $path
+          env -C ${flakePath} $EDITOR +$argv[1] -- $path
         '';
         __fzf_nixedit__.body = ''
-          set -l cmd "fd --mount --type f --hidden --exclude .git . ~/nixos"
+          set -l cmd "fd --mount --type f --hidden --exclude .git . ${flakePath}"
           set -l FZF_DEFAULT_OPTS "
             --multi
             --height=(or $FZF_TMUX_HEIGHT 40%)
@@ -117,14 +123,14 @@
           end
         '';
         __fzf_nixedit_ripgrep__.body = ''
-          set -l cmd "rg --column --line-number --no-heading --color=always --smart-case"
+          set -l rg_prefix "rg --column --line-number --no-heading --color=always --smart-case"
           set -l FZF_DEFAULT_OPTS "
             --height=80%
             --reverse
             $FZF_DEFAULT_OPTS
             $FZF_CTRL_T_OPTS
-            --bind 'start:reload:$rg_prefix \"\" ~/nixos/'
-            --bind 'change:reload:$rg_prefix {q} ~/nixos/|| true'
+            --bind 'start:reload:$rg_prefix \"\" ${flakePath}/'
+            --bind 'change:reload:$rg_prefix {q} ${flakePath}/ || true'
             --color='hl:-1:underline,hl+:-1:underline:reverse'
             --delimiter=':'
             --preview='bat --color=always {1} --highlight-line {2}'
@@ -133,10 +139,12 @@
             --disabled
           "
 
-          set -l selection (eval $cmd | fzf)
+          set -l selection (fzf < /dev/null)
 
           if test (count $selection) -gt 0
-            commandline -r "configeditline $selection"
+            set -l file (echo $selection | cut -d: -f1)
+            set -l line (echo $selection | cut -d: -f2)
+            commandline -r "configeditline $line $file"
             commandline -f execute
           end
         '';

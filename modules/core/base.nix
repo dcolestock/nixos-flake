@@ -180,6 +180,7 @@
   flake.modules.homeManager.base = {
     pkgs,
     username,
+    config,
     ...
   }: {
     home.username = username;

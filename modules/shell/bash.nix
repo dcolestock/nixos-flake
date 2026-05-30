@@ -84,7 +84,7 @@
         HOMEBREW_NO_ANALYTICS = 1;
         STNOUPGRADE = 1;
         DOTNET_CLI_TELEMETRY_OPTOUT = 1;
-        FLAKE = flakePath;
+        NH_FLAKE = flakePath;
       };
       bashrcExtra = builtins.readFile ../assets/config/bashrc;
     };
