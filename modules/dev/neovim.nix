@@ -1,4 +1,6 @@
-{inputs, ...}: {
+{config, ...}: let
+  inputs = config.shared.inputs;
+in {
   flake.modules.homeManager.neovim = {
     pkgs,
     config,

@@ -1,9 +1,7 @@
-{...}: {
-  flake.modules.nixos.packages = {
-    pkgs,
-    pkgs-master,
-    ...
-  }: {
+{config, ...}: let
+  pkgs-master = config.shared.pkgsMaster;
+in {
+  flake.modules.nixos.packages = {pkgs, ...}: {
     environment.systemPackages = with pkgs; [
       eza
       bat

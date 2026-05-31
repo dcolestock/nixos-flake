@@ -179,12 +179,9 @@
 
   flake.modules.homeManager.base = {
     pkgs,
-    username,
     config,
     ...
   }: {
-    home.username = username;
-    home.homeDirectory = "/home/${username}";
     home.stateVersion = "23.05";
     programs.home-manager.enable = true;
     systemd.user.services.rclone-startup = {

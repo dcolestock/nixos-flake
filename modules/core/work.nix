@@ -1,5 +1,5 @@
 {self, ...}: {
-  flake.modules.homeManager.work = {username, ...}: {
+  flake.modules.homeManager.work = {...}: {
     imports = [
       self.modules.homeManager.bash
       self.modules.homeManager.sharedprograms
@@ -8,8 +8,6 @@
       self.modules.homeManager.neovim
       self.modules.homeManager.python
     ];
-    home.username = username;
-    home.homeDirectory = "/home/${username}";
     home.stateVersion = "23.11";
     programs.home-manager.enable = true;
   };
