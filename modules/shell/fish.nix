@@ -5,16 +5,7 @@ in {
   in {
     programs.fish = {
       enable = true;
-      shellAbbrs = shared.aliases;
-      sessionVariables = shared.envVars;
-      interactiveShellInit = ''
-        bind \eo __fzf_nixedit_ripgrep__
-        bind \ee __fzf_nixedit__
-        if bind -M insert >/dev/null 2>&1
-          bind -M insert \eo __fzf_nixedit_ripgrep__
-          bind -M insert \ee __fzf_nixedit__
-        end
-      '';
+      shellAliases = shared.aliases;
       plugins = with pkgs.fishPlugins; [
         {
           name = "autopair";
@@ -37,6 +28,10 @@ in {
           src = fish-you-should-use.src;
         }
       ];
+      binds = {
+        "\\eo".command = "__fzf_nixedit_ripgrep__";
+        "\\ee".command = "__fzf_nixedit__";
+      };
       functions = {
         fish_greeting.body = "";
         mc.body = "mkdir -p $argv[1]; and cd $argv[1]";
@@ -102,5 +97,6 @@ in {
         '';
       };
     };
+    home.sessionVariables = shared.envVars;
   };
 }

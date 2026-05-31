@@ -13,9 +13,9 @@ in {
         // {
           please = "sudo $(fc -ln -1)";
         };
-      sessionVariables = shared.envVars;
       bashrcExtra = builtins.readFile ../assets/config/bashrc;
     };
+    home.sessionVariables = shared.envVars;
     programs.readline = {
       enable = true;
       extraConfig = ''

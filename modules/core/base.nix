@@ -133,6 +133,7 @@
     };
     users.users.dan = {
       isNormalUser = true;
+      shell = pkgs.fish;
       description = "dan";
       extraGroups = [
         "adbusers"
