@@ -56,11 +56,13 @@
       qemu
       gparted
       alejandra
+      nixd
       manix
       pavucontrol
       inotify-tools
       solaar
       discord
+      opencode
       (pkgs.symlinkJoin {
         name = "neovide-wrapped";
         paths = [pkgs.neovide];
