@@ -35,6 +35,7 @@ in {
               config.flake.modules.homeManager.firefox
               config.flake.modules.homeManager.fish
               config.flake.modules.homeManager.neovim
+              config.flake.modules.homeManager.minimax
               config.flake.modules.homeManager.python
               config.flake.modules.homeManager.packages
               config.flake.modules.homeManager.starship
