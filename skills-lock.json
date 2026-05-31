@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "dendritic-nix": {
+      "source": "danielgafni/nixos",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/dendritic-nix/SKILL.md",
+      "computedHash": "8c32136ef3b9f10935992b77527fbff596f64a410c42bb1cbbd60692d7ed9812"
+    }
+  }
+}

@@ -1,91 +1,19 @@
-{...}: {
-  flake.modules.homeManager.bash = {
-    pkgs,
-    config,
-    ...
-  }: let
-    flakePath = "${config.home.homeDirectory}/Projects/dancolestock/nixos";
+{config, ...}: let
+  shared = config.flake.modules.shared.shell;
+in {
+  flake.modules.homeManager.bash = {pkgs, ...}: let
+    flakePath = shared.envVars.NH_FLAKE;
   in {
     programs.bash = {
       enable = true;
-      initExtra = ''
-        unset BASH_COMPLETION_VERSINFO
-      '';
       historySize = -1;
       historyFileSize = -1;
-      shellAliases = {
-        sudo = "sudo ";
-        c = "cd";
-        ".." = "c ..";
-        "..." = "c ../..";
-        open = "xdg-open";
-        path = ''echo -e ''${PATH//:/\\n}'';
-        ping = "ping -c 5";
-        mkdir = "mkdir -pv";
-        wget = "wget -c";
-        chmod = "chmod -c --preserve-root";
-        chown = "chown -c --preserve-root";
-        chgrp = "chgrp -c --preserve-root";
-        please = "sudo $(fc -ln -1)";
-        cp = "cp --interactive --verbose --recursive --reflink=auto";
-        mv = "mv --interactive --verbose";
-        ln = "ln --interactive --verbose";
-        rm = "rm --verbose --interactive=once --preserve-root=all";
-        cpv = "rsync -ah --info=progress2";
-        diff = "delta";
-        cat = "bat";
-        du = "dust --limit-filesystem";
-        df = "duf";
-        ps = "procs";
-        fd = "fd --mount";
-        rg = "rg --one-file-system";
-        less = "less -r";
-        where = "type -a";
-        grep = "grep --color=auto";
-        egrep = "egrep --color=auto";
-        fgrep = "fgrep --color=auto";
-        ls = "ls -h --group-directories-first --color=auto";
-        l = "ls";
-        ll = "exa -l --group-directories-first";
-        la = "exa --group-directories-first -a -a";
-        lla = "ll -a -a";
-        laa = "lla";
-        lt = "ll -s=modified";
-        tmux = "direnv exec / tmux -2 new -As0 -c ~";
-        untar = "tar -xvaf";
-        pbcopy = "xclip -selection clipboard";
-        pbpaste = "xclip -selection clipboard -o";
-        sudoedit = "command sudo -E nvim";
-        nvim = "nvim -w ~/.nvimkeystrokes";
-        myvim = "NVIM_APPNAME=myvim nvim";
-        weather = "curl -sS wttr.in|head -n -2";
-        gs = "git status && git diff --stat";
-        gd = "git diff";
-        gc = "git commit";
-        gp = "git add -p";
-      };
-      sessionVariables = {
-        LD_LIBRARY_PATH = "/run/opengl-driver/lib";
-        NIXOS_OZONE_WL = "1";
-        FZF_DEFAULT_COMMAND = "fd --mount --type f --strip-cwd-prefix --hidden --exclude .git";
-        FZF_CTRL_T_COMMAND = "$FZF_DEFAULT_COMMAND";
-        FZF_DEFAULT_OPTS = "--color 'fg:#bbccdd,fg+:#ddeeff,bg:#334455,preview-bg:#223344,border:#778899'";
-        FZF_CTRL_T_OPTS = "--preview 'fzf-preview {}' --bind 'ctrl-/:change-preview-window(down|hidden|)'";
-        FZF_ALT_C_OPTS = "--preview 'tree -C {}'";
-        FZF_TMUX_OPTS = "";
-        FZF_TMUX = 0;
-        MANPAGER = "sh -c 'col -bx | bat -l man --style=plain --paging always'";
-        MANROFFOPT = "-c";
-        DO_NOT_TRACK = 1;
-        DETSYS_IDS_TELEMETRY = "disabled";
-        AZURE_CORE_COLLECT_TELEMETRY = 0;
-        SAM_CLI_TELEMETRY = 0;
-        GATSBY_TELEMETRY_DISABLED = 1;
-        HOMEBREW_NO_ANALYTICS = 1;
-        STNOUPGRADE = 1;
-        DOTNET_CLI_TELEMETRY_OPTOUT = 1;
-        NH_FLAKE = flakePath;
-      };
+      shellAliases =
+        shared.aliases
+        // {
+          please = "sudo $(fc -ln -1)";
+        };
+      sessionVariables = shared.envVars;
       bashrcExtra = builtins.readFile ../assets/config/bashrc;
     };
     programs.readline = {
@@ -102,7 +30,7 @@
         name = "switch";
         runtimeInputs = [git nh];
         text = ''
-          cd ${flakePath}/
+          cd "${flakePath}/"
           gitstatus=$(git status --porcelain)
           if [[ -n "$gitstatus" ]]; then
             echo "Flake's git not clean.  Aborting."
@@ -115,7 +43,7 @@
         name = "switch-trace";
         runtimeInputs = [git nh];
         text = ''
-          cd ${flakePath}/
+          cd "${flakePath}/"
           gitstatus=$(git status --porcelain)
           if [[ -n "$gitstatus" ]]; then
             echo "Flake's git not clean.  Aborting."
@@ -127,7 +55,7 @@
       (writeShellApplication {
         name = "testnix";
         text = ''
-          cd ${flakePath}/
+          cd "${flakePath}/"
           nh os test -- --show-trace --option eval-cache false
         '';
       })
@@ -135,7 +63,7 @@
         name = "update";
         runtimeInputs = [git nh pre-commit];
         text = ''
-          cd ${flakePath}/
+          cd "${flakePath}/"
           gitstatus=$(git status --porcelain)
           if [[ -n "$gitstatus" ]]; then
             echo "Flake's git not clean.  Aborting."

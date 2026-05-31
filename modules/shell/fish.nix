@@ -1,13 +1,20 @@
-{...}: {
-  flake.modules.homeManager.fish = {
-    pkgs,
-    config,
-    ...
-  }: let
-    flakePath = "${config.home.homeDirectory}/Projects/dancolestock/nixos";
+{config, ...}: let
+  shared = config.flake.modules.shared.shell;
+in {
+  flake.modules.homeManager.fish = {pkgs, ...}: let
   in {
     programs.fish = {
       enable = true;
+      shellAbbrs = shared.aliases;
+      sessionVariables = shared.envVars;
+      interactiveShellInit = ''
+        bind \eo __fzf_nixedit_ripgrep__
+        bind \ee __fzf_nixedit__
+        if bind -M insert >/dev/null 2>&1
+          bind -M insert \eo __fzf_nixedit_ripgrep__
+          bind -M insert \ee __fzf_nixedit__
+        end
+      '';
       plugins = with pkgs.fishPlugins; [
         {
           name = "autopair";
@@ -30,63 +37,8 @@
           src = fish-you-should-use.src;
         }
       ];
-      shellAbbrs = {
-        c = "cd";
-        ".." = "cd ..";
-        "..." = "cd ../..";
-        l = "ls";
-        diff = "delta";
-        du = "dust --limit-filesystem";
-        df = "duf";
-        ps = "procs";
-        fd = "fd --mount";
-        rg = "rg --one-file-system";
-        less = "less -r";
-        where = "type -a";
-        grep = "grep --color=auto";
-        egrep = "egrep --color=auto";
-        fgrep = "fgrep --color=auto";
-        untar = "tar -xvaf";
-        pbcopy = "xclip -selection clipboard";
-        pbpaste = "xclip -selection clipboard -o";
-        sudoedit = "command sudo -E nvim";
-        nvim = "nvim -w ~/.nvimkeystrokes";
-        myvim = "NVIM_APPNAME=myvim nvim";
-        gd = "git diff";
-        gc = "git commit";
-        gp = "git add -p";
-      };
-      shellAliases = {
-        path = "printf '%s\n' $PATH";
-        please = "eval command sudo $history[1]";
-        weather = "curl -sS wttr.in|head -n -2";
-        tmux = "direnv exec / tmux -2 new -As0 -c ~";
-        ls = "exa --group-directories-first --color=auto --icons=auto";
-        ll = "ls -l";
-        la = "ls -a ";
-        lla = "ls -l -a";
-        laa = "lla";
-        lt = "ls -l -s=modified";
-        open = "xdg-open";
-        ping = "ping -c 5";
-        mkdir = "mkdir -pv";
-        wget = "wget -c";
-        chmod = "chmod -c --preserve-root";
-        chown = "chown -c --preserve-root";
-        chgrp = "chgrp -c --preserve-root";
-        cp = "cp --interactive --verbose --recursive --reflink=auto";
-        mv = "mv --interactive --verbose";
-        ln = "ln --interactive --verbose";
-        rm = "rm --verbose --interactive=once --preserve-root=all";
-        cpv = "rsync -ah --info=progress2";
-        gs = "git status && git diff --stat";
-      };
       functions = {
         fish_greeting.body = "";
-        fish_user_key_bindings.body = ''
-          bind \eo __fzf_nixedit_ripgrep__
-          bind \ee __fzf_nixedit__
-        '';
         mc.body = "mkdir -p $argv[1]; and cd $argv[1]";
         configedit.body = ''
           if test (count $argv) -eq 0
@@ -94,7 +46,7 @@
             return 1
           end
           set -l paths (realpath $argv)
-          env -C ${flakePath} $EDITOR -- $paths
+          env -C ${shared.envVars.NH_FLAKE} $EDITOR -- $paths
         '';
         configeditline.body = ''
           if test (count $argv) -lt 2
@@ -102,10 +54,10 @@
             return 1
           end
           set -l path (realpath $argv[2])
-          env -C ${flakePath} $EDITOR +$argv[1] -- $path
+          env -C ${shared.envVars.NH_FLAKE} $EDITOR +$argv[1] -- $path
         '';
         __fzf_nixedit__.body = ''
-          set -l cmd "fd --mount --type f --hidden --exclude .git . ${flakePath}"
+          set -l cmd "fd --mount --type f --hidden --exclude .git . ${shared.envVars.NH_FLAKE}"
           set -l FZF_DEFAULT_OPTS "
             --multi
             --height=(or $FZF_TMUX_HEIGHT 40%)
@@ -129,8 +81,8 @@
             --reverse
             $FZF_DEFAULT_OPTS
             $FZF_CTRL_T_OPTS
-            --bind 'start:reload:$rg_prefix \"\" ${flakePath}/'
-            --bind 'change:reload:$rg_prefix {q} ${flakePath}/ || true'
+            --bind 'start:reload:$rg_prefix \"\" ${shared.envVars.NH_FLAKE}/'
+            --bind 'change:reload:$rg_prefix {q} ${shared.envVars.NH_FLAKE}/ || true'
             --color='hl:-1:underline,hl+:-1:underline:reverse'
             --delimiter=':'
             --preview='bat --color=always {1} --highlight-line {2}'
