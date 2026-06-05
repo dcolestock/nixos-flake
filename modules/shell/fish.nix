@@ -15,14 +15,14 @@ in {
           name = "colored-man_pages";
           src = colored-man-pages.src;
         }
-        {
-          name = "done";
-          src = done.src;
-        }
-        {
-          name = "grc";
-          src = grc.src;
-        }
+        # {
+        #   name = "done";
+        #   src = done.src;
+        # }
+        # {
+        #   name = "grc";
+        #   src = grc.src;
+        # }
         {
           name = "fish-you-should-use";
           src = fish-you-should-use.src;
