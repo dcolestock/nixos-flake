@@ -53,7 +53,7 @@ in {
         '';
         __fzf_nixedit__.body = ''
           set -l cmd "fd --mount --type f --hidden --exclude .git . ${shared.envVars.NH_FLAKE}"
-          set -l FZF_DEFAULT_OPTS "
+          set -lx FZF_DEFAULT_OPTS "
             --multi
             --height=(or $FZF_TMUX_HEIGHT 40%)
             --reverse
@@ -71,7 +71,7 @@ in {
         '';
         __fzf_nixedit_ripgrep__.body = ''
           set -l rg_prefix "rg --column --line-number --no-heading --color=always --smart-case"
-          set -l FZF_DEFAULT_OPTS "
+          set -lx FZF_DEFAULT_OPTS "
             --height=80%
             --reverse
             $FZF_DEFAULT_OPTS
