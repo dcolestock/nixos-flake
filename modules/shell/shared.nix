@@ -58,7 +58,7 @@
       lla = "ll -a -a";
       laa = "lla";
       lt = "ll -s=modified";
-      # tmux = "direnv exec / tmux -2 new -As0 -c ~";
+      tmux = "direnv exec / tmux -2 new -As0 -c ~";
       untar = "tar -xvaf";
       pbcopy = "xclip -selection clipboard";
       pbpaste = "xclip -selection clipboard -o";
