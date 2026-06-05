@@ -1,5 +1,6 @@
 {config, ...}: let
   pkgs-master = config.shared.pkgsMaster;
+  flakePath = config.flake.modules.shared.shell.flakePath;
 in {
   flake.modules.nixos.packages = {pkgs, ...}: {
     environment.systemPackages = with pkgs; [
@@ -73,6 +74,7 @@ in {
     programs = {
       nh = {
         enable = true;
+        flake = flakePath;
       };
       noisetorch.enable = true;
       steam = {

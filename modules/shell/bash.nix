@@ -2,7 +2,7 @@
   shared = config.flake.modules.shared.shell;
 in {
   flake.modules.homeManager.bash = {pkgs, ...}: let
-    flakePath = shared.envVars.NH_FLAKE;
+    flakePath = shared.flakePath;
   in {
     programs.bash = {
       enable = true;

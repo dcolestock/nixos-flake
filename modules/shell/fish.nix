@@ -41,7 +41,7 @@ in {
             return 1
           end
           set -l paths (realpath $argv)
-          env -C ${shared.envVars.NH_FLAKE} $EDITOR -- $paths
+          env -C ${shared.flakePath} $EDITOR -- $paths
         '';
         configeditline.body = ''
           if test (count $argv) -lt 2
@@ -49,10 +49,10 @@ in {
             return 1
           end
           set -l path (realpath $argv[2])
-          env -C ${shared.envVars.NH_FLAKE} $EDITOR +$argv[1] -- $path
+          env -C ${shared.flakePath} $EDITOR +$argv[1] -- $path
         '';
         __fzf_nixedit__.body = ''
-          set -l cmd "fd --mount --type f --hidden --exclude .git . ${shared.envVars.NH_FLAKE}"
+          set -l cmd "fd --mount --type f --hidden --exclude .git . ${shared.flakePath}"
           set -lx FZF_DEFAULT_OPTS "
             --multi
             --height=(or $FZF_TMUX_HEIGHT 40%)
@@ -76,8 +76,8 @@ in {
             --reverse
             $FZF_DEFAULT_OPTS
             $FZF_CTRL_T_OPTS
-            --bind 'start:reload:$rg_prefix \"\" ${shared.envVars.NH_FLAKE}/'
-            --bind 'change:reload:$rg_prefix {q} ${shared.envVars.NH_FLAKE}/ || true'
+            --bind 'start:reload:$rg_prefix \"\" ${shared.flakePath}/'
+            --bind 'change:reload:$rg_prefix {q} ${shared.flakePath}/ || true'
             --color='hl:-1:underline,hl+:-1:underline:reverse'
             --delimiter=':'
             --preview='bat --color=always {1} --highlight-line {2}'

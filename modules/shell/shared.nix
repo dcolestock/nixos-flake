@@ -1,5 +1,6 @@
 {...}: {
   flake.modules.shared.shell = {
+    flakePath = "/home/dan/Projects/dancolestock/nixos";
     envVars = {
       LD_LIBRARY_PATH = "/run/opengl-driver/lib";
       NIXOS_OZONE_WL = "1";
@@ -20,7 +21,6 @@
       HOMEBREW_NO_ANALYTICS = 1;
       STNOUPGRADE = 1;
       DOTNET_CLI_TELEMETRY_OPTOUT = 1;
-      NH_FLAKE = "$HOME/Projects/dancolestock/nixos";
     };
     aliases = {
       sudo = "sudo ";
@@ -58,7 +58,7 @@
       lla = "ll -a -a";
       laa = "lla";
       lt = "ll -s=modified";
-      tmux = "direnv exec / tmux -2 new -As0 -c ~";
+      # tmux = "direnv exec / tmux -2 new -As0 -c ~";
       untar = "tar -xvaf";
       pbcopy = "xclip -selection clipboard";
       pbpaste = "xclip -selection clipboard -o";
