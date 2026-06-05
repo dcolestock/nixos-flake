@@ -53,9 +53,10 @@ in {
         '';
         __fzf_nixedit__.body = ''
           set -l cmd "fd --mount --type f --hidden --exclude .git . ${shared.flakePath}"
+          set -l fzf_height (set -q FZF_TMUX_HEIGHT; and echo $FZF_TMUX_HEIGHT; or echo "40%")
           set -lx FZF_DEFAULT_OPTS "
             --multi
-            --height=(or $FZF_TMUX_HEIGHT 40%)
+            --height=$fzf_height
             --reverse
             $FZF_DEFAULT_OPTS
             $FZF_CTRL_T_OPTS
