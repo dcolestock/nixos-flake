@@ -17,8 +17,6 @@ in {
       config.flake.modules.nixos.packages
       config.flake.modules.nixos.tailscale
       config.flake.modules.nixos.plasma
-      config.flake.modules.nixos.cosmic
-      config.flake.modules.nixos.niri
 
       inputs.nix-index-database.nixosModules.default
       inputs.home-manager.nixosModules.home-manager
@@ -43,7 +41,6 @@ in {
               config.flake.modules.homeManager.packages
               config.flake.modules.homeManager.starship
               config.flake.modules.homeManager.tmux
-              config.flake.modules.homeManager.niri
             ];
           };
           backupFileExtension = ".bak";
