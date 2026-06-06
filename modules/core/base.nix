@@ -230,30 +230,20 @@
       Install.WantedBy = ["default.target"];
     };
     # services.activitywatch.enable = true;
-    programs.kitty = {
+    programs.ghostty = {
       enable = true;
-      font = {
-        name = "JetBrainsMonoNL Nerd Font";
-        size = 12;
+      settings = {
+        "font-family" = "JetBrainsMonoNL Nerd Font";
+        "font-size" = 12;
+        background = "#282828";
+        "confirm-close-surface" = false;
+        "mouse-hide-while-typing" = true;
+        "copy-on-select" = "clipboard";
+        "paste-overwrite" = true;
+        "gtk-tabs-location" = "top";
+        "tab-title-template" = "{index}: {title}";
       };
-      settings.background = "#282828";
-      extraConfig = ''
-        enable_audio_bell no
-        update_check_interval 0
-        kitty_mod ctrl+shift
-        tab_title_template "{index}: {title[title.rfind('/')+1:]}"
-        mouse_map middle release ungrabbed paste_from_selection
-        map kitty_mod+/ kitten keymap.py
-        map kitty_mod+z toggle_layout stack
-        map kitty_mod+w no_op
-        map shift+cmd+d no_op
-        map kitty_mod+q no_op
-        map cmd+w       no_op
-        cursor_trail 3
-        cursor_trail_decay 0.1 0.4
-      '';
     };
-    xdg.configFile."kitty/keymap.py".source = ../assets/scripts/kitty_keymap.py;
     home.packages = with pkgs; [
       (prismlauncher.override {
         additionalPrograms = [ffmpeg];
