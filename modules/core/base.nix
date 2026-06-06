@@ -130,6 +130,40 @@
       alsa.enable = true;
       alsa.support32Bit = true;
       pulse.enable = true;
+      extraLadspaPackages = [pkgs.rnnoise-plugin];
+      extraConfig.pipewire = {
+        "10-rnnoise" = {
+          "context.modules" = [
+            {
+              name = "libpipewire-module-filter-chain";
+              args = {
+                node.description = "Noise Canceling source";
+                media.name = "Noise Canceling source";
+                filter.graph = {
+                  nodes = [
+                    {
+                      type = "ladspa";
+                      name = "rnnoise";
+                      plugin = "librnnoise_ladspa";
+                      label = "noise_suppressor_stereo";
+                      control = {"VAD Threshold (%)" = 50.0;};
+                    }
+                  ];
+                };
+                audio.position = ["FL" "FR"];
+                capture.props = {
+                  node.name = "effect_input.rnnoise";
+                  node.passive = true;
+                };
+                playback.props = {
+                  node.name = "effect_output.rnnoise";
+                  media.class = "Audio/Source";
+                };
+              };
+            }
+          ];
+        };
+      };
     };
     users.users.dan = {
       isNormalUser = true;

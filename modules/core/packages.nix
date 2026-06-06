@@ -76,7 +76,7 @@ in {
         enable = true;
         flake = flakePath;
       };
-      noisetorch.enable = true;
+      # noisetorch broken on PipeWire >=1.6; replaced by filter-chain + rnnoise-plugin
       steam = {
         enable = true;
         protontricks.enable = true;
