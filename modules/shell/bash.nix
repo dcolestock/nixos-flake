@@ -27,60 +27,65 @@ in {
     xdg.configFile."autostart/dconfwatch.desktop".source = ../assets/config/dconfwatch.desktop;
     home.packages = with pkgs; [
       (writeShellApplication {
-        name = "switch";
-        runtimeInputs = [git nh];
+        name = "switchnix";
+        runtimeInputs = [nh jujutsu alejandra];
         text = ''
           cd "${flakePath}/"
-          gitstatus=$(git status --porcelain)
-          if [[ -n "$gitstatus" ]]; then
-            echo "Flake's git not clean.  Aborting."
-            exit 1
-          fi
+          alejandra . >/dev/null 2>&1
           nh os switch
+          gen=$(readlink /nix/var/nix/profiles/system | grep -oP '\d+')
+          [[ -n "$gen" ]] && jj describe -m "Generation $gen"
         '';
       })
       (writeShellApplication {
         name = "switch-trace";
-        runtimeInputs = [git nh];
+        runtimeInputs = [nh jujutsu alejandra];
         text = ''
           cd "${flakePath}/"
-          gitstatus=$(git status --porcelain)
-          if [[ -n "$gitstatus" ]]; then
-            echo "Flake's git not clean.  Aborting."
-            exit 1
-          fi
+          alejandra . >/dev/null 2>&1
           nh os switch -- --show-trace --option eval-cache false
+          gen=$(readlink /nix/var/nix/profiles/system | grep -oP '\d+')
+          [[ -n "$gen" ]] && jj describe -m "Generation $gen"
+        '';
+      })
+      (writeShellApplication {
+        name = "bootnix";
+        runtimeInputs = [nh jujutsu alejandra];
+        text = ''
+          cd "${flakePath}/"
+          alejandra . >/dev/null 2>&1
+          nh os boot
+          gen=$(readlink /nix/var/nix/profiles/system | grep -oP '\d+')
+          [[ -n "$gen" ]] && jj describe -m "Generation $gen (boot required)"
         '';
       })
       (writeShellApplication {
         name = "testnix";
+        runtimeInputs = [nh alejandra];
         text = ''
           cd "${flakePath}/"
+          alejandra . >/dev/null 2>&1
           nh os test -- --show-trace --option eval-cache false
         '';
       })
       (writeShellApplication {
         name = "update";
-        runtimeInputs = [git nh pre-commit];
+        runtimeInputs = [nh jujutsu alejandra];
         text = ''
           cd "${flakePath}/"
-          gitstatus=$(git status --porcelain)
-          if [[ -n "$gitstatus" ]]; then
-            echo "Flake's git not clean.  Aborting."
-            exit 1
-          fi
+          alejandra . >/dev/null 2>&1
           echo "Updating flake..."
           nix flake update
-          echo "Checking new git status..."
-          gitstatus=$(git status --porcelain)
-          if [[ -z "$gitstatus" ]]; then
-            echo "Flake already up to date."
-          else
-            echo "Committing changes..."
-            pre-commit install
-            git commit -am "Flake update $(date '+%Y.%m.%d')"
+          changes=$(jj status --no-pager 2>/dev/null)
+          if echo "$changes" | grep -q "Working copy changes"; then
             echo "Rebuilding..."
-            nh os switch || true
+            nh os switch
+            gen=$(readlink /nix/var/nix/profiles/system | grep -oP '\d+')
+            tag=""
+            [[ -n "$gen" ]] && tag=" - Generation $gen"
+            jj describe -m "Flake update $(date '+%Y.%m.%d')$tag"
+          else
+            echo "Flake already up to date."
           fi
           echo "Done"
         '';
