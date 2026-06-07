@@ -130,7 +130,7 @@
       alsa.enable = true;
       alsa.support32Bit = true;
       pulse.enable = true;
-      extraLadspaPackages = [pkgs.rnnoise-plugin];
+      # rnnoise-plugin added via environment.systemPackages; extraLadspaPackages not available in pinned nixpkgs
       extraConfig.pipewire = {
         "10-rnnoise" = {
           "context.modules" = [
@@ -239,12 +239,11 @@
         "confirm-close-surface" = false;
         "mouse-hide-while-typing" = true;
         "copy-on-select" = "clipboard";
-        "paste-overwrite" = true;
         "gtk-tabs-location" = "top";
-        "tab-title-template" = "{index}: {title}";
       };
     };
     home.packages = with pkgs; [
+      rnnoise-plugin
       (prismlauncher.override {
         additionalPrograms = [ffmpeg];
         jdks = [graalvmPackages.graalvm-ce zulu8 zulu17 zulu];
